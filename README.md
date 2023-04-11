@@ -199,3 +199,100 @@ List of Tokens
 | --------------------------------------------------------------------  | ----------------------------------------------- |
 |identifier (e.g., "aardvark", "BIG_PENGUIN", "fLaMInGo_17", "ot73r")	|IDENT XXXX [where XXXX is the identifier itself] |
 |number (e.g., "17", "101", "90210", "0", "8675309")	                |NUMBER XXXX [where XXXX is the number itself]    |  
+
+
+Precedence
+> Operators are listed top to bottom, in descending precendence.
+
+<table border="1">
+<tbody><tr>
+<th style="text-align: left">Precedence</th>
+<th style="text-align: left">Operator</th>
+<th style="text-align: left">Description</th>
+<th style="text-align: left">Associativity</th>
+</tr>
+<tr>
+<th >0</th>
+<td><code>()</code></td>
+<td>Function calls</td>
+<td>Left-to-right</td>
+</tr>
+</tr>
+<tr>
+<th >1</th>
+<td><code>[]</code></td>
+<td>Array subscripting</td>
+<td>Left-to-right</td>
+</tr>
+<tr>
+<th>2</th>
+<td><code>-</code></td>
+<td>Unary minus</td>
+<td>Right-to-left</td>
+</tr>
+<tr>
+<th rowspan="3">3</th>
+<td><code>*</code></td>
+<td>Multiplication</td>
+<td style="vertical-align: top" rowspan="12">Left-to-right</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>Division</td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td> Remainder</td>
+</tr>
+<tr>
+<th rowspan="2">4</th>
+<td><code>+</code></td>
+<td>Addition</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>Subtraction</td>
+</tr>
+
+<tr>
+<th rowspan="6">5</th>
+<td><code>&lt;</code></td>
+<td>For relational operators  < </td>
+</tr>
+<tr>
+<td><code>&lt;=</code></td>
+<td>For relational operators <= </td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>For relational operators > </td>
+</tr>
+<tr>
+<td><code>&gt;=</code></td>
+<td>For relational operators >= </td>
+</tr>
+<tr>
+<td><code>==</code></td>
+<td>For relational operator == </td>
+</tr>
+<tr>
+<td><code><></code></td>
+<td>For relational operator != </td>
+</tr>
+<tr>
+<tr>
+<th>6</th>
+<td><code>not</code></td>
+<td>Logical not</td>
+<td>Right-to-left</td>
+</tr>
+<tr>
+<tr>
+<tr>
+<th >7</th>
+<td><code>:=</code></td>
+<td>Assignment </td>
+<td>Right-to-left</td>
+</tr>
+</tbody></table>
+
