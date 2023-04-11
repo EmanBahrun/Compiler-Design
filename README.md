@@ -105,3 +105,8 @@ variable = variable % 2;
 # variable is equal to 0;
 ```
 
+```
+| Column 1 | Column 2 |
+| -------- | -------- |
+|          |          |
+```
