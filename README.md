@@ -1,6 +1,7 @@
 ## Master Script
 # Master Script Language Description
 > The perfect programming language built at UCR by three geniuses. <br>
+> Nisarg, Rovin, Eman.
 > Extension: .mas <br>
 > Compiler Name: MASCOM
 
