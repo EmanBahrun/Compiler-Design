@@ -106,30 +106,33 @@ variable = variable % 2;
 ```
 
 
-|   Symbol in Language  |    Token Name    |
+|   Reserved Words      |    Token Name    |
 | --------------------- | ---------------- |
 | int                   | INT              |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
-| Content Cell          | Content Cell     |
+| function              | FUNCTION         |
+| beginparams           | BEGIN_PARAMS     |
+| endparams             | END_PARAMS       |
+| beginlocals           | BEGIN_LOCALS     |
+| endlocals             | END_LOCALS       |
+| beginbody             | BEGIN_BODY       | 
+| endbody               | END_BODY         |
+| array                 | ARRAY            |
+| of                    | OF               |
+| if                    | IF               |
+| then                  | THEN             |
+| endif                 | ENDIF            |
+| else                  | ELSE             |
+| while                 | WHILE            |
+| do                    | DO               |
+| beginloop             | BEGINLOOP        |
+| endloop               | ENDLOOP          |
+| continue              | CONTINUE         |
+| break                 | BREAK            |
+| read                  | READ             |
+| write                 | WRITE            |
+| not                   | NOT              |
+| true	                | TRUE             |
+| false                 | FALSE            |
+| return                | RETURN           |
+
 
