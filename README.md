@@ -2,7 +2,7 @@
 # Master Script Language Description
 > The perfect programming language built at UCR by three geniuses. <br>
 > Extension: .mas <br>
-> Compiler Name: Master Compiler 
+> Compiler Name: MASCOM
 
 > The Master Script language provides the following program constructs.
 ```
@@ -20,10 +20,10 @@
 ```
 Here are some additional details of the Master Script language:
 
-> A comment is introduced by "$$" and extends to the end of the current line.
-Master Script is case sensitive. All reserved words are expressed in lower case.
+> A comment is introduced by "#" and extends to the end of the current line.
+Master Script is case sensitive. All reserved words are lower case except for Integer and Array.
 A valid identifier must begin with a letter, may be followed by additional letters, digits, or underscores, and cannot end in an underscore.
-Whitespace in MINI-L programs can occur due to regular blank spaces, tabs, or newlines.
+Whitespace in MASCOM programs can occur due to regular blank spaces, tabs, or newlines.
 
 
 
