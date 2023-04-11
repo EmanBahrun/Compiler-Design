@@ -134,7 +134,7 @@ List of Tokens
 
 |   Reserved Words      |    Token Name    |
 | --------------------- | ---------------- |
-| int                   | INT              |
+| Integer               | INT              |
 | function              | FUNCTION         |
 | beginparams           | BEGIN_PARAMS     |
 | endparams             | END_PARAMS       |
@@ -142,7 +142,7 @@ List of Tokens
 | endlocals             | END_LOCALS       |
 | beginbody             | BEGIN_BODY       | 
 | endbody               | END_BODY         |
-| array                 | ARRAY            |
+| Array                 | ARRAY            |
 | of                    | OF               |
 | if                    | IF               |
 | then                  | THEN             |
@@ -175,7 +175,7 @@ List of Tokens
 |Comparison Operators      |    Token Name       |
 | ------------------------ | ------------------- |
 |==	                       |       EQ            | 
-|<>	                       |      NEQ            |  
+|!=	                       |      NEQ            |  
 |<	                       |      LT             |
 |>	                       |      GT             |
 |<=	                       |     LTE             |
@@ -191,7 +191,7 @@ List of Tokens
 |)	                        |    R_PAREN          |
 |\[                         |   L_SQUARE_BRACKET  |
 |]	                        |    R_SQUARE_BRACKET |
-|:=	                        |   ASSIGN            | 
+|=	                        |   ASSIGN            | 
 |{	                        |   LBRACE            |
 |}	                        |   RBRACE            |
 
