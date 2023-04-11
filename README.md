@@ -1,8 +1,8 @@
 ## Master Script
 # Master Script Language Description
-> The perfect programming language built at UCR by three geniuses.
-Extension: .mas
-Compiler Name: Master Compiler
+> The perfect programming language built at UCR by three geniuses. <br>
+> Extension: .mas <br>
+> Compiler Name: Master Compiler 
 
 > The Master Script language provides the following program constructs.
 ```
