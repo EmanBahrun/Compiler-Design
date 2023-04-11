@@ -1,0 +1,17 @@
+function add(Integer a, Integer b) {
+    return a + b;
+}
+
+function mult(Integer a, Integer b) {
+    return a * b;
+}
+
+function main() {
+    Integer a = 100;
+    Integer b = 50;
+    Integer c = add(a, b);
+    print c; # should print 150
+
+    d = mult(c, a + b);
+    print d; # should print "22500", since 22500 = 150 * 150;
+}

@@ -1,0 +1,16 @@
+function main() {
+    Integer m;
+    Integer n;
+    Integer o;
+
+    get n;
+    if (n >= 100) {
+        print n;
+    }
+    else {
+        m = n - 1;
+        print m;
+    }
+
+    print o;
+}
