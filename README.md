@@ -146,11 +146,25 @@ variable = variable % 2;
 |            %            |      MOD         |
 
 
-|Comparison Operators      |    Token Name    |
-| ------------------------ | ---------------- |
-|==	                       |    EQ            | 
-|<>	                       |      NEQ         |  
-|<	                       |  LT              |
-|>	                       |   GT             |
-|<=	                       |LTE               |
-|>=	                       |  GTE             |
+|Comparison Operators      |    Token Name       |
+| ------------------------ | ------------------- |
+|==	                       |       EQ            | 
+|<>	                       |      NEQ            |  
+|<	                       |      LT             |
+|>	                       |      GT             |
+|<=	                       |     LTE             |
+|>=	                       |     GTE             |
+
+
+|Other Special Symbols      |    Token Name       |
+| ------------------------  | ------------------- |
+|;	                        |     SEMICOLON       | 
+|:	                        |    COLON            | 
+|,	                        |    COMMA            | 
+|(	                        |    L_PAREN          | 
+|)	                        |    R_PAREN          |
+|[                          |   L_SQUARE_BRACKET  |
+|]	                        |    R_SQUARE_BRACKET |
+|:=	                        |   ASSIGN            | 
+
+
