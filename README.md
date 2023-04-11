@@ -163,7 +163,7 @@ variable = variable % 2;
 |,	                        |    COMMA            | 
 |(	                        |    L_PAREN          | 
 |)	                        |    R_PAREN          |
-|[                          |   L_SQUARE_BRACKET  |
+|\[                         |   L_SQUARE_BRACKET  |
 |]	                        |    R_SQUARE_BRACKET |
 |:=	                        |   ASSIGN            | 
 
