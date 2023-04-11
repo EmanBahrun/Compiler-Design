@@ -7,7 +7,7 @@
 > The Master Script language provides the following program constructs.
 ```
 1.  Integer scalar variables.
-2.  One-dimensional arrays of integers.
+2.  One-dimensional arrays of integers.  
 3.  Assignment statements.
 4.  While and Do-While loops.
 5.  Continue statement.
@@ -23,7 +23,7 @@ Here are some additional details of the Master Script language:
 > A comment is introduced by "#" and extends to the end of the current line.
 Master Script is case sensitive. All reserved words are lower case except for Integer and Array.
 A valid identifier must begin with a letter, may be followed by additional letters, digits, or underscores, and cannot end in an underscore.
-Whitespace in MASCOM programs can occur due to regular blank spaces, tabs, or newlines.
+Whitespace in Master Script programs can occur due to regular blank spaces, tabs, or newlines.
 
 
 
