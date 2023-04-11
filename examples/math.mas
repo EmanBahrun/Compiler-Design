@@ -1,24 +1,24 @@
 function main() {
-  Integer a = 100;
-  Integer b = 50;
+  Integer a = 10;
+  Integer b = 5;
  
-  # Addition, answer is 150, since 150 = 100+50
+  # Addition, answer is 15, since 15 = 10+5
   c = a + b;
   print c;
 
-  # Subtraction, answer is 50, since 50 = 100-50
+  # Subtraction, answer is 5, since 5 = 10-5
   c = a - b;
   print c;
 
-  # Multiplication, answer is 5000, since 5000 = 100 * 50
+  # Multiplication, answer is 50, since 50 = 10 * 5
   c = a * b;
   print c;
 
-  # Division, answer is 2, since 2 = 100/50
+  # Division, answer is 2, since 2 = 10/5
   c = a / b;
   print c;
 
-  # Modulus, answer is 0, since 0 = 100 % 50
+  # Modulus, answer is 0, since 0 = 10 % 5
   c = a % b;
   print c;
 
