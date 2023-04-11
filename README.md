@@ -1,24 +1,29 @@
 ## Master Script
 # Master Script Language Description
 > The perfect programming language built at UCR by three geniuses.
-> Extension: .mas
-> Compiler Name: Master Compiler
+Extension: .mas
+Compiler Name: Master Compiler
 
 > The Master Script language provides the following program constructs.
 ```
-Integer scalar variables.
-One-dimensional arrays of integers.
-Assignment statements.
-While and Do-While loops.
-Continue statement.
-Break statement.
-If-then-else statements.
-Read and write statements.
-Comments.
-Functions.
+1.  Integer scalar variables.
+2.  One-dimensional arrays of integers.
+3.  Assignment statements.
+4.  While and Do-While loops.
+5.  Continue statement.
+6.  Break statement.
+7.  If-then-else statements.
+8.  Read and write statements.
+9.  Comments.
+10. Functions.
 
 ```
+Here are some additional details of the Master Script language:
 
+> A comment is introduced by "$$" and extends to the end of the current line.
+Master Script is case sensitive. All reserved words are expressed in lower case.
+A valid identifier must begin with a letter, may be followed by additional letters, digits, or underscores, and cannot end in an underscore.
+Whitespace in MINI-L programs can occur due to regular blank spaces, tabs, or newlines.
 
 
 
