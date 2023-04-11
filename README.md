@@ -169,4 +169,7 @@ variable = variable % 2;
 |{	                        |   LBRACE            |
 |}	                        |   RBRACE            |
 
-
+|Identifiers and Numbers                                                |    Token Name                                   |
+| --------------------------------------------------------------------  | ----------------------------------------------- |
+|identifier (e.g., "aardvark", "BIG_PENGUIN", "fLaMInGo_17", "ot73r")	|IDENT XXXX [where XXXX is the identifier itself] |
+|number (e.g., "17", "101", "90210", "0", "8675309")	                |NUMBER XXXX [where XXXX is the number itself]    |  
