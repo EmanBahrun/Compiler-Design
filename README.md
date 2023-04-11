@@ -1,5 +1,7 @@
 # Master Script
 > The perfect programming language built at UCR by three geniuses.
+> Extension: .mas
+> Compiler Name: Master Compiler
 
 
 Example Code: 
@@ -65,6 +67,26 @@ arr[1] = 3;
 ```
 
 Arithmetic Operators (e.g., +, -, *, /)
+> The following is an example of arithmetic operators
+```
+Integer variable = 1;
+# variable is equal to 1;
+variable = 2;
+# variable is equal to 2;
+variable = 2 + 2;
+# variable is equal to 4;
+variable = variable - 2;
+# variable is equal to 2;
+variable = 2 * 2;
+# variable is equal to 4;
+variable = variable / 2;
+# variable is equal to 2;
+variable = variable % 2;
+# variable is equal to 0;
+```
+
+
+Relationship Operators (e.g., +, -, *, /)
 > The following is an example of arithmetic operators
 ```
 Integer variable = 1;
