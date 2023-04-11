@@ -4,10 +4,10 @@ function main() {
     Integer c;
 
 
-    b = 3;
-    c = 5;
+    b = 4;
+    c = 10;
     a[0] = b + c;
-    print a[0];    # should print out 8
+    print a[0];    # should print out 14
 
     a[1] = 100;
     print a[1];    # should print out 100
@@ -16,5 +16,5 @@ function main() {
     print a[2];    # should print out 200
 
     a[3] = a[0] * (a[1] + c);
-    print a[3];    # should print out 840; since 840 = 8 * (100 +5)
+    print a[3];    # should print out 840; since 1540 = 14 * (100 +10)
 }
