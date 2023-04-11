@@ -166,5 +166,7 @@ variable = variable % 2;
 |\[                         |   L_SQUARE_BRACKET  |
 |]	                        |    R_SQUARE_BRACKET |
 |:=	                        |   ASSIGN            | 
+|{	                        |   LBRACE            |
+|}	                        |   RBRACE            |
 
 
