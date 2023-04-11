@@ -1,7 +1,27 @@
-# Master Script
+## Master Script
+# Master Script Language Description
 > The perfect programming language built at UCR by three geniuses.
 > Extension: .mas
 > Compiler Name: Master Compiler
+
+> The Master Script language provides the following program constructs.
+```
+Integer scalar variables.
+One-dimensional arrays of integers.
+Assignment statements.
+While and Do-While loops.
+Continue statement.
+Break statement.
+If-then-else statements.
+Read and write statements.
+Comments.
+Functions.
+
+```
+
+
+
+
 
 
 Example Code: 
@@ -104,7 +124,8 @@ variable = variable / 2;
 variable = variable % 2;
 # variable is equal to 0;
 ```
-
+List of Tokens
+> The following table describes the different kinds of tokens that may be outputted by your lexical analyzer. Comments and whitespace should be ignored by your > lexical analyzer (you should not output any tokens for these).
 
 |   Reserved Words      |    Token Name    |
 | --------------------- | ---------------- |
