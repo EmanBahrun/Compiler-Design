@@ -146,4 +146,11 @@ variable = variable % 2;
 |            %            |      MOD         |
 
 
-
+|Comparison Operators      |    Token Name    |
+| ------------------------ | ---------------- |
+|==	                       |    EQ            | 
+|<>	                       |      NEQ         |  
+|<	                       |  LT              |
+|>	                       |   GT             |
+|<=	                       |LTE               |
+|>=	                       |  GTE             |
