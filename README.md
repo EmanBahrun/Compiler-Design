@@ -136,3 +136,14 @@ variable = variable % 2;
 | return                | RETURN           |
 
 
+
+|   Arithmetic Opeators   |    Token Name    |
+| ----------------------- | ---------------- |
+|            +            |      ADD         |
+|            -            |      SUB         |
+|            *            |      MULT        |
+|            /            |      DIV         |
+|            %            |      MOD         |
+
+
+
