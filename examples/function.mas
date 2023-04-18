@@ -9,9 +9,10 @@ function mult(Integer aa, Integer bb) {
 function main() {
     Integer aa = 100;
     Integer bb = 50;
-    Integer c = add(aa, bb);
-    print c; # should print 150
+    Integer cc = add(aa, bb);
+    Integer dd = 0;
+    print cc; # should print 150
 
-    d = mult(c, aa + bb);
-    print d; # should print "22500", since 22500 = 150 * 150;
+    dd = mult(cc, aa + bb);
+    print dd; # should print "22500", since 22500 = 150 * 150;
 }

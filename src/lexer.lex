@@ -6,6 +6,8 @@
 
 INTEGER [0-9]
 IDENTIFIER [a-zA-Z][a-zA-Z_0-9]+
+COMMENT #.*\n
+ARRAYLENGTH \.\.\.[1-9][0-9]+
 %%
 
 
@@ -51,11 +53,14 @@ IDENTIFIER [a-zA-Z][a-zA-Z_0-9]+
 "="	{ printf("ASSIGN\n");}
 "{"	{ printf("LBRACE\n");}
 "}"	{ printf("RBRACE\n");}
+"..." { printf("ARRAYFILL\n");}
 
 
 
 {INTEGER}+ { printf("INTEGER: %s\n", yytext); }
 {IDENTIFIER}+ { printf("IDENTIFIER: %s\n", yytext); }
+{COMMENT}+ {}
+{ARRAYLENGTH}+ { printf("ARRAYLENGTH: %s\n", yytext + 3); }
 " " {}
 
 .    { printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, yyleng);}
