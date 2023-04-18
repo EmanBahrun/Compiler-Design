@@ -1,7 +1,9 @@
 %{
     // C code here.
     #include <stdio.h>
+    int character_count = 0;
 %}
+%option yylineno
 
 
 INTEGER [0-9]
@@ -9,7 +11,6 @@ IDENTIFIER [a-zA-Z][a-zA-Z_0-9]+
 COMMENT #.*\n
 ARRAYLENGTH \.\.\.[1-9][0-9]+
 %%
-
 
 "function"	{ printf("FUNCTION\n");}
 "Array"	{ printf("ARRAY\n");}
@@ -54,8 +55,7 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 "{"	{ printf("LBRACE\n");}
 "}"	{ printf("RBRACE\n");}
 "..." { printf("ARRAYFILL\n");}
-
-
+"\n" {}
 
 {INTEGER}+ { printf("INTEGER: %s\n", yytext); }
 {IDENTIFIER}+ { printf("IDENTIFIER: %s\n", yytext); }
@@ -63,7 +63,7 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 {ARRAYLENGTH}+ { printf("ARRAYLENGTH: %s\n", yytext + 3); }
 " " {}
 
-.    { printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, yyleng);}
+.    { printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, character_count);}
 %%
 
 
