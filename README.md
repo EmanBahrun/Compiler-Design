@@ -283,7 +283,7 @@ Precedence
 <tr>
 <tr>
 <th>6</th>
-<td><code>not</code></td>
+<td><code>!</code></td>
 <td>Logical not</td>
 <td>Right-to-left</td>
 </tr>
