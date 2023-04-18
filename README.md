@@ -135,28 +135,16 @@ List of Tokens
 
 |   Reserved Words      |    Token Name    |
 | --------------------- | ---------------- |
-| Integer               | INT              |
+| Integer               | INTEGER          |
 | function              | FUNCTION         |
-| beginparams           | BEGIN_PARAMS     |
-| endparams             | END_PARAMS       |
-| beginlocals           | BEGIN_LOCALS     |
-| endlocals             | END_LOCALS       |
-| beginbody             | BEGIN_BODY       | 
-| endbody               | END_BODY         |
 | Array                 | ARRAY            |
-| of                    | OF               |
 | if                    | IF               |
-| then                  | THEN             |
-| endif                 | ENDIF            |
 | else                  | ELSE             |
 | while                 | WHILE            |
-| do                    | DO               |
-| beginloop             | BEGINLOOP        |
-| endloop               | ENDLOOP          |
 | continue              | CONTINUE         |
 | break                 | BREAK            |
-| read                  | READ             |
-| write                 | WRITE            |
+| get                   | GET             |
+| print                 | PRINT            |
 | not                   | NOT              |
 | true	                | TRUE             |
 | false                 | FALSE            |
@@ -195,6 +183,8 @@ List of Tokens
 |=	                        |   ASSIGN            | 
 |{	                        |   LBRACE            |
 |}	                        |   RBRACE            |
+| ...                       |   ARRAYFILL         |
+| \n                        |                     | 
 
 |Identifiers and Numbers                                                |    Token Name                                   |
 | --------------------------------------------------------------------  | ----------------------------------------------- |
