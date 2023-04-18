@@ -1,5 +1,5 @@
 function main() {
-    Array<Integer> a = [...20];
+    Array a = [...20];
     Integer b;
     Integer c;
 
