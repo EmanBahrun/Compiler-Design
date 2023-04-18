@@ -2,13 +2,14 @@
     // C code here.
     #include <stdio.h>
     int character_count = 0;
-    int line_count = 0;
 %}
 %option yylineno
 
 
 INTEGER [0-9]
 IDENTIFIER [a-zA-Z][a-zA-Z_0-9]+
+BADIDENTIFIERONE [0-9][a-zA-Z][a-zA-Z_0-9]+
+BADIDENTIFIERTWO [a-zA-Z][a-zA-Z_0-9\_]+
 COMMENT #.*\n
 ARRAYLENGTH \.\.\.[1-9][0-9]+
 %%
@@ -56,9 +57,11 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 "{"	{ printf("LBRACE\n");character_count+= yyleng;}
 "}"	{ printf("RBRACE\n");character_count+= yyleng;}
 "..." { printf("ARRAYFILL\n");character_count+= yyleng;}
-"\n" {character_count = 0; line_count = 0;}
+"\n" {character_count = 0; }
 
 {INTEGER}+ { printf("INTEGER: %s\n", yytext); }
+{BADIDENTIFIERONE} { printf("**ERROR. Cannot start with numbers for indentifier at line %d, column %d \n", yytext, yylineno, character_count);}
+{BADIDENTIFIERTWO} { printf("**ERROR. Cannot end with _ for indentifier at line %d, column %d \n", yytext, yylineno, character_count);}
 {IDENTIFIER}+ { printf("IDENTIFIER: %s\n", yytext); }
 {COMMENT}+ {}
 {ARRAYLENGTH}+ { printf("ARRAYLENGTH: %s\n", yytext + 3); }
