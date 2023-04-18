@@ -1,0 +1,20 @@
+function main(){
+    integer 68a;
+    @
+}
+/* result
+function main(){
+    integer 68a;
+    @
+}FUNCTION
+IDENTIFIER: main
+L_PAREN
+R_PAREN
+LBRACE
+IDENTIFIER: integer
+INTEGER: 68
+**ERROR. Unidentified token 'a' at line 2, column 5 
+SEMICOLON
+**ERROR. Unidentified token '@' at line 3, column 4 
+
+*/

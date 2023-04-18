@@ -16,7 +16,7 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 "function"	{ printf("FUNCTION\n");character_count+= yyleng;}
 "Array"	{ printf("ARRAY\n");character_count+= yyleng;}
 "Integer"	{ printf("INTEGERVAR\n");character_count+= yyleng;}
-"if"	{ printf("IF\n")character_count+= yyleng;}
+"if"	{ printf("IF\n");character_count+= yyleng;}
 "else"	{ printf("ELSE\n");character_count+= yyleng;}
 "while"	{ printf("WHILE\n");character_count+= yyleng;}
 "continue"	{ printf("CONTINUE\n");character_count+= yyleng;}
@@ -56,7 +56,7 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 "{"	{ printf("LBRACE\n");character_count+= yyleng;}
 "}"	{ printf("RBRACE\n");character_count+= yyleng;}
 "..." { printf("ARRAYFILL\n");character_count+= yyleng;}
-"\n" {character_count = 0; line_count = 0}
+"\n" {character_count = 0; line_count = 0;}
 
 {INTEGER}+ { printf("INTEGER: %s\n", yytext); }
 {IDENTIFIER}+ { printf("IDENTIFIER: %s\n", yytext); }
