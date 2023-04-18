@@ -1,17 +1,17 @@
-function add(Integer a, Integer b) {
-    return a + b;
+function add(Integer aa, Integer bb) {
+    return aa + bb;
 }
 
-function mult(Integer a, Integer b) {
-    return a * b;
+function mult(Integer aa, Integer bb) {
+    return aa * bb;
 }
 
 function main() {
-    Integer a = 100;
-    Integer b = 50;
-    Integer c = add(a, b);
+    Integer aa = 100;
+    Integer bb = 50;
+    Integer c = add(aa, bb);
     print c; # should print 150
 
-    d = mult(c, a + b);
+    d = mult(c, aa + bb);
     print d; # should print "22500", since 22500 = 150 * 150;
 }

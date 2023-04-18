@@ -1,30 +1,31 @@
 function main() {
-  Integer a = 10;
-  Integer b = 5;
+  Integer aa = 10;
+  Integer bb = 5;
+  Integer cc = 0;
  
   # Addition, answer is 15, since 15 = 10+5
-  c = a + b;
-  print c;
+  cc = aa + bb;
+  print cc;
 
   # Subtraction, answer is 5, since 5 = 10-5
-  c = a - b;
-  print c;
+  cc = aa - bb;
+  print cc;
 
   # Multiplication, answer is 50, since 50 = 10 * 5
-  c = a * b;
-  print c;
+  cc = aa * bb;
+  print cc;
 
   # Division, answer is 2, since 2 = 10/5
-  c = a / b;
-  print c;
+  cc = aa / bb;
+  print cc;
 
   # Modulus, answer is 0, since 0 = 10 % 5
-  c = a % b;
-  print c;
+  cc = aa % bb;
+  print cc;
 
   # "Complex" Expression.
-  a = 4;
-  b = 2;
-  c = (a + b) * 7;
-  print c;
+  aa = 4;
+  bb = 2;
+  cc = (aa + bb) * 7;
+  print cc;
 }

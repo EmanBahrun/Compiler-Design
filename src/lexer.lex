@@ -56,8 +56,9 @@ IDENTIFIER [a-zA-Z][a-zA-Z_0-9]+
 
 {INTEGER}+ { printf("INTEGER: %s\n", yytext); }
 {IDENTIFIER}+ { printf("IDENTIFIER: %s\n", yytext); }
+" " {}
 
-.    { printf("**ERROR. Unidentified token '%s' at line %d", yytext, yylineno );}
+.    { printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, yyleng);}
 %%
 
 

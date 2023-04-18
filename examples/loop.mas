@@ -1,8 +1,8 @@
 function main() {
     # This is a simple loop that counts from 1 to 15
-    Integer i = 0;
-    while (i != 15) {
-        i = i + 1;
-        print i;
+    Integer ii = 0;
+    while (ii != 15) {
+        ii = ii + 1;
+        print ii;
     }
 }

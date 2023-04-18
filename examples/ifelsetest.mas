@@ -1,17 +1,17 @@
 function main() {
-    Integer m;
-    Integer n;
-    Integer o;
+    Integer mm;
+    Integer nn;
+    Integer oo;
 
-    get n;
-    if (n == 10) {
-        print n;
+    get nn;
+    if (nn == 10) {
+        print nn;
     }
     else {
-        m = n - 1;
-        print m;
+        mm = nn - 1;
+        print mm;
     }
 
 
-    print o;
+    print oo;
 }
