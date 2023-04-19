@@ -1,4 +1,5 @@
 all:
 	flex lexer.lex
-	gcc lex.yy.c -lfl
+	bison -v -d --file-prefix=y bison.y
+	gcc -o parser lex.yy.c y.tab.c -lfl
 	
