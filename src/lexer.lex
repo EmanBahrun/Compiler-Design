@@ -9,7 +9,6 @@
 INTEGER [0-9]
 IDENTIFIER [a-zA-Z][a-zA-Z_0-9]+
 BADIDENTIFIERONE [0-9][a-zA-Z][a-zA-Z_0-9]+
-BADIDENTIFIERTWO [a-zA-Z][a-zA-Z_0-9\_]+
 COMMENT #.*\n
 ARRAYLENGTH \.\.\.[1-9][0-9]+
 %%
@@ -60,8 +59,7 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 "\n" {character_count = 0; }
 
 {INTEGER}+ { printf("INTEGER: %s\n", yytext); }
-{BADIDENTIFIERONE} { printf("**ERROR. Cannot start with numbers for indentifier at line %d, column %d \n", yytext, yylineno, character_count);}
-{BADIDENTIFIERTWO} { printf("**ERROR. Cannot end with _ for indentifier at line %d, column %d \n", yytext, yylineno, character_count);}
+{BADIDENTIFIERONE} { printf("**ERROR. Cannot start with numbers for indentifier '%s' at line %d, column %d \n", yytext, yylineno, character_count);}
 {IDENTIFIER}+ { printf("IDENTIFIER: %s\n", yytext); }
 {COMMENT}+ {}
 {ARRAYLENGTH}+ { printf("ARRAYLENGTH: %s\n", yytext + 3); }
