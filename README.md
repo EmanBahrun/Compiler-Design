@@ -188,8 +188,8 @@ List of Tokens
 
 |Identifiers and Numbers                                                |    Token Name                                   |
 | --------------------------------------------------------------------  | ----------------------------------------------- |
-|identifier (e.g., "aardvark", "BIG_PENGUIN", "fLaMInGo_17", "ot73r")	|IDENT XXXX [where XXXX is the identifier itself] |
-|number (e.g., "17", "101", "90210", "0", "8675309")	                |NUMBER XXXX [where XXXX is the number itself]    |  
+|identifier (e.g., "aardvark", "BIG_PENGUIN", "fLaMInGo_17", "ot73r")	|IDENTIFIER XXXX [where XXXX is the identifier itself] |
+|number (e.g., "17", "101", "90210", "0", "8675309")	                |INTEGER XXXX [where XXXX is the number itself]    |  
 
 
 Precedence
