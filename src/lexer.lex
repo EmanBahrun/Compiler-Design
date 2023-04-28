@@ -1,6 +1,7 @@
 %{
     // C code here.
     #include <stdio.h>
+    #include "y.tab.h"
     int character_count = 0;
 %}
 %option yylineno
@@ -67,9 +68,3 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 
 .    { printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, character_count);}
 %%
-
-
-int main(void) {
-    printf("Ctrl+D to quit\n");
-    yylex();
-}
