@@ -13,83 +13,85 @@ prog_start: %empty {printf("prog_start -> epsilon\n");}
 functions: function {printf("functions -> function\n")}
          | function functions {printf("functions -> functions\n")}
          ;
-function:  FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE {printf("\n");};
-arguments: %empty {printf("arguments -> epsilon\n");}
+function:  FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE 
+           {printf("function->FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE\n");};
+arguments: %empty 
+           {printf("arguments -> epsilon\n");}
          | argument COMMA arguments {printf("arguments -> argument COMMA arguments\n")}
          | argument {printf("arguments -> argument\n")}
          ;
-argument: INTEGERVAR IDENTIFIER {}
+argument: INTEGERVAR IDENTIFIER {printf("argument->INTEGERVAR IDENTIFIER\n")}
         ;
 
 
 # Statements stuff
-statements: %empty {}
-          | statement SEMICOLON statements {}
+statements: %empty {printf("statements -> epsilon\n" )}
+          | statement SEMICOLON statements {printf("statements -> statement SEMICOLON statements\n")}
 statement: declaration
          | function_call
          | if_statement
          | while_statement
          | return_statement
          | assign_statement
-         | CONTINUE SEMICOLON {}
-         | BREAK SEMICOLON {}
-         | PRINT expression SEMICOLON {}
-         | GET IDENTIFIER SEMICOLON {}
+         | CONTINUE SEMICOLON {printf("statement -> CONTINUE SEMICOLON\n")}
+         | BREAK SEMICOLON {printf("statement -> BREAK SEMICOLON\n")}
+         | PRINT expression SEMICOLON {printf("statement -> PRINT expression SEMICOLON\n")}
+         | GET IDENTIFIER SEMICOLON {printf("statement -> GET IDENTIFIER SEMICOLON\n" )}
          ;
-if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE {}
-            | IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE else_statement {}
+if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements\n")}
+            | IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE else_statement {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE else_statement\n")}
             ;
-while: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {}
+while: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printf("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n")}
      ;
-return_statement: RETURN SEMICOLON {}
-                | RETURN expression SEMICOLON {}
+return_statement: RETURN SEMICOLON {printf("return_statement -> RETURN SEMICOLON\n")}
+                | RETURN expression SEMICOLON {printf("return_statement -> RETURN expression SEMICOLON\n")}
                 ;
-assign_statement: IDENTIFIER ASSIGN expression SEMICOLON {}
-                | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression SEMICOLON {}
-                | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER SEMICOLON {}
+assign_statement: IDENTIFIER ASSIGN expression SEMICOLON {printf("assign_statement ->IDENTIFIER ASSIGN expression SEMICOLON\n")}
+                | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression SEMICOLON {printf("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression SEMICOLON\n" )}
+                | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER SEMICOLON {printf("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER SEMICOLON\n")}
                 ;
-expression: IDENTIFIER {}
-          | INTEGER {}
-          | integerexpression {}
-          | booleanexpression {}
-          | arrayexpression {}
+expression: IDENTIFIER {printf("expression -> IDENTIFIER\n")}
+          | INTEGER {printf("expression -> INTEGER\n" )}
+          | integerexpression {printf("expression -> integerexpression\n")}
+          | booleanexpression {printf("expression ->booleanexpression\n")}
+          | arrayexpression {printf("expression -> arrayexpression\n")}
           ;
-integerexpression: IDENTIFIER {}
-            | INTEGER {}
-            | expression ADD expression {}
-            | expression SUB expression {}
-            | expression MULT expression {}
-            | expression DIV expression {}
-            | expression MOD expression {}
-            | L_PAREN expression R_PAREN {}
+integerexpression: IDENTIFIER {printf("integerexpression -> IDENTIFIER\n")}
+            | INTEGER {printf("integerexpression -> INTEGER\n")}
+            | expression ADD expression {printf("integerexpression -> expression ADD expression\n")}
+            | expression SUB expression {printf("integerexpression -> expression SUB expression\n" )}
+            | expression MULT expression {printf("integerexpression -> expression MULT expression\n")}
+            | expression DIV expression {printf("integerexpression -> expression DIV expression\n")}
+            | expression MOD expression {printf("integerexpression ->  expression MOD expression\n")}
+            | L_PAREN expression R_PAREN {printf("integerexpression -> L_PAREN expression R_PAREN\n")}
             ;
-booleanexpression: IDENTIFIER {}
-          | INTEGER {}
-          | expression EQ expression {}
-          | expression NEQ expression {}
-          | expression LT expression {}
-          | expression GT expression {}
-          | expression LTE expression {}
-          | expression GTE expression {}
-          | expression AND expression {}
-          | expression OR expression {}
-          | NOT expression {}
-          | L_PAREN expression R_PAREN {}
+booleanexpression: IDENTIFIER {printf("booleanexpression -> IDENTIFIER\n")}
+          | INTEGER {printf("booleanexpression -> INTEGER\n")}
+          | expression EQ expression {printf("booleanexpression -> expression EQ expression\n")}
+          | expression NEQ expression {printf("booleanexpression -> expression NEQ expression\n")}
+          | expression LT expression {printf("booleanexpression -> expression LT expression\n")}
+          | expression GT expression {printf("booleanexpression -> expression GT expression\n")}
+          | expression LTE expression {printf("booleanexpression -> expression LTE expression\n")}
+          | expression GTE expression {printf("booleanexpression -> expression GTE expression\n")}
+          | expression AND expression {printf("booleanexpression -> expression AND expression\n")}
+          | expression OR expression {printf("booleanexpression -> expression OR expression\n")}
+          | NOT expression {printf("booleanexpression -> NOT expression\n")}
+          | L_PAREN expression R_PAREN {printf("booleanexpression -> L_PAREN expression R_PAREN\n")}
           ;
-arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET {}
+arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET {printf("arrayexpression ->  IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET\n")}
                ;
 declaration: INTEGER IDENTIFIER SEMICOLON {printf("declaration -> INTEGER IDENTIFIER SEMICOLON\n");}
            ;
-function_call: IDENTIFIER L_PAREN params R_PAREN {}
+function_call: IDENTIFIER L_PAREN params R_PAREN {printf("function_call -> IDENTIFIER L_PAREN params R_PAREN\n")}
              ;
-params: %empty {}
-        | param COMMA params {}
+params: %empty {printf("params -> epsilon\n")}
+        | param COMMA params {printf("params -> param COMMA params\n")}
         ;
-param: INTEGER {}
-     | IDENTIFIER {}
+param: INTEGER {printf("param -> INTEGER\n")}
+     | IDENTIFIER {printf("param -> IDENTIFIER\n")}
      ;
 
-statement: declaration {}
+statement: declaration {printf("statement -> declaration\n")}
 %%
 
 
