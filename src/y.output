@@ -1,0 +1,1947 @@
+Terminals unused in grammar
+
+   ARRAY
+   ELESE
+   TRUE
+   FALSE
+   COLON
+
+
+State 67 conflicts: 11 shift/reduce
+State 91 conflicts: 11 shift/reduce
+State 92 conflicts: 11 shift/reduce
+State 93 conflicts: 11 shift/reduce
+State 94 conflicts: 11 shift/reduce
+State 95 conflicts: 11 shift/reduce
+State 96 conflicts: 11 shift/reduce
+State 97 conflicts: 11 shift/reduce
+State 98 conflicts: 11 shift/reduce
+State 99 conflicts: 11 shift/reduce
+State 100 conflicts: 11 shift/reduce
+State 101 conflicts: 11 shift/reduce
+
+
+Grammar
+
+    0 $accept: prog_start $end
+
+    1 prog_start: %empty
+    2           | functions
+
+    3 functions: function
+    4          | function functions
+
+    5 function: FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE
+
+    6 arguments: %empty
+    7          | argument COMMA arguments
+    8          | argument
+
+    9 argument: INTEGERVAR IDENTIFIER
+
+   10 statements: %empty
+   11           | statement SEMICOLON statements
+
+   12 statement: declaration
+   13          | function_call
+   14          | if_statement
+   15          | while_statement
+   16          | return_statement
+   17          | assign_statement
+   18          | CONTINUE SEMICOLON
+   19          | BREAK SEMICOLON
+   20          | PRINT expression SEMICOLON
+   21          | GET IDENTIFIER SEMICOLON
+
+   22 if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE
+   23             | IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE else_statement
+
+   24 else_statement: ELSE LBRACE statements RBRACE
+   25               | ELSE if_statement
+
+   26 while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE
+
+   27 return_statement: RETURN SEMICOLON
+   28                 | RETURN expression SEMICOLON
+
+   29 assign_statement: IDENTIFIER ASSIGN expression SEMICOLON
+   30                 | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression SEMICOLON
+   31                 | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER SEMICOLON
+
+   32 expression: IDENTIFIER
+   33           | INTEGER
+   34           | integerexpression
+   35           | booleanexpression
+   36           | arrayexpression
+
+   37 integerexpression: expression ADD expression
+   38                  | expression SUB expression
+   39                  | expression MULT expression
+   40                  | expression DIV expression
+   41                  | expression MOD expression
+   42                  | L_PAREN expression R_PAREN
+
+   43 booleanexpression: expression EQ expression
+   44                  | expression NEQ expression
+   45                  | expression LT expression
+   46                  | expression GT expression
+   47                  | expression LTE expression
+   48                  | expression GTE expression
+   49                  | NOT expression
+
+   50 arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET
+
+   51 declaration: INTEGER IDENTIFIER SEMICOLON
+
+   52 function_call: IDENTIFIER L_PAREN params R_PAREN
+
+   53 params: %empty
+   54       | param COMMA params
+
+   55 param: INTEGER
+   56      | IDENTIFIER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INTEGER (258) 31 33 51 55
+IDENTIFIER (259) 5 9 21 29 30 31 32 50 51 52 56
+FUNCTION (260) 5
+ARRAY (261)
+ARRAYFILL (262) 31
+IF (263) 22 23
+ELESE (264)
+WHILE (265) 26
+CONTINUE (266) 18
+BREAK (267) 19
+GET (268) 21
+PRINT (269) 20
+NOT (270) 49
+TRUE (271)
+FALSE (272)
+RETURN (273) 27 28
+SEMICOLON (274) 11 18 19 20 21 27 28 29 30 31 51
+COLON (275)
+COMMA (276) 7 54
+L_PAREN (277) 5 22 23 26 42 52
+R_PAREN (278) 5 22 23 26 42 52
+L_SQUARE_BRACKET (279) 30 31 50
+R_SQUARE_BRACKET (280) 30 31 50
+ASSIGN (281) 29 30 31
+LBRACE (282) 5 22 23 24 26
+RBRACE (283) 5 24 26
+ADD (284) 37
+SUB (285) 38
+MULT (286) 39
+DIV (287) 40
+MOD (288) 41
+EQ (289) 43
+NEQ (290) 44
+LT (291) 45
+GT (292) 46
+LTE (293) 47
+GTE (294) 48
+INTEGERVAR (295) 9
+ELSE (296) 24 25
+
+
+Nonterminals, with rules where they appear
+
+$accept (42)
+    on left: 0
+prog_start (43)
+    on left: 1 2, on right: 0
+functions (44)
+    on left: 3 4, on right: 2 4
+function (45)
+    on left: 5, on right: 3 4
+arguments (46)
+    on left: 6 7 8, on right: 5 7
+argument (47)
+    on left: 9, on right: 7 8
+statements (48)
+    on left: 10 11, on right: 5 11 22 23 24 26
+statement (49)
+    on left: 12 13 14 15 16 17 18 19 20 21, on right: 11
+if_statement (50)
+    on left: 22 23, on right: 14 25
+else_statement (51)
+    on left: 24 25, on right: 23
+while_statement (52)
+    on left: 26, on right: 15
+return_statement (53)
+    on left: 27 28, on right: 16
+assign_statement (54)
+    on left: 29 30 31, on right: 17
+expression (55)
+    on left: 32 33 34 35 36, on right: 20 28 29 30 31 37 38 39 40 41
+    42 43 44 45 46 47 48 49
+integerexpression (56)
+    on left: 37 38 39 40 41 42, on right: 34 50
+booleanexpression (57)
+    on left: 43 44 45 46 47 48 49, on right: 22 23 26 35
+arrayexpression (58)
+    on left: 50, on right: 36
+declaration (59)
+    on left: 51, on right: 12
+function_call (60)
+    on left: 52, on right: 13
+params (61)
+    on left: 53 54, on right: 52 54
+param (62)
+    on left: 55 56, on right: 54
+
+
+State 0
+
+    0 $accept: . prog_start $end
+
+    FUNCTION  shift, and go to state 1
+
+    $default  reduce using rule 1 (prog_start)
+
+    prog_start  go to state 2
+    functions   go to state 3
+    function    go to state 4
+
+
+State 1
+
+    5 function: FUNCTION . IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE
+
+    IDENTIFIER  shift, and go to state 5
+
+
+State 2
+
+    0 $accept: prog_start . $end
+
+    $end  shift, and go to state 6
+
+
+State 3
+
+    2 prog_start: functions .
+
+    $default  reduce using rule 2 (prog_start)
+
+
+State 4
+
+    3 functions: function .
+    4          | function . functions
+
+    FUNCTION  shift, and go to state 1
+
+    $default  reduce using rule 3 (functions)
+
+    functions  go to state 7
+    function   go to state 4
+
+
+State 5
+
+    5 function: FUNCTION IDENTIFIER . L_PAREN arguments R_PAREN LBRACE statements RBRACE
+
+    L_PAREN  shift, and go to state 8
+
+
+State 6
+
+    0 $accept: prog_start $end .
+
+    $default  accept
+
+
+State 7
+
+    4 functions: function functions .
+
+    $default  reduce using rule 4 (functions)
+
+
+State 8
+
+    5 function: FUNCTION IDENTIFIER L_PAREN . arguments R_PAREN LBRACE statements RBRACE
+
+    INTEGERVAR  shift, and go to state 9
+
+    $default  reduce using rule 6 (arguments)
+
+    arguments  go to state 10
+    argument   go to state 11
+
+
+State 9
+
+    9 argument: INTEGERVAR . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 12
+
+
+State 10
+
+    5 function: FUNCTION IDENTIFIER L_PAREN arguments . R_PAREN LBRACE statements RBRACE
+
+    R_PAREN  shift, and go to state 13
+
+
+State 11
+
+    7 arguments: argument . COMMA arguments
+    8          | argument .
+
+    COMMA  shift, and go to state 14
+
+    $default  reduce using rule 8 (arguments)
+
+
+State 12
+
+    9 argument: INTEGERVAR IDENTIFIER .
+
+    $default  reduce using rule 9 (argument)
+
+
+State 13
+
+    5 function: FUNCTION IDENTIFIER L_PAREN arguments R_PAREN . LBRACE statements RBRACE
+
+    LBRACE  shift, and go to state 15
+
+
+State 14
+
+    7 arguments: argument COMMA . arguments
+
+    INTEGERVAR  shift, and go to state 9
+
+    $default  reduce using rule 6 (arguments)
+
+    arguments  go to state 16
+    argument   go to state 11
+
+
+State 15
+
+    5 function: FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE . statements RBRACE
+
+    INTEGER     shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    IF          shift, and go to state 19
+    WHILE       shift, and go to state 20
+    CONTINUE    shift, and go to state 21
+    BREAK       shift, and go to state 22
+    GET         shift, and go to state 23
+    PRINT       shift, and go to state 24
+    RETURN      shift, and go to state 25
+
+    $default  reduce using rule 10 (statements)
+
+    statements        go to state 26
+    statement         go to state 27
+    if_statement      go to state 28
+    while_statement   go to state 29
+    return_statement  go to state 30
+    assign_statement  go to state 31
+    declaration       go to state 32
+    function_call     go to state 33
+
+
+State 16
+
+    7 arguments: argument COMMA arguments .
+
+    $default  reduce using rule 7 (arguments)
+
+
+State 17
+
+   51 declaration: INTEGER . IDENTIFIER SEMICOLON
+
+    IDENTIFIER  shift, and go to state 34
+
+
+State 18
+
+   29 assign_statement: IDENTIFIER . ASSIGN expression SEMICOLON
+   30                 | IDENTIFIER . L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression SEMICOLON
+   31                 | IDENTIFIER . L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER SEMICOLON
+   52 function_call: IDENTIFIER . L_PAREN params R_PAREN
+
+    L_PAREN           shift, and go to state 35
+    L_SQUARE_BRACKET  shift, and go to state 36
+    ASSIGN            shift, and go to state 37
+
+
+State 19
+
+   22 if_statement: IF . L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE
+   23             | IF . L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE else_statement
+
+    L_PAREN  shift, and go to state 38
+
+
+State 20
+
+   26 while_statement: WHILE . L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE
+
+    L_PAREN  shift, and go to state 39
+
+
+State 21
+
+   18 statement: CONTINUE . SEMICOLON
+
+    SEMICOLON  shift, and go to state 40
+
+
+State 22
+
+   19 statement: BREAK . SEMICOLON
+
+    SEMICOLON  shift, and go to state 41
+
+
+State 23
+
+   21 statement: GET . IDENTIFIER SEMICOLON
+
+    IDENTIFIER  shift, and go to state 42
+
+
+State 24
+
+   20 statement: PRINT . expression SEMICOLON
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 47
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 25
+
+   27 return_statement: RETURN . SEMICOLON
+   28                 | RETURN . expression SEMICOLON
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    SEMICOLON   shift, and go to state 51
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 52
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 26
+
+    5 function: FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements . RBRACE
+
+    RBRACE  shift, and go to state 53
+
+
+State 27
+
+   11 statements: statement . SEMICOLON statements
+
+    SEMICOLON  shift, and go to state 54
+
+
+State 28
+
+   14 statement: if_statement .
+
+    $default  reduce using rule 14 (statement)
+
+
+State 29
+
+   15 statement: while_statement .
+
+    $default  reduce using rule 15 (statement)
+
+
+State 30
+
+   16 statement: return_statement .
+
+    $default  reduce using rule 16 (statement)
+
+
+State 31
+
+   17 statement: assign_statement .
+
+    $default  reduce using rule 17 (statement)
+
+
+State 32
+
+   12 statement: declaration .
+
+    $default  reduce using rule 12 (statement)
+
+
+State 33
+
+   13 statement: function_call .
+
+    $default  reduce using rule 13 (statement)
+
+
+State 34
+
+   51 declaration: INTEGER IDENTIFIER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 55
+
+
+State 35
+
+   52 function_call: IDENTIFIER L_PAREN . params R_PAREN
+
+    INTEGER     shift, and go to state 56
+    IDENTIFIER  shift, and go to state 57
+
+    $default  reduce using rule 53 (params)
+
+    params  go to state 58
+    param   go to state 59
+
+
+State 36
+
+   30 assign_statement: IDENTIFIER L_SQUARE_BRACKET . expression R_SQUARE_BRACKET ASSIGN expression SEMICOLON
+   31                 | IDENTIFIER L_SQUARE_BRACKET . expression R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER SEMICOLON
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 60
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 37
+
+   29 assign_statement: IDENTIFIER ASSIGN . expression SEMICOLON
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 61
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 38
+
+   22 if_statement: IF L_PAREN . booleanexpression R_PAREN LBRACE statements LBRACE
+   23             | IF L_PAREN . booleanexpression R_PAREN LBRACE statements LBRACE else_statement
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 62
+    integerexpression  go to state 48
+    booleanexpression  go to state 63
+    arrayexpression    go to state 50
+
+
+State 39
+
+   26 while_statement: WHILE L_PAREN . booleanexpression R_PAREN LBRACE statements RBRACE
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 62
+    integerexpression  go to state 48
+    booleanexpression  go to state 64
+    arrayexpression    go to state 50
+
+
+State 40
+
+   18 statement: CONTINUE SEMICOLON .
+
+    $default  reduce using rule 18 (statement)
+
+
+State 41
+
+   19 statement: BREAK SEMICOLON .
+
+    $default  reduce using rule 19 (statement)
+
+
+State 42
+
+   21 statement: GET IDENTIFIER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 65
+
+
+State 43
+
+   33 expression: INTEGER .
+
+    $default  reduce using rule 33 (expression)
+
+
+State 44
+
+   32 expression: IDENTIFIER .
+   50 arrayexpression: IDENTIFIER . L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET
+
+    L_SQUARE_BRACKET  shift, and go to state 66
+
+    $default  reduce using rule 32 (expression)
+
+
+State 45
+
+   49 booleanexpression: NOT . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 67
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 46
+
+   42 integerexpression: L_PAREN . expression R_PAREN
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 68
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 47
+
+   20 statement: PRINT expression . SEMICOLON
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    SEMICOLON  shift, and go to state 69
+    ADD        shift, and go to state 70
+    SUB        shift, and go to state 71
+    MULT       shift, and go to state 72
+    DIV        shift, and go to state 73
+    MOD        shift, and go to state 74
+    EQ         shift, and go to state 75
+    NEQ        shift, and go to state 76
+    LT         shift, and go to state 77
+    GT         shift, and go to state 78
+    LTE        shift, and go to state 79
+    GTE        shift, and go to state 80
+
+
+State 48
+
+   34 expression: integerexpression .
+
+    $default  reduce using rule 34 (expression)
+
+
+State 49
+
+   35 expression: booleanexpression .
+
+    $default  reduce using rule 35 (expression)
+
+
+State 50
+
+   36 expression: arrayexpression .
+
+    $default  reduce using rule 36 (expression)
+
+
+State 51
+
+   27 return_statement: RETURN SEMICOLON .
+
+    $default  reduce using rule 27 (return_statement)
+
+
+State 52
+
+   28 return_statement: RETURN expression . SEMICOLON
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    SEMICOLON  shift, and go to state 81
+    ADD        shift, and go to state 70
+    SUB        shift, and go to state 71
+    MULT       shift, and go to state 72
+    DIV        shift, and go to state 73
+    MOD        shift, and go to state 74
+    EQ         shift, and go to state 75
+    NEQ        shift, and go to state 76
+    LT         shift, and go to state 77
+    GT         shift, and go to state 78
+    LTE        shift, and go to state 79
+    GTE        shift, and go to state 80
+
+
+State 53
+
+    5 function: FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE .
+
+    $default  reduce using rule 5 (function)
+
+
+State 54
+
+   11 statements: statement SEMICOLON . statements
+
+    INTEGER     shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    IF          shift, and go to state 19
+    WHILE       shift, and go to state 20
+    CONTINUE    shift, and go to state 21
+    BREAK       shift, and go to state 22
+    GET         shift, and go to state 23
+    PRINT       shift, and go to state 24
+    RETURN      shift, and go to state 25
+
+    $default  reduce using rule 10 (statements)
+
+    statements        go to state 82
+    statement         go to state 27
+    if_statement      go to state 28
+    while_statement   go to state 29
+    return_statement  go to state 30
+    assign_statement  go to state 31
+    declaration       go to state 32
+    function_call     go to state 33
+
+
+State 55
+
+   51 declaration: INTEGER IDENTIFIER SEMICOLON .
+
+    $default  reduce using rule 51 (declaration)
+
+
+State 56
+
+   55 param: INTEGER .
+
+    $default  reduce using rule 55 (param)
+
+
+State 57
+
+   56 param: IDENTIFIER .
+
+    $default  reduce using rule 56 (param)
+
+
+State 58
+
+   52 function_call: IDENTIFIER L_PAREN params . R_PAREN
+
+    R_PAREN  shift, and go to state 83
+
+
+State 59
+
+   54 params: param . COMMA params
+
+    COMMA  shift, and go to state 84
+
+
+State 60
+
+   30 assign_statement: IDENTIFIER L_SQUARE_BRACKET expression . R_SQUARE_BRACKET ASSIGN expression SEMICOLON
+   31                 | IDENTIFIER L_SQUARE_BRACKET expression . R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER SEMICOLON
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    R_SQUARE_BRACKET  shift, and go to state 85
+    ADD               shift, and go to state 70
+    SUB               shift, and go to state 71
+    MULT              shift, and go to state 72
+    DIV               shift, and go to state 73
+    MOD               shift, and go to state 74
+    EQ                shift, and go to state 75
+    NEQ               shift, and go to state 76
+    LT                shift, and go to state 77
+    GT                shift, and go to state 78
+    LTE               shift, and go to state 79
+    GTE               shift, and go to state 80
+
+
+State 61
+
+   29 assign_statement: IDENTIFIER ASSIGN expression . SEMICOLON
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    SEMICOLON  shift, and go to state 86
+    ADD        shift, and go to state 70
+    SUB        shift, and go to state 71
+    MULT       shift, and go to state 72
+    DIV        shift, and go to state 73
+    MOD        shift, and go to state 74
+    EQ         shift, and go to state 75
+    NEQ        shift, and go to state 76
+    LT         shift, and go to state 77
+    GT         shift, and go to state 78
+    LTE        shift, and go to state 79
+    GTE        shift, and go to state 80
+
+
+State 62
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+
+State 63
+
+   22 if_statement: IF L_PAREN booleanexpression . R_PAREN LBRACE statements LBRACE
+   23             | IF L_PAREN booleanexpression . R_PAREN LBRACE statements LBRACE else_statement
+   35 expression: booleanexpression .
+
+    R_PAREN  shift, and go to state 87
+
+    $default  reduce using rule 35 (expression)
+
+
+State 64
+
+   26 while_statement: WHILE L_PAREN booleanexpression . R_PAREN LBRACE statements RBRACE
+   35 expression: booleanexpression .
+
+    R_PAREN  shift, and go to state 88
+
+    $default  reduce using rule 35 (expression)
+
+
+State 65
+
+   21 statement: GET IDENTIFIER SEMICOLON .
+
+    $default  reduce using rule 21 (statement)
+
+
+State 66
+
+   50 arrayexpression: IDENTIFIER L_SQUARE_BRACKET . integerexpression R_SQUARE_BRACKET
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 62
+    integerexpression  go to state 89
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 67
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+   49                  | NOT expression .
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 49 (booleanexpression)]
+    SUB       [reduce using rule 49 (booleanexpression)]
+    MULT      [reduce using rule 49 (booleanexpression)]
+    DIV       [reduce using rule 49 (booleanexpression)]
+    MOD       [reduce using rule 49 (booleanexpression)]
+    EQ        [reduce using rule 49 (booleanexpression)]
+    NEQ       [reduce using rule 49 (booleanexpression)]
+    LT        [reduce using rule 49 (booleanexpression)]
+    GT        [reduce using rule 49 (booleanexpression)]
+    LTE       [reduce using rule 49 (booleanexpression)]
+    GTE       [reduce using rule 49 (booleanexpression)]
+    $default  reduce using rule 49 (booleanexpression)
+
+
+State 68
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   42                  | L_PAREN expression . R_PAREN
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    R_PAREN  shift, and go to state 90
+    ADD      shift, and go to state 70
+    SUB      shift, and go to state 71
+    MULT     shift, and go to state 72
+    DIV      shift, and go to state 73
+    MOD      shift, and go to state 74
+    EQ       shift, and go to state 75
+    NEQ      shift, and go to state 76
+    LT       shift, and go to state 77
+    GT       shift, and go to state 78
+    LTE      shift, and go to state 79
+    GTE      shift, and go to state 80
+
+
+State 69
+
+   20 statement: PRINT expression SEMICOLON .
+
+    $default  reduce using rule 20 (statement)
+
+
+State 70
+
+   37 integerexpression: expression ADD . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 91
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 71
+
+   38 integerexpression: expression SUB . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 92
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 72
+
+   39 integerexpression: expression MULT . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 93
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 73
+
+   40 integerexpression: expression DIV . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 94
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 74
+
+   41 integerexpression: expression MOD . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 95
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 75
+
+   43 booleanexpression: expression EQ . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 96
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 76
+
+   44 booleanexpression: expression NEQ . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 97
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 77
+
+   45 booleanexpression: expression LT . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 98
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 78
+
+   46 booleanexpression: expression GT . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 99
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 79
+
+   47 booleanexpression: expression LTE . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 100
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 80
+
+   48 booleanexpression: expression GTE . expression
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 101
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 81
+
+   28 return_statement: RETURN expression SEMICOLON .
+
+    $default  reduce using rule 28 (return_statement)
+
+
+State 82
+
+   11 statements: statement SEMICOLON statements .
+
+    $default  reduce using rule 11 (statements)
+
+
+State 83
+
+   52 function_call: IDENTIFIER L_PAREN params R_PAREN .
+
+    $default  reduce using rule 52 (function_call)
+
+
+State 84
+
+   54 params: param COMMA . params
+
+    INTEGER     shift, and go to state 56
+    IDENTIFIER  shift, and go to state 57
+
+    $default  reduce using rule 53 (params)
+
+    params  go to state 102
+    param   go to state 59
+
+
+State 85
+
+   30 assign_statement: IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET . ASSIGN expression SEMICOLON
+   31                 | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET . ASSIGN ARRAYFILL INTEGER SEMICOLON
+
+    ASSIGN  shift, and go to state 103
+
+
+State 86
+
+   29 assign_statement: IDENTIFIER ASSIGN expression SEMICOLON .
+
+    $default  reduce using rule 29 (assign_statement)
+
+
+State 87
+
+   22 if_statement: IF L_PAREN booleanexpression R_PAREN . LBRACE statements LBRACE
+   23             | IF L_PAREN booleanexpression R_PAREN . LBRACE statements LBRACE else_statement
+
+    LBRACE  shift, and go to state 104
+
+
+State 88
+
+   26 while_statement: WHILE L_PAREN booleanexpression R_PAREN . LBRACE statements RBRACE
+
+    LBRACE  shift, and go to state 105
+
+
+State 89
+
+   34 expression: integerexpression .
+   50 arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression . R_SQUARE_BRACKET
+
+    R_SQUARE_BRACKET  shift, and go to state 106
+
+    $default  reduce using rule 34 (expression)
+
+
+State 90
+
+   42 integerexpression: L_PAREN expression R_PAREN .
+
+    $default  reduce using rule 42 (integerexpression)
+
+
+State 91
+
+   37 integerexpression: expression . ADD expression
+   37                  | expression ADD expression .
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 37 (integerexpression)]
+    SUB       [reduce using rule 37 (integerexpression)]
+    MULT      [reduce using rule 37 (integerexpression)]
+    DIV       [reduce using rule 37 (integerexpression)]
+    MOD       [reduce using rule 37 (integerexpression)]
+    EQ        [reduce using rule 37 (integerexpression)]
+    NEQ       [reduce using rule 37 (integerexpression)]
+    LT        [reduce using rule 37 (integerexpression)]
+    GT        [reduce using rule 37 (integerexpression)]
+    LTE       [reduce using rule 37 (integerexpression)]
+    GTE       [reduce using rule 37 (integerexpression)]
+    $default  reduce using rule 37 (integerexpression)
+
+
+State 92
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   38                  | expression SUB expression .
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 38 (integerexpression)]
+    SUB       [reduce using rule 38 (integerexpression)]
+    MULT      [reduce using rule 38 (integerexpression)]
+    DIV       [reduce using rule 38 (integerexpression)]
+    MOD       [reduce using rule 38 (integerexpression)]
+    EQ        [reduce using rule 38 (integerexpression)]
+    NEQ       [reduce using rule 38 (integerexpression)]
+    LT        [reduce using rule 38 (integerexpression)]
+    GT        [reduce using rule 38 (integerexpression)]
+    LTE       [reduce using rule 38 (integerexpression)]
+    GTE       [reduce using rule 38 (integerexpression)]
+    $default  reduce using rule 38 (integerexpression)
+
+
+State 93
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   39                  | expression MULT expression .
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 39 (integerexpression)]
+    SUB       [reduce using rule 39 (integerexpression)]
+    MULT      [reduce using rule 39 (integerexpression)]
+    DIV       [reduce using rule 39 (integerexpression)]
+    MOD       [reduce using rule 39 (integerexpression)]
+    EQ        [reduce using rule 39 (integerexpression)]
+    NEQ       [reduce using rule 39 (integerexpression)]
+    LT        [reduce using rule 39 (integerexpression)]
+    GT        [reduce using rule 39 (integerexpression)]
+    LTE       [reduce using rule 39 (integerexpression)]
+    GTE       [reduce using rule 39 (integerexpression)]
+    $default  reduce using rule 39 (integerexpression)
+
+
+State 94
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   40                  | expression DIV expression .
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 40 (integerexpression)]
+    SUB       [reduce using rule 40 (integerexpression)]
+    MULT      [reduce using rule 40 (integerexpression)]
+    DIV       [reduce using rule 40 (integerexpression)]
+    MOD       [reduce using rule 40 (integerexpression)]
+    EQ        [reduce using rule 40 (integerexpression)]
+    NEQ       [reduce using rule 40 (integerexpression)]
+    LT        [reduce using rule 40 (integerexpression)]
+    GT        [reduce using rule 40 (integerexpression)]
+    LTE       [reduce using rule 40 (integerexpression)]
+    GTE       [reduce using rule 40 (integerexpression)]
+    $default  reduce using rule 40 (integerexpression)
+
+
+State 95
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   41                  | expression MOD expression .
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 41 (integerexpression)]
+    SUB       [reduce using rule 41 (integerexpression)]
+    MULT      [reduce using rule 41 (integerexpression)]
+    DIV       [reduce using rule 41 (integerexpression)]
+    MOD       [reduce using rule 41 (integerexpression)]
+    EQ        [reduce using rule 41 (integerexpression)]
+    NEQ       [reduce using rule 41 (integerexpression)]
+    LT        [reduce using rule 41 (integerexpression)]
+    GT        [reduce using rule 41 (integerexpression)]
+    LTE       [reduce using rule 41 (integerexpression)]
+    GTE       [reduce using rule 41 (integerexpression)]
+    $default  reduce using rule 41 (integerexpression)
+
+
+State 96
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   43                  | expression EQ expression .
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 43 (booleanexpression)]
+    SUB       [reduce using rule 43 (booleanexpression)]
+    MULT      [reduce using rule 43 (booleanexpression)]
+    DIV       [reduce using rule 43 (booleanexpression)]
+    MOD       [reduce using rule 43 (booleanexpression)]
+    EQ        [reduce using rule 43 (booleanexpression)]
+    NEQ       [reduce using rule 43 (booleanexpression)]
+    LT        [reduce using rule 43 (booleanexpression)]
+    GT        [reduce using rule 43 (booleanexpression)]
+    LTE       [reduce using rule 43 (booleanexpression)]
+    GTE       [reduce using rule 43 (booleanexpression)]
+    $default  reduce using rule 43 (booleanexpression)
+
+
+State 97
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   44                  | expression NEQ expression .
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 44 (booleanexpression)]
+    SUB       [reduce using rule 44 (booleanexpression)]
+    MULT      [reduce using rule 44 (booleanexpression)]
+    DIV       [reduce using rule 44 (booleanexpression)]
+    MOD       [reduce using rule 44 (booleanexpression)]
+    EQ        [reduce using rule 44 (booleanexpression)]
+    NEQ       [reduce using rule 44 (booleanexpression)]
+    LT        [reduce using rule 44 (booleanexpression)]
+    GT        [reduce using rule 44 (booleanexpression)]
+    LTE       [reduce using rule 44 (booleanexpression)]
+    GTE       [reduce using rule 44 (booleanexpression)]
+    $default  reduce using rule 44 (booleanexpression)
+
+
+State 98
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   45                  | expression LT expression .
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 45 (booleanexpression)]
+    SUB       [reduce using rule 45 (booleanexpression)]
+    MULT      [reduce using rule 45 (booleanexpression)]
+    DIV       [reduce using rule 45 (booleanexpression)]
+    MOD       [reduce using rule 45 (booleanexpression)]
+    EQ        [reduce using rule 45 (booleanexpression)]
+    NEQ       [reduce using rule 45 (booleanexpression)]
+    LT        [reduce using rule 45 (booleanexpression)]
+    GT        [reduce using rule 45 (booleanexpression)]
+    LTE       [reduce using rule 45 (booleanexpression)]
+    GTE       [reduce using rule 45 (booleanexpression)]
+    $default  reduce using rule 45 (booleanexpression)
+
+
+State 99
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   46                  | expression GT expression .
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 46 (booleanexpression)]
+    SUB       [reduce using rule 46 (booleanexpression)]
+    MULT      [reduce using rule 46 (booleanexpression)]
+    DIV       [reduce using rule 46 (booleanexpression)]
+    MOD       [reduce using rule 46 (booleanexpression)]
+    EQ        [reduce using rule 46 (booleanexpression)]
+    NEQ       [reduce using rule 46 (booleanexpression)]
+    LT        [reduce using rule 46 (booleanexpression)]
+    GT        [reduce using rule 46 (booleanexpression)]
+    LTE       [reduce using rule 46 (booleanexpression)]
+    GTE       [reduce using rule 46 (booleanexpression)]
+    $default  reduce using rule 46 (booleanexpression)
+
+
+State 100
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   47                  | expression LTE expression .
+   48                  | expression . GTE expression
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 47 (booleanexpression)]
+    SUB       [reduce using rule 47 (booleanexpression)]
+    MULT      [reduce using rule 47 (booleanexpression)]
+    DIV       [reduce using rule 47 (booleanexpression)]
+    MOD       [reduce using rule 47 (booleanexpression)]
+    EQ        [reduce using rule 47 (booleanexpression)]
+    NEQ       [reduce using rule 47 (booleanexpression)]
+    LT        [reduce using rule 47 (booleanexpression)]
+    GT        [reduce using rule 47 (booleanexpression)]
+    LTE       [reduce using rule 47 (booleanexpression)]
+    GTE       [reduce using rule 47 (booleanexpression)]
+    $default  reduce using rule 47 (booleanexpression)
+
+
+State 101
+
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+   48                  | expression GTE expression .
+
+    ADD   shift, and go to state 70
+    SUB   shift, and go to state 71
+    MULT  shift, and go to state 72
+    DIV   shift, and go to state 73
+    MOD   shift, and go to state 74
+    EQ    shift, and go to state 75
+    NEQ   shift, and go to state 76
+    LT    shift, and go to state 77
+    GT    shift, and go to state 78
+    LTE   shift, and go to state 79
+    GTE   shift, and go to state 80
+
+    ADD       [reduce using rule 48 (booleanexpression)]
+    SUB       [reduce using rule 48 (booleanexpression)]
+    MULT      [reduce using rule 48 (booleanexpression)]
+    DIV       [reduce using rule 48 (booleanexpression)]
+    MOD       [reduce using rule 48 (booleanexpression)]
+    EQ        [reduce using rule 48 (booleanexpression)]
+    NEQ       [reduce using rule 48 (booleanexpression)]
+    LT        [reduce using rule 48 (booleanexpression)]
+    GT        [reduce using rule 48 (booleanexpression)]
+    LTE       [reduce using rule 48 (booleanexpression)]
+    GTE       [reduce using rule 48 (booleanexpression)]
+    $default  reduce using rule 48 (booleanexpression)
+
+
+State 102
+
+   54 params: param COMMA params .
+
+    $default  reduce using rule 54 (params)
+
+
+State 103
+
+   30 assign_statement: IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN . expression SEMICOLON
+   31                 | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN . ARRAYFILL INTEGER SEMICOLON
+
+    INTEGER     shift, and go to state 43
+    IDENTIFIER  shift, and go to state 44
+    ARRAYFILL   shift, and go to state 107
+    NOT         shift, and go to state 45
+    L_PAREN     shift, and go to state 46
+
+    expression         go to state 108
+    integerexpression  go to state 48
+    booleanexpression  go to state 49
+    arrayexpression    go to state 50
+
+
+State 104
+
+   22 if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE . statements LBRACE
+   23             | IF L_PAREN booleanexpression R_PAREN LBRACE . statements LBRACE else_statement
+
+    INTEGER     shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    IF          shift, and go to state 19
+    WHILE       shift, and go to state 20
+    CONTINUE    shift, and go to state 21
+    BREAK       shift, and go to state 22
+    GET         shift, and go to state 23
+    PRINT       shift, and go to state 24
+    RETURN      shift, and go to state 25
+
+    $default  reduce using rule 10 (statements)
+
+    statements        go to state 109
+    statement         go to state 27
+    if_statement      go to state 28
+    while_statement   go to state 29
+    return_statement  go to state 30
+    assign_statement  go to state 31
+    declaration       go to state 32
+    function_call     go to state 33
+
+
+State 105
+
+   26 while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE . statements RBRACE
+
+    INTEGER     shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    IF          shift, and go to state 19
+    WHILE       shift, and go to state 20
+    CONTINUE    shift, and go to state 21
+    BREAK       shift, and go to state 22
+    GET         shift, and go to state 23
+    PRINT       shift, and go to state 24
+    RETURN      shift, and go to state 25
+
+    $default  reduce using rule 10 (statements)
+
+    statements        go to state 110
+    statement         go to state 27
+    if_statement      go to state 28
+    while_statement   go to state 29
+    return_statement  go to state 30
+    assign_statement  go to state 31
+    declaration       go to state 32
+    function_call     go to state 33
+
+
+State 106
+
+   50 arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET .
+
+    $default  reduce using rule 50 (arrayexpression)
+
+
+State 107
+
+   31 assign_statement: IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN ARRAYFILL . INTEGER SEMICOLON
+
+    INTEGER  shift, and go to state 111
+
+
+State 108
+
+   30 assign_statement: IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression . SEMICOLON
+   37 integerexpression: expression . ADD expression
+   38                  | expression . SUB expression
+   39                  | expression . MULT expression
+   40                  | expression . DIV expression
+   41                  | expression . MOD expression
+   43 booleanexpression: expression . EQ expression
+   44                  | expression . NEQ expression
+   45                  | expression . LT expression
+   46                  | expression . GT expression
+   47                  | expression . LTE expression
+   48                  | expression . GTE expression
+
+    SEMICOLON  shift, and go to state 112
+    ADD        shift, and go to state 70
+    SUB        shift, and go to state 71
+    MULT       shift, and go to state 72
+    DIV        shift, and go to state 73
+    MOD        shift, and go to state 74
+    EQ         shift, and go to state 75
+    NEQ        shift, and go to state 76
+    LT         shift, and go to state 77
+    GT         shift, and go to state 78
+    LTE        shift, and go to state 79
+    GTE        shift, and go to state 80
+
+
+State 109
+
+   22 if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements . LBRACE
+   23             | IF L_PAREN booleanexpression R_PAREN LBRACE statements . LBRACE else_statement
+
+    LBRACE  shift, and go to state 113
+
+
+State 110
+
+   26 while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements . RBRACE
+
+    RBRACE  shift, and go to state 114
+
+
+State 111
+
+   31 assign_statement: IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER . SEMICOLON
+
+    SEMICOLON  shift, and go to state 115
+
+
+State 112
+
+   30 assign_statement: IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression SEMICOLON .
+
+    $default  reduce using rule 30 (assign_statement)
+
+
+State 113
+
+   22 if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE .
+   23             | IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE . else_statement
+
+    ELSE  shift, and go to state 116
+
+    $default  reduce using rule 22 (if_statement)
+
+    else_statement  go to state 117
+
+
+State 114
+
+   26 while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE .
+
+    $default  reduce using rule 26 (while_statement)
+
+
+State 115
+
+   31 assign_statement: IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN ARRAYFILL INTEGER SEMICOLON .
+
+    $default  reduce using rule 31 (assign_statement)
+
+
+State 116
+
+   24 else_statement: ELSE . LBRACE statements RBRACE
+   25               | ELSE . if_statement
+
+    IF      shift, and go to state 19
+    LBRACE  shift, and go to state 118
+
+    if_statement  go to state 119
+
+
+State 117
+
+   23 if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE else_statement .
+
+    $default  reduce using rule 23 (if_statement)
+
+
+State 118
+
+   24 else_statement: ELSE LBRACE . statements RBRACE
+
+    INTEGER     shift, and go to state 17
+    IDENTIFIER  shift, and go to state 18
+    IF          shift, and go to state 19
+    WHILE       shift, and go to state 20
+    CONTINUE    shift, and go to state 21
+    BREAK       shift, and go to state 22
+    GET         shift, and go to state 23
+    PRINT       shift, and go to state 24
+    RETURN      shift, and go to state 25
+
+    $default  reduce using rule 10 (statements)
+
+    statements        go to state 120
+    statement         go to state 27
+    if_statement      go to state 28
+    while_statement   go to state 29
+    return_statement  go to state 30
+    assign_statement  go to state 31
+    declaration       go to state 32
+    function_call     go to state 33
+
+
+State 119
+
+   25 else_statement: ELSE if_statement .
+
+    $default  reduce using rule 25 (else_statement)
+
+
+State 120
+
+   24 else_statement: ELSE LBRACE statements . RBRACE
+
+    RBRACE  shift, and go to state 121
+
+
+State 121
+
+   24 else_statement: ELSE LBRACE statements RBRACE .
+
+    $default  reduce using rule 24 (else_statement)
