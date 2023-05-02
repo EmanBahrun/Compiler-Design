@@ -1,2 +1,4 @@
 src/a.out
 output.txt
+bison_output.txt
+lex_output.txt

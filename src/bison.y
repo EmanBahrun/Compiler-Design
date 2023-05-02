@@ -1,6 +1,7 @@
 %{
     #include <stdio.h>
     extern FILE* yyin;
+    void yyerror(char const *msg);
 %}
 %token INTEGER IDENTIFIER FUNCTION ARRAY ARRAYFILL IF ELESE WHILE CONTINUE BREAK GET PRINT NOT TRUE FALSE RETURN SEMICOLON COLON COMMA L_PAREN R_PAREN L_SQUARE_BRACKET R_SQUARE_BRACKET ASSIGN LBRACE RBRACE ADD SUB MULT DIV MOD EQ NEQ LT GT LTE GTE INTEGERVAR ELSE
 %start prog_start
@@ -21,6 +22,7 @@ arguments: %empty
          | argument {printf("arguments -> argument\n");}
          ;
 argument: INTEGERVAR IDENTIFIER {printf("argument->INTEGERVAR IDENTIFIER\n");}
+         | %empty {printf("prog_start -> epsilon\n");}
         ;
 
 
@@ -87,23 +89,20 @@ param: INTEGER {printf("param -> INTEGER\n");}
      ;
 
 %%
+void main(int argc, char** argv){
+	if(argc >= 2){
+		yyin = fopen(argv[1], "r");
+		if(yyin == NULL)
+			yyin = stdin;
+	}else{
+		yyin = stdin;
+	}
+	yyparse();
+}
 
-
-int main(int argc, char** argv) {
-    FILE* yyin = stdin;
-    if (argc >= 2) {
-        printf("Opening %s...\n", argv[1]);
-        yyin = fopen(argv[1], "r");
-        if (yyin == NULL) {
-            printf("Error: could not open file %s.\n", argv[1]);
-        }
-        else {
-            printf("File opened successfully.\n");
-        }
-    }
-    else {
-        printf("No input file provided, reading from standard input...\n");
-    }
-    yyparse();
-    return 0;
+/* Called by yyparse on error. */
+void
+yyerror (char const *s)
+{
+	  fprintf (stderr, "%s\n", s);
 }
