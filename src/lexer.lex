@@ -49,7 +49,7 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 "="	{ return ASSIGN;}
 "{"	{ return LBRACE;}
 "}"	{ return RBRACE;}
-"\n" {character_count = 0; }
+"\n" {character_count = 0;}
 
 {INTEGER}+ { return INTEGER; }
 {BADIDENTIFIERONE} { printf("**ERROR. Cannot start with numbers for indentifier '%s' at line %d, column %d \n", yytext, yylineno, character_count);}

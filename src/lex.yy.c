@@ -1006,7 +1006,7 @@ case 36:
 /* rule 36 can match eol */
 YY_RULE_SETUP
 #line 52 "lexer.lex"
-{character_count = 0; }
+{character_count = 0;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP

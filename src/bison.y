@@ -3,6 +3,7 @@
     extern FILE* yyin;
     void yyerror(char const *msg);
     #define YYERROR_VERBOSE 1
+    extern int yylineno;
 %}
 %token INTEGER IDENTIFIER FUNCTION ARRAY ARRAYFILL IF ELESE WHILE CONTINUE BREAK GET PRINT NOT TRUE FALSE RETURN SEMICOLON COLON COMMA L_PAREN R_PAREN L_SQUARE_BRACKET R_SQUARE_BRACKET ASSIGN LBRACE RBRACE ADD SUB MULT DIV MOD EQ NEQ LT GT LTE GTE INTEGERVAR ELSE
 %start prog_start
@@ -27,17 +28,17 @@ argument: INTEGERVAR IDENTIFIER {printf("argument->INTEGERVAR IDENTIFIER\n");}
         ;
 
 statements: %empty {printf("statements -> epsilon\n" );}
-          | statement SEMICOLON statements {printf("statements -> statement SEMICOLON statements\n");}
-statement: declaration
-         | function_call
+          | statement statements {printf("statements -> statement SEMICOLON statements\n");}
+statement: declaration SEMICOLON
+         | function_call SEMICOLON
          | if_statement
          | while_statement
-         | return_statement
-         | assign_statement
-         | CONTINUE {printf("statement -> CONTINUE\n");}
-         | BREAK {printf("statement -> BREAK\n");}
-         | PRINT expression {printf("statement -> PRINT expression\n");}
-         | GET IDENTIFIER {printf("statement -> GET IDENTIFIER\n" );}
+         | return_statement SEMICOLON
+         | assign_statement SEMICOLON
+         | CONTINUE SEMICOLON {printf("statement -> CONTINUE\n");}
+         | BREAK SEMICOLON {printf("statement -> BREAK\n");}
+         | PRINT expression SEMICOLON {printf("statement -> PRINT expression\n");}
+         | GET IDENTIFIER SEMICOLON {printf("statement -> GET IDENTIFIER\n" );}
          ;
 declaration: INTEGERVAR IDENTIFIER ASSIGN integerexpression {printf("declaration -> INTEGER IDENTIFIER\n");}
              | INTEGERVAR IDENTIFIER {printf("declaration -> INTEGER IDENTIFIER\n");}
@@ -47,17 +48,17 @@ function_call: IDENTIFIER L_PAREN params R_PAREN {printf("function_call -> IDENT
              ;
 params: %empty {printf("params -> epsilon\n");}
         | param COMMA params {printf("params -> param COMMA params\n");}
+        | param {printf("params -> param\n");}
         ;
 param: INTEGER {printf("param -> INTEGER\n");}
      | IDENTIFIER {printf("param -> IDENTIFIER\n");}
      ;
 
      
-if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements\n");}
-            | IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE else_statement {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements LBRACE else_statement\n");}
+if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN RBRACE statements\n");}
+            | IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement\n");}
             ;
 else_statement: ELSE LBRACE statements RBRACE {printf("else_statement -> ELSE LBRACE statements RBRACE\n");}
-              | ELSE if_statement {printf("else_statement -> ELSE if_statement\n");}
               ;
 while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printf("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
      ;
@@ -80,6 +81,7 @@ integerexpression: INTEGER {printf("integerexpression -> INTEGER\n" );}
             | expression DIV expression {printf("integerexpression -> expression DIV expression\n");}
             | expression MOD expression {printf("integerexpression ->  expression MOD expression\n");}
             | L_PAREN expression R_PAREN {printf("integerexpression -> L_PAREN expression R_PAREN\n");}
+            | function_call {printf("integerexpression -> function_call\n");}
             ;
 booleanexpression: expression EQ expression {printf("booleanexpression -> expression EQ expression\n");}
           | expression NEQ expression {printf("booleanexpression -> expression NEQ expression\n");}
@@ -110,5 +112,5 @@ void main(int argc, char** argv){
 void
 yyerror (char const *s)
 {
-	  fprintf (stderr, "Error: %s\n", s);
+	  fprintf (stderr, "Error: %s at line: %d \n", s, yylineno);
 }

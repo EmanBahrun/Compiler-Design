@@ -13,6 +13,6 @@ function main() {
     Integer dd = 0;
     print cc; # should print 150
 
-    dd = mult(cc, aa + bb);
+    dd = mult(cc, bb);
     print dd; # should print "22500", since 22500 = 150 * 150;
 }
