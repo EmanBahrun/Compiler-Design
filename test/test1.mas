@@ -1,0 +1,6 @@
+function mult(Integer aa, Integer bb) {
+        return aa * bb;
+}
+function main() {
+        return mult(2, 3);
+}

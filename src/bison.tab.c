@@ -64,11 +64,25 @@
 /* Copy the first part of user declarations.  */
 #line 1 "bison.y" /* yacc.c:339  */
 
-     #include<stdio.h>
-     #include<string>
-     #include<vector>
-     #include<string.h>
-     #include<stdlib.h>
+     #include <stdio.h>
+     #include <string>
+     #include <vector>
+     #include <string.h>
+     #include <stdlib.h>
+     #include <stdio.h>
+     #include <stdlib.h>
+     #include <sstream>
+
+     namespace patch
+    {
+        template < typename T > std::string to_string( const T& n )
+        {
+            std::ostringstream stm ;
+            stm << n ;
+            return stm.str() ;
+        }
+    }
+
 
      extern FILE * yyin;
      extern int yylex(void);
@@ -78,6 +92,7 @@
      char * indentifierToken;
      int numberToken;
      int count_names = 0;
+     static int temp_count = 0;
 
      enum Type {
        Integer,
@@ -95,6 +110,7 @@
      };
 
      std::vector < Function > symbol_table;
+     char numbers[5] = {'0', '1', '2', '3', '4',};
 
      // remember that Bison is a bottom up parser: that it parses leaf nodes first before
      // parsing the parent nodes. So control flow begins at the leaf grammar nodes
@@ -157,12 +173,33 @@
        printf("--------------------\n");
      }
 
+     bool has_main() {
+      bool has_main_b = false;
+      for (int i = 0; i < symbol_table.size(); i++) {
+        Function * f = & symbol_table[i];
+        if (f->name == "main") {
+          has_main_b = true;
+        }
+      }
+      return has_main_b;
+     }
+
+     void printer(const char* h) {
+        return;
+     }
+
+     std::string create_temp() {
+        std::string temp = "_t" + patch::to_string(temp_count);
+        temp_count++;
+        return temp;
+     }
+
      struct CodeNode {
        std::string code; // generated code as a string.
        std::string name;
      };
 
-#line 166 "bison.tab.c" /* yacc.c:339  */
+#line 203 "bison.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -243,12 +280,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 102 "bison.y" /* yacc.c:355  */
+#line 139 "bison.y" /* yacc.c:355  */
 
   char *op_val;
   struct CodeNode *node;
 
-#line 252 "bison.tab.c" /* yacc.c:355  */
+#line 289 "bison.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -265,7 +302,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 269 "bison.tab.c" /* yacc.c:358  */
+#line 306 "bison.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -566,12 +603,12 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   132,   132,   139,   145,   155,   179,   181,   189,   197,
-     207,   208,   209,   210,   211,   212,   213,   214,   215,   216,
-     217,   218,   220,   221,   222,   224,   226,   227,   228,   230,
-     231,   235,   236,   238,   240,   242,   243,   245,   246,   248,
-     249,   250,   251,   253,   254,   255,   256,   257,   258,   259,
-     260,   262,   263,   264,   265,   266,   267,   268,   270,   284
+       0,   169,   169,   180,   186,   196,   219,   221,   229,   237,
+     248,   252,   256,   257,   258,   259,   260,   261,   262,   263,
+     264,   265,   267,   268,   269,   271,   273,   274,   275,   277,
+     278,   282,   283,   285,   287,   289,   290,   292,   293,   295,
+     296,   297,   298,   300,   301,   302,   303,   304,   305,   306,
+     307,   309,   310,   311,   312,   313,   314,   315,   317,   331
 };
 #endif
 
@@ -1429,27 +1466,31 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 132 "bison.y" /* yacc.c:1646  */
+#line 169 "bison.y" /* yacc.c:1646  */
     {
     CodeNode *node = (yyvsp[0].node);
     std::string code = node->code;
+    if (!has_main()) {
+      printf("Error: No main function found\n");
+      exit(1);
+    }
     printf("Generated code:\n");
     printf("%s\n", code.c_str());
 }
-#line 1440 "bison.tab.c" /* yacc.c:1646  */
+#line 1481 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 140 "bison.y" /* yacc.c:1646  */
+#line 181 "bison.y" /* yacc.c:1646  */
     { 
     CodeNode *node = new CodeNode;
     (yyval.node) = node;
 }
-#line 1449 "bison.tab.c" /* yacc.c:1646  */
+#line 1490 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 145 "bison.y" /* yacc.c:1646  */
+#line 186 "bison.y" /* yacc.c:1646  */
     {
     CodeNode *func  = (yyvsp[-1].node);
     CodeNode *funcs = (yyvsp[0].node);
@@ -1459,11 +1500,11 @@ yyreduce:
     node->code = code;
     (yyval.node) = node;
 }
-#line 1463 "bison.tab.c" /* yacc.c:1646  */
+#line 1504 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 156 "bison.y" /* yacc.c:1646  */
+#line 197 "bison.y" /* yacc.c:1646  */
     {
             std::string func_name = (yyvsp[-6].op_val);
             CodeNode *arguments = (yyvsp[-4].node);
@@ -1472,14 +1513,13 @@ yyreduce:
             int num_args = 0;
             for (int i = 0; i < arguments->code.size(); i++) {
                 if (arguments->code[i] == '@') {
-                    code += num_args;
+                    code += patch::to_string(num_args);
                     num_args++;
                 }
                 else {
                   code += arguments->code[i];
                 }
             }
-            code += arguments->code;
             code += statements->code;
             code += std::string("endfunc\n");
 
@@ -1487,17 +1527,17 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
            }
-#line 1491 "bison.tab.c" /* yacc.c:1646  */
+#line 1531 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 180 "bison.y" /* yacc.c:1646  */
+#line 220 "bison.y" /* yacc.c:1646  */
     { CodeNode *node = new CodeNode; (yyval.node) = node;}
-#line 1497 "bison.tab.c" /* yacc.c:1646  */
+#line 1537 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 181 "bison.y" /* yacc.c:1646  */
+#line 221 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *arg = (yyvsp[-2].node);
             CodeNode *args = (yyvsp[0].node);
@@ -1506,11 +1546,11 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
          }
-#line 1510 "bison.tab.c" /* yacc.c:1646  */
+#line 1550 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 189 "bison.y" /* yacc.c:1646  */
+#line 229 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *arg = (yyvsp[0].node);
             std::string code = arg->code;
@@ -1518,292 +1558,299 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
          }
-#line 1522 "bison.tab.c" /* yacc.c:1646  */
+#line 1562 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 197 "bison.y" /* yacc.c:1646  */
+#line 237 "bison.y" /* yacc.c:1646  */
     {
             std::string var_name = (yyvsp[0].op_val);
             // @ is a special token that we will use in functin above.
-            std::string code = var_name + std::string(" $@") + var_name + std::string("\n");
+            std::string code = std::string(". ") + var_name + std::string("\n");
+            std::string code2 = std::string("= ") + var_name + std::string(", $@\n");
             CodeNode *node = new CodeNode;
-            node->code = code;
+            node->code = code + code2;
             (yyval.node) = node;
          }
-#line 1535 "bison.tab.c" /* yacc.c:1646  */
+#line 1576 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 207 "bison.y" /* yacc.c:1646  */
-    {printf("statements -> epsilon\n" );}
-#line 1541 "bison.tab.c" /* yacc.c:1646  */
+#line 248 "bison.y" /* yacc.c:1646  */
+    {
+            CodeNode *node = new CodeNode;
+            (yyval.node) = node;
+          }
+#line 1585 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 208 "bison.y" /* yacc.c:1646  */
-    {printf("statements -> statement SEMICOLON statements\n");}
-#line 1547 "bison.tab.c" /* yacc.c:1646  */
+#line 252 "bison.y" /* yacc.c:1646  */
+    {
+            CodeNode *node = new CodeNode;
+            (yyval.node) = node;
+          }
+#line 1594 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 215 "bison.y" /* yacc.c:1646  */
-    {printf("statement -> CONTINUE\n");}
-#line 1553 "bison.tab.c" /* yacc.c:1646  */
+#line 262 "bison.y" /* yacc.c:1646  */
+    {printer("statement -> CONTINUE\n");}
+#line 1600 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 216 "bison.y" /* yacc.c:1646  */
-    {printf("statement -> BREAK\n");}
-#line 1559 "bison.tab.c" /* yacc.c:1646  */
+#line 263 "bison.y" /* yacc.c:1646  */
+    {printer("statement -> BREAK\n");}
+#line 1606 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 217 "bison.y" /* yacc.c:1646  */
-    {printf("statement -> PRINT expression\n");}
-#line 1565 "bison.tab.c" /* yacc.c:1646  */
+#line 264 "bison.y" /* yacc.c:1646  */
+    {printer("statement -> PRINT expression\n");}
+#line 1612 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 218 "bison.y" /* yacc.c:1646  */
-    {printf("statement -> GET IDENTIFIER\n" );}
-#line 1571 "bison.tab.c" /* yacc.c:1646  */
+#line 265 "bison.y" /* yacc.c:1646  */
+    {printer("statement -> GET IDENTIFIER\n" );}
+#line 1618 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 220 "bison.y" /* yacc.c:1646  */
-    {printf("declaration -> INTEGER IDENTIFIER\n");}
-#line 1577 "bison.tab.c" /* yacc.c:1646  */
+#line 267 "bison.y" /* yacc.c:1646  */
+    {printer("declaration -> INTEGER IDENTIFIER\n");}
+#line 1624 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 221 "bison.y" /* yacc.c:1646  */
-    {printf("declaration -> INTEGER IDENTIFIER\n");}
-#line 1583 "bison.tab.c" /* yacc.c:1646  */
+#line 268 "bison.y" /* yacc.c:1646  */
+    {printer("declaration -> INTEGER IDENTIFIER\n");}
+#line 1630 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 222 "bison.y" /* yacc.c:1646  */
-    {printf("declaration -> ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET\n");}
-#line 1589 "bison.tab.c" /* yacc.c:1646  */
+#line 269 "bison.y" /* yacc.c:1646  */
+    {printer("declaration -> ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET\n");}
+#line 1636 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 224 "bison.y" /* yacc.c:1646  */
-    {printf("function_call -> IDENTIFIER L_PAREN params R_PAREN\n");}
-#line 1595 "bison.tab.c" /* yacc.c:1646  */
+#line 271 "bison.y" /* yacc.c:1646  */
+    {printer("function_call -> IDENTIFIER L_PAREN params R_PAREN\n");}
+#line 1642 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 226 "bison.y" /* yacc.c:1646  */
-    {printf("params -> epsilon\n");}
-#line 1601 "bison.tab.c" /* yacc.c:1646  */
+#line 273 "bison.y" /* yacc.c:1646  */
+    {printer("params -> epsilon\n");}
+#line 1648 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 227 "bison.y" /* yacc.c:1646  */
-    {printf("params -> param COMMA params\n");}
-#line 1607 "bison.tab.c" /* yacc.c:1646  */
+#line 274 "bison.y" /* yacc.c:1646  */
+    {printer("params -> param COMMA params\n");}
+#line 1654 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 228 "bison.y" /* yacc.c:1646  */
-    {printf("params -> param\n");}
-#line 1613 "bison.tab.c" /* yacc.c:1646  */
+#line 275 "bison.y" /* yacc.c:1646  */
+    {printer("params -> param\n");}
+#line 1660 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 230 "bison.y" /* yacc.c:1646  */
-    {printf("param -> INTEGER\n");}
-#line 1619 "bison.tab.c" /* yacc.c:1646  */
+#line 277 "bison.y" /* yacc.c:1646  */
+    {printer("param -> INTEGER\n");}
+#line 1666 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 231 "bison.y" /* yacc.c:1646  */
-    {printf("param -> IDENTIFIER\n");}
-#line 1625 "bison.tab.c" /* yacc.c:1646  */
+#line 278 "bison.y" /* yacc.c:1646  */
+    {printer("param -> IDENTIFIER\n");}
+#line 1672 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 235 "bison.y" /* yacc.c:1646  */
-    {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN RBRACE statements\n");}
-#line 1631 "bison.tab.c" /* yacc.c:1646  */
+#line 282 "bison.y" /* yacc.c:1646  */
+    {printer("if_statement -> IF L_PAREN booleanexpression R_PAREN RBRACE statements\n");}
+#line 1678 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 236 "bison.y" /* yacc.c:1646  */
-    {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement\n");}
-#line 1637 "bison.tab.c" /* yacc.c:1646  */
+#line 283 "bison.y" /* yacc.c:1646  */
+    {printer("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement\n");}
+#line 1684 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 238 "bison.y" /* yacc.c:1646  */
-    {printf("else_statement -> ELSE LBRACE statements RBRACE\n");}
-#line 1643 "bison.tab.c" /* yacc.c:1646  */
+#line 285 "bison.y" /* yacc.c:1646  */
+    {printer("else_statement -> ELSE LBRACE statements RBRACE\n");}
+#line 1690 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 240 "bison.y" /* yacc.c:1646  */
-    {printf("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
-#line 1649 "bison.tab.c" /* yacc.c:1646  */
+#line 287 "bison.y" /* yacc.c:1646  */
+    {printer("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
+#line 1696 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 242 "bison.y" /* yacc.c:1646  */
-    {printf("return_statement -> RETURN \n");}
-#line 1655 "bison.tab.c" /* yacc.c:1646  */
+#line 289 "bison.y" /* yacc.c:1646  */
+    {printer("return_statement -> RETURN \n");}
+#line 1702 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 243 "bison.y" /* yacc.c:1646  */
-    {printf("return_statement -> RETURN expression \n");}
-#line 1661 "bison.tab.c" /* yacc.c:1646  */
+#line 290 "bison.y" /* yacc.c:1646  */
+    {printer("return_statement -> RETURN expression \n");}
+#line 1708 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 245 "bison.y" /* yacc.c:1646  */
-    {printf("assign_statement ->IDENTIFIER ASSIGN expression \n");}
-#line 1667 "bison.tab.c" /* yacc.c:1646  */
+#line 292 "bison.y" /* yacc.c:1646  */
+    {printer("assign_statement ->IDENTIFIER ASSIGN expression \n");}
+#line 1714 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 246 "bison.y" /* yacc.c:1646  */
-    {printf("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression \n" );}
-#line 1673 "bison.tab.c" /* yacc.c:1646  */
+#line 293 "bison.y" /* yacc.c:1646  */
+    {printer("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression \n" );}
+#line 1720 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 248 "bison.y" /* yacc.c:1646  */
-    {printf("expression -> IDENTIFIER\n");}
-#line 1679 "bison.tab.c" /* yacc.c:1646  */
+#line 295 "bison.y" /* yacc.c:1646  */
+    {printer("expression -> IDENTIFIER\n");}
+#line 1726 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 249 "bison.y" /* yacc.c:1646  */
-    {printf("expression -> integerexpression\n");}
-#line 1685 "bison.tab.c" /* yacc.c:1646  */
+#line 296 "bison.y" /* yacc.c:1646  */
+    {printer("expression -> integerexpression\n");}
+#line 1732 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 250 "bison.y" /* yacc.c:1646  */
-    {printf("expression ->booleanexpression\n");}
-#line 1691 "bison.tab.c" /* yacc.c:1646  */
+#line 297 "bison.y" /* yacc.c:1646  */
+    {printer("expression ->booleanexpression\n");}
+#line 1738 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 251 "bison.y" /* yacc.c:1646  */
-    {printf("expression -> arrayexpression\n");}
-#line 1697 "bison.tab.c" /* yacc.c:1646  */
+#line 298 "bison.y" /* yacc.c:1646  */
+    {printer("expression -> arrayexpression\n");}
+#line 1744 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 253 "bison.y" /* yacc.c:1646  */
-    {printf("integerexpression -> INTEGER\n" );}
-#line 1703 "bison.tab.c" /* yacc.c:1646  */
+#line 300 "bison.y" /* yacc.c:1646  */
+    {printer("integerexpression -> INTEGER\n" );}
+#line 1750 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 254 "bison.y" /* yacc.c:1646  */
-    {printf("integerexpression -> expression ADD expression\n");}
-#line 1709 "bison.tab.c" /* yacc.c:1646  */
+#line 301 "bison.y" /* yacc.c:1646  */
+    {printer("integerexpression -> expression ADD expression\n");}
+#line 1756 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 255 "bison.y" /* yacc.c:1646  */
-    {printf("integerexpression -> expression SUB expression\n" );}
-#line 1715 "bison.tab.c" /* yacc.c:1646  */
+#line 302 "bison.y" /* yacc.c:1646  */
+    {printer("integerexpression -> expression SUB expression\n" );}
+#line 1762 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 256 "bison.y" /* yacc.c:1646  */
-    {printf("integerexpression -> expression MULT expression\n");}
-#line 1721 "bison.tab.c" /* yacc.c:1646  */
+#line 303 "bison.y" /* yacc.c:1646  */
+    {printer("integerexpression -> expression MULT expression\n");}
+#line 1768 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 257 "bison.y" /* yacc.c:1646  */
-    {printf("integerexpression -> expression DIV expression\n");}
-#line 1727 "bison.tab.c" /* yacc.c:1646  */
+#line 304 "bison.y" /* yacc.c:1646  */
+    {printer("integerexpression -> expression DIV expression\n");}
+#line 1774 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 258 "bison.y" /* yacc.c:1646  */
-    {printf("integerexpression ->  expression MOD expression\n");}
-#line 1733 "bison.tab.c" /* yacc.c:1646  */
+#line 305 "bison.y" /* yacc.c:1646  */
+    {printer("integerexpression ->  expression MOD expression\n");}
+#line 1780 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 259 "bison.y" /* yacc.c:1646  */
-    {printf("integerexpression -> L_PAREN expression R_PAREN\n");}
-#line 1739 "bison.tab.c" /* yacc.c:1646  */
+#line 306 "bison.y" /* yacc.c:1646  */
+    {printer("integerexpression -> L_PAREN expression R_PAREN\n");}
+#line 1786 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 260 "bison.y" /* yacc.c:1646  */
-    {printf("integerexpression -> function_call\n");}
-#line 1745 "bison.tab.c" /* yacc.c:1646  */
+#line 307 "bison.y" /* yacc.c:1646  */
+    {printer("integerexpression -> function_call\n");}
+#line 1792 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 262 "bison.y" /* yacc.c:1646  */
-    {printf("booleanexpression -> expression EQ expression\n");}
-#line 1751 "bison.tab.c" /* yacc.c:1646  */
+#line 309 "bison.y" /* yacc.c:1646  */
+    {printer("booleanexpression -> expression EQ expression\n");}
+#line 1798 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 263 "bison.y" /* yacc.c:1646  */
-    {printf("booleanexpression -> expression NEQ expression\n");}
-#line 1757 "bison.tab.c" /* yacc.c:1646  */
+#line 310 "bison.y" /* yacc.c:1646  */
+    {printer("booleanexpression -> expression NEQ expression\n");}
+#line 1804 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 264 "bison.y" /* yacc.c:1646  */
-    {printf("booleanexpression -> expression LT expression\n");}
-#line 1763 "bison.tab.c" /* yacc.c:1646  */
+#line 311 "bison.y" /* yacc.c:1646  */
+    {printer("booleanexpression -> expression LT expression\n");}
+#line 1810 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 265 "bison.y" /* yacc.c:1646  */
-    {printf("booleanexpression -> expression GT expression\n");}
-#line 1769 "bison.tab.c" /* yacc.c:1646  */
+#line 312 "bison.y" /* yacc.c:1646  */
+    {printer("booleanexpression -> expression GT expression\n");}
+#line 1816 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 266 "bison.y" /* yacc.c:1646  */
-    {printf("booleanexpression -> expression LTE expression\n");}
-#line 1775 "bison.tab.c" /* yacc.c:1646  */
+#line 313 "bison.y" /* yacc.c:1646  */
+    {printer("booleanexpression -> expression LTE expression\n");}
+#line 1822 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 267 "bison.y" /* yacc.c:1646  */
-    {printf("booleanexpression -> expression GTE expression\n");}
-#line 1781 "bison.tab.c" /* yacc.c:1646  */
+#line 314 "bison.y" /* yacc.c:1646  */
+    {printer("booleanexpression -> expression GTE expression\n");}
+#line 1828 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 268 "bison.y" /* yacc.c:1646  */
-    {printf("booleanexpression -> NOT expression\n");}
-#line 1787 "bison.tab.c" /* yacc.c:1646  */
+#line 315 "bison.y" /* yacc.c:1646  */
+    {printer("booleanexpression -> NOT expression\n");}
+#line 1834 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 270 "bison.y" /* yacc.c:1646  */
-    {printf("arrayexpression ->  IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET\n");}
-#line 1793 "bison.tab.c" /* yacc.c:1646  */
+#line 317 "bison.y" /* yacc.c:1646  */
+    {printer("arrayexpression ->  IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET\n");}
+#line 1840 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 284 "bison.y" /* yacc.c:1646  */
+#line 331 "bison.y" /* yacc.c:1646  */
     {
   std::string func_name = (yyvsp[0].op_val);
   add_function_to_symbol_table(func_name);
   (yyval.op_val) = (yyvsp[0].op_val);
 }
-#line 1803 "bison.tab.c" /* yacc.c:1646  */
+#line 1850 "bison.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1807 "bison.tab.c" /* yacc.c:1646  */
+#line 1854 "bison.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2031,7 +2078,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 290 "bison.y" /* yacc.c:1906  */
+#line 337 "bison.y" /* yacc.c:1906  */
 
 
 

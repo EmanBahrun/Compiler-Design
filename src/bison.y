@@ -1,9 +1,23 @@
 %{
-     #include<stdio.h>
-     #include<string>
-     #include<vector>
-     #include<string.h>
-     #include<stdlib.h>
+     #include <stdio.h>
+     #include <string>
+     #include <vector>
+     #include <string.h>
+     #include <stdlib.h>
+     #include <stdio.h>
+     #include <stdlib.h>
+     #include <sstream>
+
+     namespace patch
+    {
+        template < typename T > std::string to_string( const T& n )
+        {
+            std::ostringstream stm ;
+            stm << n ;
+            return stm.str() ;
+        }
+    }
+
 
      extern FILE * yyin;
      extern int yylex(void);
@@ -13,6 +27,7 @@
      char * indentifierToken;
      int numberToken;
      int count_names = 0;
+     static int temp_count = 0;
 
      enum Type {
        Integer,
@@ -30,6 +45,7 @@
      };
 
      std::vector < Function > symbol_table;
+     char numbers[5] = {'0', '1', '2', '3', '4',};
 
      // remember that Bison is a bottom up parser: that it parses leaf nodes first before
      // parsing the parent nodes. So control flow begins at the leaf grammar nodes
@@ -92,6 +108,27 @@
        printf("--------------------\n");
      }
 
+     bool has_main() {
+      bool has_main_b = false;
+      for (int i = 0; i < symbol_table.size(); i++) {
+        Function * f = & symbol_table[i];
+        if (f->name == "main") {
+          has_main_b = true;
+        }
+      }
+      return has_main_b;
+     }
+
+     void printer(const char* h) {
+        return;
+     }
+
+     std::string create_temp() {
+        std::string temp = "_t" + patch::to_string(temp_count);
+        temp_count++;
+        return temp;
+     }
+
      struct CodeNode {
        std::string code; // generated code as a string.
        std::string name;
@@ -132,6 +169,10 @@ prog_start:
 functions {
     CodeNode *node = $1;
     std::string code = node->code;
+    if (!has_main()) {
+      printf("Error: No main function found\n");
+      exit(1);
+    }
     printf("Generated code:\n");
     printf("%s\n", code.c_str());
 };
@@ -161,14 +202,13 @@ function:  FUNCTION function_indentifier L_PAREN arguments R_PAREN LBRACE statem
             int num_args = 0;
             for (int i = 0; i < arguments->code.size(); i++) {
                 if (arguments->code[i] == '@') {
-                    code += num_args;
+                    code += patch::to_string(num_args);
                     num_args++;
                 }
                 else {
                   code += arguments->code[i];
                 }
             }
-            code += arguments->code;
             code += statements->code;
             code += std::string("endfunc\n");
 
@@ -197,77 +237,84 @@ arguments: %empty
 argument: INTEGERVAR IDENTIFIER {
             std::string var_name = $2;
             // @ is a special token that we will use in functin above.
-            std::string code = var_name + std::string(" $@") + var_name + std::string("\n");
+            std::string code = std::string(". ") + var_name + std::string("\n");
+            std::string code2 = std::string("= ") + var_name + std::string(", $@\n");
             CodeNode *node = new CodeNode;
-            node->code = code;
+            node->code = code + code2;
             $$ = node;
          }
          ;
 
-statements: %empty {printf("statements -> epsilon\n" );}
-          | statement statements {printf("statements -> statement SEMICOLON statements\n");}
+statements: %empty {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+          }
+          | statement statements {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+          }
 statement: declaration SEMICOLON
          | function_call SEMICOLON
          | if_statement
          | while_statement
          | return_statement SEMICOLON
          | assign_statement SEMICOLON
-         | CONTINUE SEMICOLON {printf("statement -> CONTINUE\n");}
-         | BREAK SEMICOLON {printf("statement -> BREAK\n");}
-         | PRINT expression SEMICOLON {printf("statement -> PRINT expression\n");}
-         | GET IDENTIFIER SEMICOLON {printf("statement -> GET IDENTIFIER\n" );}
+         | CONTINUE SEMICOLON {printer("statement -> CONTINUE\n");}
+         | BREAK SEMICOLON {printer("statement -> BREAK\n");}
+         | PRINT expression SEMICOLON {printer("statement -> PRINT expression\n");}
+         | GET IDENTIFIER SEMICOLON {printer("statement -> GET IDENTIFIER\n" );}
          ;
-declaration: INTEGERVAR IDENTIFIER ASSIGN integerexpression {printf("declaration -> INTEGER IDENTIFIER\n");}
-             | INTEGERVAR IDENTIFIER {printf("declaration -> INTEGER IDENTIFIER\n");}
-             | ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET {printf("declaration -> ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET\n");}
+declaration: INTEGERVAR IDENTIFIER ASSIGN integerexpression {printer("declaration -> INTEGER IDENTIFIER\n");}
+             | INTEGERVAR IDENTIFIER {printer("declaration -> INTEGER IDENTIFIER\n");}
+             | ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET {printer("declaration -> ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET\n");}
            ;
-function_call: IDENTIFIER L_PAREN params R_PAREN {printf("function_call -> IDENTIFIER L_PAREN params R_PAREN\n");}
+function_call: IDENTIFIER L_PAREN params R_PAREN {printer("function_call -> IDENTIFIER L_PAREN params R_PAREN\n");}
              ;
-params: %empty {printf("params -> epsilon\n");}
-        | param COMMA params {printf("params -> param COMMA params\n");}
-        | param {printf("params -> param\n");}
+params: %empty {printer("params -> epsilon\n");}
+        | param COMMA params {printer("params -> param COMMA params\n");}
+        | param {printer("params -> param\n");}
         ;
-param: INTEGER {printf("param -> INTEGER\n");}
-     | IDENTIFIER {printf("param -> IDENTIFIER\n");}
+param: INTEGER {printer("param -> INTEGER\n");}
+     | IDENTIFIER {printer("param -> IDENTIFIER\n");}
      ;
 
      
-if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN RBRACE statements\n");}
-            | IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement\n");}
+if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printer("if_statement -> IF L_PAREN booleanexpression R_PAREN RBRACE statements\n");}
+            | IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement {printer("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement\n");}
             ;
-else_statement: ELSE LBRACE statements RBRACE {printf("else_statement -> ELSE LBRACE statements RBRACE\n");}
+else_statement: ELSE LBRACE statements RBRACE {printer("else_statement -> ELSE LBRACE statements RBRACE\n");}
               ;
-while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printf("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
+while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printer("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
      ;
-return_statement: RETURN {printf("return_statement -> RETURN \n");}
-                | RETURN expression {printf("return_statement -> RETURN expression \n");}
+return_statement: RETURN {printer("return_statement -> RETURN \n");}
+                | RETURN expression {printer("return_statement -> RETURN expression \n");}
                 ;
-assign_statement: IDENTIFIER ASSIGN expression {printf("assign_statement ->IDENTIFIER ASSIGN expression \n");}
-                | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression  {printf("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression \n" );}
+assign_statement: IDENTIFIER ASSIGN expression {printer("assign_statement ->IDENTIFIER ASSIGN expression \n");}
+                | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression  {printer("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression \n" );}
                 ;
-expression: IDENTIFIER {printf("expression -> IDENTIFIER\n");}
-          | integerexpression {printf("expression -> integerexpression\n");}
-          | booleanexpression {printf("expression ->booleanexpression\n");}
-          | arrayexpression {printf("expression -> arrayexpression\n");}
+expression: IDENTIFIER {printer("expression -> IDENTIFIER\n");}
+          | integerexpression {printer("expression -> integerexpression\n");}
+          | booleanexpression {printer("expression ->booleanexpression\n");}
+          | arrayexpression {printer("expression -> arrayexpression\n");}
           ;
-integerexpression: INTEGER {printf("integerexpression -> INTEGER\n" );}
-            | expression ADD expression {printf("integerexpression -> expression ADD expression\n");}
-            | expression SUB expression {printf("integerexpression -> expression SUB expression\n" );}
-            | expression MULT expression {printf("integerexpression -> expression MULT expression\n");}
-            | expression DIV expression {printf("integerexpression -> expression DIV expression\n");}
-            | expression MOD expression {printf("integerexpression ->  expression MOD expression\n");}
-            | L_PAREN expression R_PAREN {printf("integerexpression -> L_PAREN expression R_PAREN\n");}
-            | function_call {printf("integerexpression -> function_call\n");}
+integerexpression: INTEGER {printer("integerexpression -> INTEGER\n" );}
+            | expression ADD expression {printer("integerexpression -> expression ADD expression\n");}
+            | expression SUB expression {printer("integerexpression -> expression SUB expression\n" );}
+            | expression MULT expression {printer("integerexpression -> expression MULT expression\n");}
+            | expression DIV expression {printer("integerexpression -> expression DIV expression\n");}
+            | expression MOD expression {printer("integerexpression ->  expression MOD expression\n");}
+            | L_PAREN expression R_PAREN {printer("integerexpression -> L_PAREN expression R_PAREN\n");}
+            | function_call {printer("integerexpression -> function_call\n");}
             ;
-booleanexpression: expression EQ expression {printf("booleanexpression -> expression EQ expression\n");}
-          | expression NEQ expression {printf("booleanexpression -> expression NEQ expression\n");}
-          | expression LT expression {printf("booleanexpression -> expression LT expression\n");}
-          | expression GT expression {printf("booleanexpression -> expression GT expression\n");}
-          | expression LTE expression {printf("booleanexpression -> expression LTE expression\n");}
-          | expression GTE expression {printf("booleanexpression -> expression GTE expression\n");}
-          | NOT expression {printf("booleanexpression -> NOT expression\n");}
+booleanexpression: expression EQ expression {printer("booleanexpression -> expression EQ expression\n");}
+          | expression NEQ expression {printer("booleanexpression -> expression NEQ expression\n");}
+          | expression LT expression {printer("booleanexpression -> expression LT expression\n");}
+          | expression GT expression {printer("booleanexpression -> expression GT expression\n");}
+          | expression LTE expression {printer("booleanexpression -> expression LTE expression\n");}
+          | expression GTE expression {printer("booleanexpression -> expression GTE expression\n");}
+          | NOT expression {printer("booleanexpression -> NOT expression\n");}
           ;
-arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET {printf("arrayexpression ->  IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET\n");}
+arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET {printer("arrayexpression ->  IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET\n");}
                ;
 
 

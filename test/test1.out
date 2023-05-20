@@ -1,0 +1,10 @@
+Generated code:
+func mult
+. aa
+= aa, $0
+. bb
+= bb, $1
+endfunc
+func main
+endfunc
+
