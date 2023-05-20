@@ -1,22 +1,21 @@
+%option yylineno
+%option noyywrap
 %{
-    // C code here.
-    #include <stdio.h>
-    #include "y.tab.h"
+    #include <string.h>
     #include "bison.tab.h"
+
     int current_character = 0;
     int current_line = 1;
-
-    extern char *identToken;
-   extern int numberToken;
+    extern char *indentifierToken;
+    extern int numberToken;
 %}
-%option yylineno
 
 
 INTEGER [0-9]
 IDENTIFIER [a-zA-Z][a-zA-Z_0-9]+
 BADIDENTIFIERONE [0-9][a-zA-Z][a-zA-Z_0-9]+
 COMMENT #.*\n
-ARRAYLENGTH \.\.\.[1-9][0-9]+
+ARRAYLENGTH \.\.\.
 %%
 
 "function"	{ current_character += yyleng; return FUNCTION;}
@@ -56,11 +55,25 @@ ARRAYLENGTH \.\.\.[1-9][0-9]+
 "}"	{ current_character += yyleng; return RBRACE;}
 "\n" {current_character = 0; current_line++;}
 
-{INTEGER}+ { return INTEGER; }
+{INTEGER}+ { 
+    current_character += yyleng;
+    char * token = new char[yyleng];
+    strcpy(token, yytext);
+    yylval.op_val = token;
+    numberToken = atoi(yytext);
+    return INTEGER; 
+}
 {BADIDENTIFIERONE} { printf("**ERROR. Cannot start with numbers for indentifier '%s' at line %d, column %d \n", yytext, yylineno, current_character); exit(0);}
-{IDENTIFIER}+ { return IDENTIFIER; }
-{COMMENT}+ {}
-{ARRAYLENGTH}+ { return ARRAYFILL; }
+{IDENTIFIER}+ { 
+    current_character += yyleng; 
+    char * token = new char[yyleng];
+    strcpy(token, yytext);
+    yylval.op_val = token;
+    indentifierToken = yytext; 
+    return IDENTIFIER; 
+}
+{COMMENT}+ { current_character += yyleng; }
+{ARRAYLENGTH}+ { current_character += yyleng; return ARRAYFILL; }
 " "  {current_character += yyleng;}
 .    { printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, current_character); exit(0);}
 %%

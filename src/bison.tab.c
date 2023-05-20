@@ -64,107 +64,106 @@
 /* Copy the first part of user declarations.  */
 #line 1 "bison.y" /* yacc.c:339  */
 
+     // To setup bison, you need to observe the way this Bison File
+     // is setup, as well as observe the way the corresponding Flex File
+     // is setup.
 
-// To setup bison, you need to observe the way this Bison File
-// is setup, as well as observe the way the corresponding Flex File
-// is setup.
+     #include<stdio.h>
+     #include<string>
+     #include<vector>
+     #include<string.h>
+     #include<stdlib.h>
 
-#include<stdio.h>
-#include<string>
-#include<vector>
-#include<string.h>
-#include<stdlib.h>
+     extern FILE* yyin;
+     extern int yylex(void);
+     void yyerror(const char *msg);
+     extern int current_line;
 
-extern int yylex(void);
-void yyerror(const char *msg);
-extern int currLine;
+     char *indentifierToken;
+     int numberToken;
+     int count_names = 0;
 
-char *identToken;
-int numberToken;
-int  count_names = 0;
+     enum Type { Integer, Array };
 
-enum Type { Integer, Array };
+     struct Symbol {
+     std::string name;
+     Type type;
+     };
 
-struct Symbol {
-  std::string name;
-  Type type;
-};
+     struct Function {
+     std::string name;
+     std::vector<Symbol> declarations;
+     };
 
-struct Function {
-  std::string name;
-  std::vector<Symbol> declarations;
-};
+     std::vector <Function> symbol_table;
 
-std::vector <Function> symbol_table;
+     // remember that Bison is a bottom up parser: that it parses leaf nodes first before
+     // parsing the parent nodes. So control flow begins at the leaf grammar nodes
+     // and propagates up to the parents.
+     Function *get_function() {
+     int last = symbol_table.size()-1;
+     if (last < 0) {
+     printf("***Error. Attempt to call get_function with an empty symbol table\n");
+     printf("Create a 'Function' object using 'add_function_to_symbol_table' before\n");
+     printf("calling 'find' or 'add_variable_to_symbol_table'");
+     exit(1);
+     }
+     return &symbol_table[last];
+     }
 
-// remember that Bison is a bottom up parser: that it parses leaf nodes first before
-// parsing the parent nodes. So control flow begins at the leaf grammar nodes
-// and propagates up to the parents.
-Function *get_function() {
-  int last = symbol_table.size()-1;
-  if (last < 0) {
-    printf("***Error. Attempt to call get_function with an empty symbol table\n");
-    printf("Create a 'Function' object using 'add_function_to_symbol_table' before\n");
-    printf("calling 'find' or 'add_variable_to_symbol_table'");
-    exit(1);
-  }
-  return &symbol_table[last];
-}
+     // find a particular variable using the symbol table.
+     // grab the most recent function, and linear search to
+     // find the symbol you are looking for.
+     // you may want to extend "find" to handle different types of "Integer" vs "Array"
+     bool find(std::string &value) {
+     Function *f = get_function();
+     for(int i=0; i < f->declarations.size(); i++) {
+     Symbol *s = &f->declarations[i];
+     if (s->name == value) {
+          return true;
+     }
+     }
+     return false;
+     }
 
-// find a particular variable using the symbol table.
-// grab the most recent function, and linear search to
-// find the symbol you are looking for.
-// you may want to extend "find" to handle different types of "Integer" vs "Array"
-bool find(std::string &value) {
-  Function *f = get_function();
-  for(int i=0; i < f->declarations.size(); i++) {
-    Symbol *s = &f->declarations[i];
-    if (s->name == value) {
-      return true;
-    }
-  }
-  return false;
-}
+     // when you see a function declaration inside the grammar, add
+     // the function name to the symbol table
+     void add_function_to_symbol_table(std::string &value) {
+     Function f; 
+     f.name = value; 
+     symbol_table.push_back(f);
+     }
 
-// when you see a function declaration inside the grammar, add
-// the function name to the symbol table
-void add_function_to_symbol_table(std::string &value) {
-  Function f; 
-  f.name = value; 
-  symbol_table.push_back(f);
-}
+     // when you see a symbol declaration inside the grammar, add
+     // the symbol name as well as some type information to the symbol table
+     void add_variable_to_symbol_table(std::string &value, Type t) {
+     Symbol s;
+     s.name = value;
+     s.type = t;
+     Function *f = get_function();
+     f->declarations.push_back(s);
+     }
 
-// when you see a symbol declaration inside the grammar, add
-// the symbol name as well as some type information to the symbol table
-void add_variable_to_symbol_table(std::string &value, Type t) {
-  Symbol s;
-  s.name = value;
-  s.type = t;
-  Function *f = get_function();
-  f->declarations.push_back(s);
-}
+     // a function to print out the symbol table to the screen
+     // largely for debugging purposes.
+     void print_symbol_table(void) {
+     printf("symbol table:\n");
+     printf("--------------------\n");
+     for(int i=0; i<symbol_table.size(); i++) {
+     printf("function: %s\n", symbol_table[i].name.c_str());
+     for(int j=0; j<symbol_table[i].declarations.size(); j++) {
+          printf("  locals: %s\n", symbol_table[i].declarations[j].name.c_str());
+     }
+     }
+     printf("--------------------\n");
+     }
 
-// a function to print out the symbol table to the screen
-// largely for debugging purposes.
-void print_symbol_table(void) {
-  printf("symbol table:\n");
-  printf("--------------------\n");
-  for(int i=0; i<symbol_table.size(); i++) {
-    printf("function: %s\n", symbol_table[i].name.c_str());
-    for(int j=0; j<symbol_table[i].declarations.size(); j++) {
-      printf("  locals: %s\n", symbol_table[i].declarations[j].name.c_str());
-    }
-  }
-  printf("--------------------\n");
-}
+     struct CodeNode {
+     std::string code; // generated code as a string.
+     std::string name;
+     };
 
-struct CodeNode {
-    std::string code; // generated code as a string.
-    std::string name;
-};
-
-
-#line 168 "bison.tab.c" /* yacc.c:339  */
+#line 167 "bison.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -199,26 +198,45 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    BEGIN_PARAMS = 258,
-    END_PARAMS = 259,
-    BEGIN_LOCALS = 260,
-    END_LOCALS = 261,
-    BEGIN_BODY = 262,
-    END_BODY = 263,
-    FUNCTION = 264,
-    INTEGER = 265,
-    WRITE = 266,
-    SUB = 267,
-    ADD = 268,
-    MULT = 269,
-    DIV = 270,
-    MOD = 271,
-    SEMICOLON = 272,
-    COLON = 273,
-    COMMA = 274,
-    ASSIGN = 275,
-    NUMBER = 276,
-    IDENT = 277
+    INTEGER = 258,
+    IDENTIFIER = 259,
+    FUNCTION = 260,
+    ARRAY = 261,
+    ARRAYFILL = 262,
+    IF = 263,
+    ELESE = 264,
+    WHILE = 265,
+    CONTINUE = 266,
+    BREAK = 267,
+    GET = 268,
+    PRINT = 269,
+    NOT = 270,
+    TRUE = 271,
+    FALSE = 272,
+    RETURN = 273,
+    SEMICOLON = 274,
+    COLON = 275,
+    COMMA = 276,
+    L_PAREN = 277,
+    R_PAREN = 278,
+    L_SQUARE_BRACKET = 279,
+    R_SQUARE_BRACKET = 280,
+    ASSIGN = 281,
+    LBRACE = 282,
+    RBRACE = 283,
+    ADD = 284,
+    SUB = 285,
+    MULT = 286,
+    DIV = 287,
+    MOD = 288,
+    EQ = 289,
+    NEQ = 290,
+    LT = 291,
+    GT = 292,
+    LTE = 293,
+    GTE = 294,
+    INTEGERVAR = 295,
+    ELSE = 296
   };
 #endif
 
@@ -227,12 +245,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 104 "bison.y" /* yacc.c:355  */
+#line 103 "bison.y" /* yacc.c:355  */
 
   char *op_val;
   struct CodeNode *node;
 
-#line 236 "bison.tab.c" /* yacc.c:355  */
+#line 254 "bison.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -249,7 +267,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 253 "bison.tab.c" /* yacc.c:358  */
+#line 271 "bison.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -489,23 +507,23 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  7
+#define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   35
+#define YYLAST   146
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  23
+#define YYNTOKENS  42
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  10
+#define YYNNTS  21
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  20
+#define YYNRULES  60
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  45
+#define YYNSTATES  126
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   277
+#define YYMAXUTOK   296
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -541,16 +559,22 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
+      35,    36,    37,    38,    39,    40,    41
 };
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint16 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,   129,   129,   139,   144,   154,   174,   182,   187,   198,
-     214,   218,   228,   240,   243,   246,   249,   253,   271,   283,
-     287
+       0,   115,   115,   116,   119,   120,   122,   124,   126,   127,
+     129,   130,   133,   134,   135,   136,   137,   138,   139,   140,
+     141,   142,   143,   144,   146,   147,   148,   150,   152,   153,
+     154,   156,   157,   161,   162,   164,   166,   168,   169,   171,
+     172,   174,   175,   176,   177,   179,   180,   181,   182,   183,
+     184,   185,   186,   188,   189,   190,   191,   192,   193,   194,
+     196
 };
 #endif
 
@@ -559,12 +583,17 @@ static const yytype_uint16 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "BEGIN_PARAMS", "END_PARAMS",
-  "BEGIN_LOCALS", "END_LOCALS", "BEGIN_BODY", "END_BODY", "FUNCTION",
-  "INTEGER", "WRITE", "SUB", "ADD", "MULT", "DIV", "MOD", "SEMICOLON",
-  "COLON", "COMMA", "ASSIGN", "NUMBER", "IDENT", "$accept", "prog_start",
-  "functions", "function", "function_ident", "declarations", "declaration",
-  "statements", "statement", "symbol", YY_NULLPTR
+  "$end", "error", "$undefined", "INTEGER", "IDENTIFIER", "FUNCTION",
+  "ARRAY", "ARRAYFILL", "IF", "ELESE", "WHILE", "CONTINUE", "BREAK", "GET",
+  "PRINT", "NOT", "TRUE", "FALSE", "RETURN", "SEMICOLON", "COLON", "COMMA",
+  "L_PAREN", "R_PAREN", "L_SQUARE_BRACKET", "R_SQUARE_BRACKET", "ASSIGN",
+  "LBRACE", "RBRACE", "ADD", "SUB", "MULT", "DIV", "MOD", "EQ", "NEQ",
+  "LT", "GT", "LTE", "GTE", "INTEGERVAR", "ELSE", "$accept", "prog_start",
+  "functions", "function", "arguments", "argument", "statements",
+  "statement", "declaration", "function_call", "params", "param",
+  "if_statement", "else_statement", "while_statement", "return_statement",
+  "assign_statement", "expression", "integerexpression",
+  "booleanexpression", "arrayexpression", YY_NULLPTR
 };
 #endif
 
@@ -575,16 +604,18 @@ static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277
+     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
+     285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
+     295,   296
 };
 # endif
 
-#define YYPACT_NINF -24
+#define YYPACT_NINF -65
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-24)))
+  (!!((Yystate) == (-65)))
 
-#define YYTABLE_NINF -1
+#define YYTABLE_NINF -25
 
 #define yytable_value_is_error(Yytable_value) \
   0
@@ -593,11 +624,19 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -8,   -14,    10,   -24,    -8,   -24,     2,   -24,   -24,    17,
-      -1,     4,    19,     7,    15,    21,    -1,   -24,    -1,   -24,
-      22,    20,   -11,     8,     9,    23,    16,   -24,    -4,   -24,
-     -11,   -24,   -24,   -10,   -24,    -4,    -4,    -4,    -4,    -4,
-     -24,   -24,   -24,   -24,   -24
+      -4,    11,    22,   -65,    -4,     2,   -65,   -65,   -19,    26,
+       9,    13,   -65,    15,   -19,    27,   -65,   -12,    32,    21,
+      24,    25,    28,    44,     3,     3,    46,    23,    27,    30,
+      33,   -65,   -65,    34,    35,    16,     3,     3,    29,     3,
+       3,   -65,   -65,    50,   -65,   -13,     3,     3,   -65,    80,
+     -65,   -65,   -65,   106,    47,   -65,   -65,   -65,   -65,   -65,
+     -65,   -65,   -65,    48,    49,    95,   106,    61,   106,    65,
+      67,   -65,     3,   106,    45,   -65,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,   -65,    16,
+      66,    84,    68,    73,    69,   -65,   106,   106,   106,   106,
+     106,   106,   106,   106,   106,   106,   106,    53,   -65,     3,
+      90,    27,    27,   -65,   106,    76,    74,    75,   -65,    63,
+     -65,    78,   -65,    27,    79,   -65
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -605,69 +644,119 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     0,     0,     2,     3,     6,     0,     1,     4,     0,
-       7,     0,     0,     0,     0,     0,     7,     9,     7,     8,
-       0,     0,     0,     0,     0,     0,     0,    18,     0,     5,
-      10,    20,    19,    17,    11,     0,     0,     0,     0,     0,
-      13,    12,    14,    15,    16
+       2,     0,     0,     3,     4,     0,     1,     5,     7,     0,
+       0,     9,    10,     0,     7,    12,     8,     0,     0,     0,
+       0,     0,     0,     0,     0,    37,     0,     0,    12,     0,
+       0,    16,    17,     0,     0,    28,     0,     0,     0,     0,
+       0,    20,    21,     0,    45,    41,     0,     0,    52,     0,
+      42,    43,    44,    38,    25,     6,    13,    14,    15,    18,
+      19,    31,    32,     0,    30,     0,    39,     0,     0,    43,
+      43,    23,     0,    59,     0,    22,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,    27,    28,
+       0,     0,     0,     0,    42,    51,    46,    47,    48,    49,
+      50,    53,    54,    55,    56,    57,    58,    42,    29,     0,
+       0,    12,    12,    60,    40,     0,     0,     0,    26,    33,
+      36,     0,    34,    12,     0,    35
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -24,   -24,    28,   -24,   -24,    -9,   -24,     5,   -24,   -23
+     -65,   -65,   102,   -65,   107,   -65,   -25,   -65,   -65,   -15,
+      57,   -65,   -65,   -65,   -65,   -65,   -65,   -20,   -64,   -11,
+     -65
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,     4,     6,    12,    13,    25,    26,    33
+      -1,     2,     3,     4,    10,    11,    27,    28,    29,    48,
+      63,    64,    31,   122,    32,    33,    34,    68,    50,    51,
+      52
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_uint8 yytable[] =
+static const yytype_int8 yytable[] =
 {
-      23,     1,    35,    36,    37,    38,    39,    19,     5,    20,
-       7,    24,    40,    41,    42,    43,    44,    31,    32,     9,
-      10,    11,    14,    15,    16,    17,    18,    22,    21,    28,
-      27,    29,     8,    30,     0,    34
+      30,     1,   -11,    56,    49,    53,    44,    45,    94,    35,
+      35,    72,    36,    30,    37,     5,    65,    66,    46,    61,
+      62,     9,     6,   107,     8,    47,    73,    74,    69,    70,
+      12,    17,    13,    18,    14,    19,    38,    20,    21,    22,
+      23,    24,    15,    39,    41,    25,    40,    42,    43,    57,
+      54,    55,    58,    59,    60,    67,    96,    97,    98,    99,
+     100,   101,   102,   103,   104,   105,   106,    26,    95,    71,
+      89,    88,   -24,    87,    76,    77,    78,    79,    80,    81,
+      82,    83,    84,    85,    86,    91,   116,   117,    92,   114,
+      93,   110,   109,   115,   113,   111,    30,    30,   124,    75,
+     112,   118,   119,   120,   121,   123,     7,   125,    30,    76,
+      77,    78,    79,    80,    81,    82,    83,    84,    85,    86,
+      90,    16,     0,     0,    76,    77,    78,    79,    80,    81,
+      82,    83,    84,    85,    86,    76,    77,    78,    79,    80,
+      81,    82,    83,    84,    85,    86,   108
 };
 
 static const yytype_int8 yycheck[] =
 {
-      11,     9,    12,    13,    14,    15,    16,    16,    22,    18,
-       0,    22,    35,    36,    37,    38,    39,    21,    22,    17,
-       3,    22,    18,     4,    17,    10,     5,     7,     6,    20,
-      22,     8,     4,    17,    -1,    30
+      15,     5,    21,    28,    24,    25,     3,     4,    72,    22,
+      22,    24,    24,    28,    26,     4,    36,    37,    15,     3,
+       4,    40,     0,    87,    22,    22,    46,    47,    39,    40,
+       4,     4,    23,     6,    21,     8,     4,    10,    11,    12,
+      13,    14,    27,    22,    19,    18,    22,    19,     4,    19,
+       4,    28,    19,    19,    19,    26,    76,    77,    78,    79,
+      80,    81,    82,    83,    84,    85,    86,    40,    23,    19,
+      21,    23,    19,    26,    29,    30,    31,    32,    33,    34,
+      35,    36,    37,    38,    39,    24,   111,   112,    23,   109,
+      23,     7,    26,     3,    25,    27,   111,   112,   123,    19,
+      27,    25,    28,    28,    41,    27,     4,    28,   123,    29,
+      30,    31,    32,    33,    34,    35,    36,    37,    38,    39,
+      25,    14,    -1,    -1,    29,    30,    31,    32,    33,    34,
+      35,    36,    37,    38,    39,    29,    30,    31,    32,    33,
+      34,    35,    36,    37,    38,    39,    89
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     9,    24,    25,    26,    22,    27,     0,    25,    17,
-       3,    22,    28,    29,    18,     4,    17,    10,     5,    28,
-      28,     6,     7,    11,    22,    30,    31,    22,    20,     8,
-      17,    21,    22,    32,    30,    12,    13,    14,    15,    16,
-      32,    32,    32,    32,    32
+       0,     5,    43,    44,    45,     4,     0,    44,    22,    40,
+      46,    47,     4,    23,    21,    27,    46,     4,     6,     8,
+      10,    11,    12,    13,    14,    18,    40,    48,    49,    50,
+      51,    54,    56,    57,    58,    22,    24,    26,     4,    22,
+      22,    19,    19,     4,     3,     4,    15,    22,    51,    59,
+      60,    61,    62,    59,     4,    28,    48,    19,    19,    19,
+      19,     3,     4,    52,    53,    59,    59,    26,    59,    61,
+      61,    19,    24,    59,    59,    19,    29,    30,    31,    32,
+      33,    34,    35,    36,    37,    38,    39,    26,    23,    21,
+      25,    24,    23,    23,    60,    23,    59,    59,    59,    59,
+      59,    59,    59,    59,    59,    59,    59,    60,    52,    26,
+       7,    27,    27,    25,    59,     3,    48,    48,    25,    28,
+      28,    41,    55,    27,    48,    28
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    23,    24,    25,    25,    26,    27,    28,    28,    29,
-      30,    30,    31,    31,    31,    31,    31,    31,    31,    32,
-      32
+       0,    42,    43,    43,    44,    44,    45,    46,    46,    46,
+      47,    47,    48,    48,    49,    49,    49,    49,    49,    49,
+      49,    49,    49,    49,    50,    50,    50,    51,    52,    52,
+      52,    53,    53,    54,    54,    55,    56,    57,    57,    58,
+      58,    59,    59,    59,    59,    60,    60,    60,    60,    60,
+      60,    60,    60,    61,    61,    61,    61,    61,    61,    61,
+      62
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     0,     2,    12,     1,     0,     3,     3,
-       2,     3,     5,     5,     5,     5,     5,     3,     2,     1,
-       1
+       0,     2,     0,     1,     1,     2,     8,     0,     3,     1,
+       2,     0,     0,     2,     2,     2,     1,     1,     2,     2,
+       2,     2,     3,     3,     4,     2,     7,     4,     0,     3,
+       1,     1,     1,     7,     8,     4,     7,     1,     2,     3,
+       6,     1,     1,     1,     1,     1,     3,     3,     3,     3,
+       3,     3,     1,     3,     3,     3,     3,     3,     3,     2,
+       4
 };
 
 
@@ -1344,226 +1433,325 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 130 "bison.y" /* yacc.c:1646  */
-    {
-    // this happens last.
-    CodeNode *node = (yyvsp[0].node);
-    std::string code = node->code;
-    printf("Generated code:\n");
-    printf("%s\n", code.c_str());
-}
-#line 1356 "bison.tab.c" /* yacc.c:1646  */
+#line 115 "bison.y" /* yacc.c:1646  */
+    {printf("prog_start -> epsilon\n");}
+#line 1439 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 140 "bison.y" /* yacc.c:1646  */
-    { 
-   CodeNode *node = new CodeNode;
-   (yyval.node) = node;
-}
-#line 1365 "bison.tab.c" /* yacc.c:1646  */
+#line 116 "bison.y" /* yacc.c:1646  */
+    {printf("prog_start -> functions\n");}
+#line 1445 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 145 "bison.y" /* yacc.c:1646  */
-    {
-   CodeNode *func  = (yyvsp[-1].node);
-   CodeNode *funcs = (yyvsp[0].node);
-   std::string code = func->code + funcs->code;
-   CodeNode *node = new CodeNode;
-   node->code = code;
-   (yyval.node) = node;
-}
-#line 1378 "bison.tab.c" /* yacc.c:1646  */
+#line 119 "bison.y" /* yacc.c:1646  */
+    {printf("functions -> function\n");}
+#line 1451 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 158 "bison.y" /* yacc.c:1646  */
-    {
-   std::string func_name = (yyvsp[-10].op_val);
-   CodeNode *params = (yyvsp[-7].node);
-   CodeNode *locals = (yyvsp[-4].node);
-   CodeNode *stmts  = (yyvsp[-1].node);
-   std::string code = std::string("func ") + func_name + std::string("\n");
-   code += params->code;
-   code += locals->code;
-   code += stmts->code;
-   code += std::string("endfunc\n");
-
-   CodeNode *node = new CodeNode;
-   node->code = code;
-   (yyval.node) = node;
-}
-#line 1398 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 6:
-#line 174 "bison.y" /* yacc.c:1646  */
-    {
-  // add the function to the symbol table.
-  std::string func_name = (yyvsp[0].op_val);
-  add_function_to_symbol_table(func_name);
-  (yyval.op_val) = (yyvsp[0].op_val);
-}
-#line 1409 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 7:
-#line 183 "bison.y" /* yacc.c:1646  */
-    {
-   CodeNode *node = new CodeNode;
-   (yyval.node) = node;
-}
-#line 1418 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 8:
-#line 188 "bison.y" /* yacc.c:1646  */
-    {
-   CodeNode *decl  = (yyvsp[-2].node);
-   CodeNode *decls = (yyvsp[0].node);
-   std::string code = decl->code + decls->code;
-   CodeNode *node = new CodeNode;
-   node->code = code;
-   (yyval.node) = node;
-}
-#line 1431 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 9:
-#line 199 "bison.y" /* yacc.c:1646  */
-    {
-
-  // add the variable to the symbol table.
-  std::string value = (yyvsp[-2].op_val);
-  Type t = Integer;
-  add_variable_to_symbol_table(value, t);
-
-  // a: integer; => IR => . a
-  std::string code = std::string(". ") + value + std::string("\n");
-  CodeNode *node = new CodeNode;
-  node->code = code;
-  (yyval.node) = node;
-}
-#line 1449 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 10:
-#line 215 "bison.y" /* yacc.c:1646  */
-    {
-   (yyval.node) = (yyvsp[-1].node);
-}
+#line 120 "bison.y" /* yacc.c:1646  */
+    {printf("functions -> functions\n");}
 #line 1457 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 11:
-#line 219 "bison.y" /* yacc.c:1646  */
-    {
-   CodeNode *stmt1 = (yyvsp[-2].node);
-   CodeNode *stmt2 = (yyvsp[0].node);
-   CodeNode *node = new CodeNode;
-   node->code = stmt1->code + stmt2->code;
-   (yyval.node) = node;
-}
+  case 6:
+#line 123 "bison.y" /* yacc.c:1646  */
+    {printf("function->FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE\n");}
+#line 1463 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 7:
+#line 125 "bison.y" /* yacc.c:1646  */
+    {printf("arguments -> epsilon\n");}
 #line 1469 "bison.tab.c" /* yacc.c:1646  */
     break;
 
+  case 8:
+#line 126 "bison.y" /* yacc.c:1646  */
+    {printf("arguments -> argument COMMA arguments\n");}
+#line 1475 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 9:
+#line 127 "bison.y" /* yacc.c:1646  */
+    {printf("arguments -> argument\n");}
+#line 1481 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 10:
+#line 129 "bison.y" /* yacc.c:1646  */
+    {printf("argument->INTEGERVAR IDENTIFIER\n");}
+#line 1487 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 11:
+#line 130 "bison.y" /* yacc.c:1646  */
+    {printf("prog_start -> epsilon\n");}
+#line 1493 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
   case 12:
-#line 229 "bison.y" /* yacc.c:1646  */
-    {
-    // a := 100 + 1000 => + a, 100, 1000
-    std::string ident = (yyvsp[-4].op_val);
-    std::string symbol1 = (yyvsp[-2].op_val);
-    std::string symbol2 = (yyvsp[0].op_val);
-    std::string code = 	std::string("+ ") + ident + std::string(", ") 
-              + symbol1 + std::string(", ") + symbol2 + std::string("\n");
-    CodeNode *node = new CodeNode;
-    node->code = code;
-    (yyval.node) = node;
-}
-#line 1485 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 13:
-#line 241 "bison.y" /* yacc.c:1646  */
-    {
-}
-#line 1492 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 14:
-#line 244 "bison.y" /* yacc.c:1646  */
-    {
-}
+#line 133 "bison.y" /* yacc.c:1646  */
+    {printf("statements -> epsilon\n" );}
 #line 1499 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 15:
-#line 247 "bison.y" /* yacc.c:1646  */
-    {
-}
-#line 1506 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 16:
-#line 250 "bison.y" /* yacc.c:1646  */
-    {
-}
-#line 1513 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 17:
-#line 254 "bison.y" /* yacc.c:1646  */
-    {
-    // a := 100 => = a, 100
-    // a := b   => = a, b
-    std::string ident = (yyvsp[-2].op_val);
-    std::string symbol = (yyvsp[0].op_val);
-
-    if (!find(ident)) {
-       std::string message = std::string("unidentified symbol '") + ident + std::string("'");
-       yyerror(message.c_str());
-    }
-
-    std::string code = 	std::string("= ") + ident + std::string(", ") + symbol + std::string("\n");
-    CodeNode *node = new CodeNode;
-    node->code = code;
-    (yyval.node) = node;
-}
-#line 1534 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 18:
-#line 272 "bison.y" /* yacc.c:1646  */
-    {
-    // write c => ".> c"
-    std::string ident = (yyvsp[0].op_val);
-    std::string code = 	std::string(".> ") + ident + std::string("\n");
-    CodeNode *node = new CodeNode;
-    node->code = code;
-    (yyval.node) = node;
-}
-#line 1547 "bison.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 19:
-#line 284 "bison.y" /* yacc.c:1646  */
-    {
-  (yyval.op_val) = (yyvsp[0].op_val); 
-}
-#line 1555 "bison.tab.c" /* yacc.c:1646  */
+  case 13:
+#line 134 "bison.y" /* yacc.c:1646  */
+    {printf("statements -> statement SEMICOLON statements\n");}
+#line 1505 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 288 "bison.y" /* yacc.c:1646  */
-    {
-  (yyval.op_val) = (yyvsp[0].op_val); 
-}
-#line 1563 "bison.tab.c" /* yacc.c:1646  */
+#line 141 "bison.y" /* yacc.c:1646  */
+    {printf("statement -> CONTINUE\n");}
+#line 1511 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 21:
+#line 142 "bison.y" /* yacc.c:1646  */
+    {printf("statement -> BREAK\n");}
+#line 1517 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 22:
+#line 143 "bison.y" /* yacc.c:1646  */
+    {printf("statement -> PRINT expression\n");}
+#line 1523 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 23:
+#line 144 "bison.y" /* yacc.c:1646  */
+    {printf("statement -> GET IDENTIFIER\n" );}
+#line 1529 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 24:
+#line 146 "bison.y" /* yacc.c:1646  */
+    {printf("declaration -> INTEGER IDENTIFIER\n");}
+#line 1535 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 25:
+#line 147 "bison.y" /* yacc.c:1646  */
+    {printf("declaration -> INTEGER IDENTIFIER\n");}
+#line 1541 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 26:
+#line 148 "bison.y" /* yacc.c:1646  */
+    {printf("declaration -> ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET\n");}
+#line 1547 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 27:
+#line 150 "bison.y" /* yacc.c:1646  */
+    {printf("function_call -> IDENTIFIER L_PAREN params R_PAREN\n");}
+#line 1553 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 28:
+#line 152 "bison.y" /* yacc.c:1646  */
+    {printf("params -> epsilon\n");}
+#line 1559 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 29:
+#line 153 "bison.y" /* yacc.c:1646  */
+    {printf("params -> param COMMA params\n");}
+#line 1565 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 30:
+#line 154 "bison.y" /* yacc.c:1646  */
+    {printf("params -> param\n");}
+#line 1571 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 31:
+#line 156 "bison.y" /* yacc.c:1646  */
+    {printf("param -> INTEGER\n");}
+#line 1577 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 32:
+#line 157 "bison.y" /* yacc.c:1646  */
+    {printf("param -> IDENTIFIER\n");}
+#line 1583 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 33:
+#line 161 "bison.y" /* yacc.c:1646  */
+    {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN RBRACE statements\n");}
+#line 1589 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 34:
+#line 162 "bison.y" /* yacc.c:1646  */
+    {printf("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement\n");}
+#line 1595 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 35:
+#line 164 "bison.y" /* yacc.c:1646  */
+    {printf("else_statement -> ELSE LBRACE statements RBRACE\n");}
+#line 1601 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 36:
+#line 166 "bison.y" /* yacc.c:1646  */
+    {printf("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
+#line 1607 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 37:
+#line 168 "bison.y" /* yacc.c:1646  */
+    {printf("return_statement -> RETURN \n");}
+#line 1613 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 38:
+#line 169 "bison.y" /* yacc.c:1646  */
+    {printf("return_statement -> RETURN expression \n");}
+#line 1619 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 39:
+#line 171 "bison.y" /* yacc.c:1646  */
+    {printf("assign_statement ->IDENTIFIER ASSIGN expression \n");}
+#line 1625 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 40:
+#line 172 "bison.y" /* yacc.c:1646  */
+    {printf("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression \n" );}
+#line 1631 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 41:
+#line 174 "bison.y" /* yacc.c:1646  */
+    {printf("expression -> IDENTIFIER\n");}
+#line 1637 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 42:
+#line 175 "bison.y" /* yacc.c:1646  */
+    {printf("expression -> integerexpression\n");}
+#line 1643 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 43:
+#line 176 "bison.y" /* yacc.c:1646  */
+    {printf("expression ->booleanexpression\n");}
+#line 1649 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 44:
+#line 177 "bison.y" /* yacc.c:1646  */
+    {printf("expression -> arrayexpression\n");}
+#line 1655 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 45:
+#line 179 "bison.y" /* yacc.c:1646  */
+    {printf("integerexpression -> INTEGER\n" );}
+#line 1661 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 46:
+#line 180 "bison.y" /* yacc.c:1646  */
+    {printf("integerexpression -> expression ADD expression\n");}
+#line 1667 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 47:
+#line 181 "bison.y" /* yacc.c:1646  */
+    {printf("integerexpression -> expression SUB expression\n" );}
+#line 1673 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 48:
+#line 182 "bison.y" /* yacc.c:1646  */
+    {printf("integerexpression -> expression MULT expression\n");}
+#line 1679 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 49:
+#line 183 "bison.y" /* yacc.c:1646  */
+    {printf("integerexpression -> expression DIV expression\n");}
+#line 1685 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 50:
+#line 184 "bison.y" /* yacc.c:1646  */
+    {printf("integerexpression ->  expression MOD expression\n");}
+#line 1691 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 51:
+#line 185 "bison.y" /* yacc.c:1646  */
+    {printf("integerexpression -> L_PAREN expression R_PAREN\n");}
+#line 1697 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 52:
+#line 186 "bison.y" /* yacc.c:1646  */
+    {printf("integerexpression -> function_call\n");}
+#line 1703 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 53:
+#line 188 "bison.y" /* yacc.c:1646  */
+    {printf("booleanexpression -> expression EQ expression\n");}
+#line 1709 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 54:
+#line 189 "bison.y" /* yacc.c:1646  */
+    {printf("booleanexpression -> expression NEQ expression\n");}
+#line 1715 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 55:
+#line 190 "bison.y" /* yacc.c:1646  */
+    {printf("booleanexpression -> expression LT expression\n");}
+#line 1721 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 56:
+#line 191 "bison.y" /* yacc.c:1646  */
+    {printf("booleanexpression -> expression GT expression\n");}
+#line 1727 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 57:
+#line 192 "bison.y" /* yacc.c:1646  */
+    {printf("booleanexpression -> expression LTE expression\n");}
+#line 1733 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 58:
+#line 193 "bison.y" /* yacc.c:1646  */
+    {printf("booleanexpression -> expression GTE expression\n");}
+#line 1739 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 59:
+#line 194 "bison.y" /* yacc.c:1646  */
+    {printf("booleanexpression -> NOT expression\n");}
+#line 1745 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 60:
+#line 196 "bison.y" /* yacc.c:1646  */
+    {printf("arrayexpression ->  IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET\n");}
+#line 1751 "bison.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1567 "bison.tab.c" /* yacc.c:1646  */
+#line 1755 "bison.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1791,17 +1979,25 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 292 "bison.y" /* yacc.c:1906  */
+#line 199 "bison.y" /* yacc.c:1906  */
 
 
-int main(int argc, char **argv)
-{
-   yyparse();
-   return 0;
+
+int main(int argc, char** argv){
+	if(argc >= 2){
+		yyin = fopen(argv[1], "r");
+		if(yyin == NULL)
+			yyin = stdin;
+	}else{
+		yyin = stdin;
+	}
+	yyparse();
+     return 0;
 }
 
+/* Called by yyparse on error. */
 void yyerror(const char *msg)
 {
-   printf("** Line %d: %s\n", currLine, msg);
+   printf("** Line %d: %s\n", current_line, msg);
    exit(1);
 }

@@ -45,26 +45,45 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    BEGIN_PARAMS = 258,
-    END_PARAMS = 259,
-    BEGIN_LOCALS = 260,
-    END_LOCALS = 261,
-    BEGIN_BODY = 262,
-    END_BODY = 263,
-    FUNCTION = 264,
-    INTEGER = 265,
-    WRITE = 266,
-    SUB = 267,
-    ADD = 268,
-    MULT = 269,
-    DIV = 270,
-    MOD = 271,
-    SEMICOLON = 272,
-    COLON = 273,
-    COMMA = 274,
-    ASSIGN = 275,
-    NUMBER = 276,
-    IDENT = 277
+    INTEGER = 258,
+    IDENTIFIER = 259,
+    FUNCTION = 260,
+    ARRAY = 261,
+    ARRAYFILL = 262,
+    IF = 263,
+    ELESE = 264,
+    WHILE = 265,
+    CONTINUE = 266,
+    BREAK = 267,
+    GET = 268,
+    PRINT = 269,
+    NOT = 270,
+    TRUE = 271,
+    FALSE = 272,
+    RETURN = 273,
+    SEMICOLON = 274,
+    COLON = 275,
+    COMMA = 276,
+    L_PAREN = 277,
+    R_PAREN = 278,
+    L_SQUARE_BRACKET = 279,
+    R_SQUARE_BRACKET = 280,
+    ASSIGN = 281,
+    LBRACE = 282,
+    RBRACE = 283,
+    ADD = 284,
+    SUB = 285,
+    MULT = 286,
+    DIV = 287,
+    MOD = 288,
+    EQ = 289,
+    NEQ = 290,
+    LT = 291,
+    GT = 292,
+    LTE = 293,
+    GTE = 294,
+    INTEGERVAR = 295,
+    ELSE = 296
   };
 #endif
 
@@ -73,12 +92,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 104 "bison.y" /* yacc.c:1909  */
+#line 103 "bison.y" /* yacc.c:1909  */
 
   char *op_val;
   struct CodeNode *node;
 
-#line 82 "bison.tab.h" /* yacc.c:1909  */
+#line 101 "bison.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
