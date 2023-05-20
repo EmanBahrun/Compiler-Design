@@ -543,13 +543,18 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "lexer.lex"
-#line 2 "lexer.lex"
+#line 1 "lexer.l"
+#line 2 "lexer.l"
     // C code here.
     #include <stdio.h>
     #include "y.tab.h"
-    int character_count = 0;
-#line 553 "lex.yy.c"
+    #include "bison.tab.h"
+    int current_character = 0;
+    int current_line = 1;
+
+    extern char *identToken;
+   extern int numberToken;
+#line 558 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -731,10 +736,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 15 "lexer.lex"
+#line 20 "lexer.l"
 
 
-#line 738 "lex.yy.c"
+#line 743 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -829,227 +834,227 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 17 "lexer.lex"
-{ return FUNCTION;}
+#line 22 "lexer.l"
+{ current_character+= yyleng; return FUNCTION;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "lexer.lex"
-{ return ARRAY;}
+#line 23 "lexer.l"
+{ current_character+= yyleng; return ARRAY;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 19 "lexer.lex"
-{ return INTEGERVAR;}
+#line 24 "lexer.l"
+{ current_character+= yyleng; return INTEGERVAR;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 20 "lexer.lex"
-{ return IF;}
+#line 25 "lexer.l"
+{ current_character+= yyleng; return IF;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "lexer.lex"
-{ return ELSE;}
+#line 26 "lexer.l"
+{ current_character+= yyleng; return ELSE;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "lexer.lex"
-{ return WHILE;}
+#line 27 "lexer.l"
+{ current_character+= yyleng; return WHILE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 23 "lexer.lex"
-{ return CONTINUE;}
+#line 28 "lexer.l"
+{ current_character+= yyleng; return CONTINUE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 24 "lexer.lex"
-{ return BREAK;}
+#line 29 "lexer.l"
+{ current_character+= yyleng; return BREAK;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 25 "lexer.lex"
-{ return GET;}
+#line 30 "lexer.l"
+{ current_character+= yyleng; return GET;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 26 "lexer.lex"
-{ return PRINT;}
+#line 31 "lexer.l"
+{ current_character+= yyleng; return PRINT;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 27 "lexer.lex"
-{ return NOT;}
+#line 32 "lexer.l"
+{ current_character+= yyleng; return NOT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 28 "lexer.lex"
-{ return TRUE;}
+#line 33 "lexer.l"
+{ current_character+= yyleng; return TRUE;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 29 "lexer.lex"
-{ return FALSE;}
+#line 34 "lexer.l"
+{ current_character+= yyleng; return FALSE;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 30 "lexer.lex"
-{ return RETURN;}
+#line 35 "lexer.l"
+{ current_character+= yyleng; return RETURN;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 31 "lexer.lex"
-{ return ADD;}
+#line 36 "lexer.l"
+{ current_character+= yyleng; return ADD;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 32 "lexer.lex"
-{ return SUB;}
+#line 37 "lexer.l"
+{ current_character+= yyleng; return SUB;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 33 "lexer.lex"
-{ return MULT;}
+#line 38 "lexer.l"
+{ current_character+= yyleng; return MULT;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 34 "lexer.lex"
-{ return DIV;}
+#line 39 "lexer.l"
+{ current_character+= yyleng; return DIV;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 35 "lexer.lex"
-{ return MOD;}
+#line 40 "lexer.l"
+{ current_character+= yyleng; return MOD;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 36 "lexer.lex"
-{ return EQ;}
+#line 41 "lexer.l"
+{ current_character+= yyleng; return EQ;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 37 "lexer.lex"
-{ return NEQ;}
+#line 42 "lexer.l"
+{ current_character+= yyleng; return NEQ;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 38 "lexer.lex"
-{ return LT;}
+#line 43 "lexer.l"
+{ current_character+= yyleng; return LT;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 39 "lexer.lex"
-{ return GT;}
+#line 44 "lexer.l"
+{ current_character+= yyleng; return GT;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 40 "lexer.lex"
-{ return LTE;}
+#line 45 "lexer.l"
+{ current_character+= yyleng; return LTE;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 41 "lexer.lex"
-{ return GTE;}
+#line 46 "lexer.l"
+{ current_character+= yyleng; return GTE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 42 "lexer.lex"
-{ return SEMICOLON;}
+#line 47 "lexer.l"
+{ current_character+= yyleng; return SEMICOLON;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 43 "lexer.lex"
-{ return COLON;}
+#line 48 "lexer.l"
+{ current_character+= yyleng; return COLON;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 44 "lexer.lex"
-{ return COMMA;}
+#line 49 "lexer.l"
+{ current_character+= yyleng; return COMMA;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 45 "lexer.lex"
-{ return L_PAREN;}
+#line 50 "lexer.l"
+{ current_character+= yyleng; return L_PAREN;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 46 "lexer.lex"
-{ return R_PAREN;}
+#line 51 "lexer.l"
+{ current_character+= yyleng; return R_PAREN;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 47 "lexer.lex"
-{ return L_SQUARE_BRACKET;}
+#line 52 "lexer.l"
+{ current_character+= yyleng; return L_SQUARE_BRACKET;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 48 "lexer.lex"
-{ return R_SQUARE_BRACKET;}
+#line 53 "lexer.l"
+{ current_character+= yyleng; return R_SQUARE_BRACKET;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 49 "lexer.lex"
-{ return ASSIGN;}
+#line 54 "lexer.l"
+{ current_character+= yyleng; return ASSIGN;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 50 "lexer.lex"
-{ return LBRACE;}
+#line 55 "lexer.l"
+{ current_character+= yyleng; return LBRACE;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 51 "lexer.lex"
-{ return RBRACE;}
+#line 56 "lexer.l"
+{ current_character+= yyleng; return RBRACE;}
 	YY_BREAK
 case 36:
 /* rule 36 can match eol */
 YY_RULE_SETUP
-#line 52 "lexer.lex"
-{character_count = 0;}
+#line 57 "lexer.l"
+{current_character = 0; current_line++;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 54 "lexer.lex"
+#line 59 "lexer.l"
 { return INTEGER; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 55 "lexer.lex"
-{ printf("**ERROR. Cannot start with numbers for indentifier '%s' at line %d, column %d \n", yytext, yylineno, character_count);}
+#line 60 "lexer.l"
+{ printf("**ERROR. Cannot start with numbers for indentifier '%s' at line %d, column %d \n", yytext, yylineno, current_character); exit(0);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 56 "lexer.lex"
+#line 61 "lexer.l"
 { return IDENTIFIER; }
 	YY_BREAK
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
-#line 57 "lexer.lex"
+#line 62 "lexer.l"
 {}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 58 "lexer.lex"
+#line 63 "lexer.l"
 { return ARRAYFILL; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 59 "lexer.lex"
-{}
+#line 64 "lexer.l"
+{current_character+= yyleng;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 60 "lexer.lex"
-{ printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, character_count);}
+#line 65 "lexer.l"
+{ printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, current_character); exit(0);}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 61 "lexer.lex"
+#line 66 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1053 "lex.yy.c"
+#line 1058 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2055,6 +2060,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 61 "lexer.lex"
+#line 66 "lexer.l"
 
 
