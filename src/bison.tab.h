@@ -45,45 +45,44 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    INTEGER = 258,
-    IDENTIFIER = 259,
-    FUNCTION = 260,
-    ARRAY = 261,
-    ARRAYFILL = 262,
-    IF = 263,
-    ELESE = 264,
-    WHILE = 265,
-    CONTINUE = 266,
-    BREAK = 267,
-    GET = 268,
-    PRINT = 269,
-    NOT = 270,
-    TRUE = 271,
-    FALSE = 272,
-    RETURN = 273,
-    SEMICOLON = 274,
+    FUNCTION = 258,
+    ARRAY = 259,
+    INTEGERVAR = 260,
+    ARRAYFILL = 261,
+    RETURN = 262,
+    SEMICOLON = 263,
+    COMMA = 264,
+    IF = 265,
+    ELSE = 266,
+    WHILE = 267,
+    TRUE = 268,
+    FALSE = 269,
+    CONTINUE = 270,
+    BREAK = 271,
+    GET = 272,
+    PRINT = 273,
+    NOT = 274,
     COLON = 275,
-    COMMA = 276,
-    L_PAREN = 277,
-    R_PAREN = 278,
-    L_SQUARE_BRACKET = 279,
-    R_SQUARE_BRACKET = 280,
-    ASSIGN = 281,
-    LBRACE = 282,
-    RBRACE = 283,
-    ADD = 284,
-    SUB = 285,
-    MULT = 286,
-    DIV = 287,
-    MOD = 288,
-    EQ = 289,
-    NEQ = 290,
-    LT = 291,
-    GT = 292,
-    LTE = 293,
-    GTE = 294,
-    INTEGERVAR = 295,
-    ELSE = 296
+    L_PAREN = 276,
+    R_PAREN = 277,
+    L_SQUARE_BRACKET = 278,
+    R_SQUARE_BRACKET = 279,
+    ASSIGN = 280,
+    LBRACE = 281,
+    RBRACE = 282,
+    ADD = 283,
+    SUB = 284,
+    MULT = 285,
+    DIV = 286,
+    MOD = 287,
+    EQ = 288,
+    NEQ = 289,
+    LT = 290,
+    GT = 291,
+    LTE = 292,
+    GTE = 293,
+    INTEGER = 294,
+    IDENTIFIER = 295
   };
 #endif
 
@@ -92,12 +91,12 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 103 "bison.y" /* yacc.c:1909  */
+#line 102 "bison.y" /* yacc.c:1909  */
 
   char *op_val;
   struct CodeNode *node;
 
-#line 101 "bison.tab.h" /* yacc.c:1909  */
+#line 100 "bison.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

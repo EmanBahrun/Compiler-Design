@@ -1,101 +1,100 @@
 %{
-     // To setup bison, you need to observe the way this Bison File
-     // is setup, as well as observe the way the corresponding Flex File
-     // is setup.
-
      #include<stdio.h>
      #include<string>
      #include<vector>
      #include<string.h>
      #include<stdlib.h>
 
-     extern FILE* yyin;
+     extern FILE * yyin;
      extern int yylex(void);
-     void yyerror(const char *msg);
+     void yyerror(const char * msg);
      extern int current_line;
 
-     char *indentifierToken;
+     char * indentifierToken;
      int numberToken;
      int count_names = 0;
 
-     enum Type { Integer, Array };
+     enum Type {
+       Integer,
+       Array
+     };
 
      struct Symbol {
-     std::string name;
-     Type type;
+       std::string name;
+       Type type;
      };
 
      struct Function {
-     std::string name;
-     std::vector<Symbol> declarations;
+       std::string name;
+       std::vector < Symbol > declarations;
      };
 
-     std::vector <Function> symbol_table;
+     std::vector < Function > symbol_table;
 
      // remember that Bison is a bottom up parser: that it parses leaf nodes first before
      // parsing the parent nodes. So control flow begins at the leaf grammar nodes
      // and propagates up to the parents.
-     Function *get_function() {
-     int last = symbol_table.size()-1;
-     if (last < 0) {
-     printf("***Error. Attempt to call get_function with an empty symbol table\n");
-     printf("Create a 'Function' object using 'add_function_to_symbol_table' before\n");
-     printf("calling 'find' or 'add_variable_to_symbol_table'");
-     exit(1);
-     }
-     return &symbol_table[last];
+     Function * get_function() {
+       int last = symbol_table.size() - 1;
+       if (last < 0) {
+         printf("***Error. Attempt to call get_function with an empty symbol table\n");
+         printf("Create a 'Function' object using 'add_function_to_symbol_table' before\n");
+         printf("calling 'find' or 'add_variable_to_symbol_table'");
+         exit(1);
+       }
+       return & symbol_table[last];
      }
 
      // find a particular variable using the symbol table.
      // grab the most recent function, and linear search to
      // find the symbol you are looking for.
      // you may want to extend "find" to handle different types of "Integer" vs "Array"
-     bool find(std::string &value) {
-     Function *f = get_function();
-     for(int i=0; i < f->declarations.size(); i++) {
-     Symbol *s = &f->declarations[i];
-     if (s->name == value) {
-          return true;
-     }
-     }
-     return false;
+     bool find(std::string & value) {
+       Function * f = get_function();
+       for (int i = 0; i < f -> declarations.size(); i++) {
+         Symbol * s = & f -> declarations[i];
+         if (s -> name == value) {
+           return true;
+         }
+       }
+       return false;
      }
 
      // when you see a function declaration inside the grammar, add
      // the function name to the symbol table
-     void add_function_to_symbol_table(std::string &value) {
-     Function f; 
-     f.name = value; 
-     symbol_table.push_back(f);
+     void add_function_to_symbol_table(std::string & value) {
+       Function f;
+       f.name = value;
+       symbol_table.push_back(f);
      }
 
      // when you see a symbol declaration inside the grammar, add
      // the symbol name as well as some type information to the symbol table
-     void add_variable_to_symbol_table(std::string &value, Type t) {
-     Symbol s;
-     s.name = value;
-     s.type = t;
-     Function *f = get_function();
-     f->declarations.push_back(s);
+     void add_variable_to_symbol_table(std::string & value, Type t) {
+       Symbol s;
+       s.name = value;
+       s.type = t;
+       Function * f = get_function();
+       f -> declarations.push_back(s);
      }
 
      // a function to print out the symbol table to the screen
      // largely for debugging purposes.
      void print_symbol_table(void) {
-     printf("symbol table:\n");
-     printf("--------------------\n");
-     for(int i=0; i<symbol_table.size(); i++) {
-     printf("function: %s\n", symbol_table[i].name.c_str());
-     for(int j=0; j<symbol_table[i].declarations.size(); j++) {
-          printf("  locals: %s\n", symbol_table[i].declarations[j].name.c_str());
-     }
-     }
-     printf("--------------------\n");
+       printf("symbol table:\n");
+       printf("--------------------\n");
+       for (int i = 0; i < symbol_table.size(); i++) {
+         printf("function: %s\n", symbol_table[i].name.c_str());
+         for (int j = 0; j < symbol_table[i].declarations.size(); j++) {
+           printf("  locals: %s\n", symbol_table[i].declarations[j].name.c_str());
+         }
+       }
+       printf("--------------------\n");
      }
 
      struct CodeNode {
-     std::string code; // generated code as a string.
-     std::string name;
+       std::string code; // generated code as a string.
+       std::string name;
      };
 %}
 
@@ -108,27 +107,102 @@
 %define parse.error verbose
 %start prog_start
 
-%token INTEGER IDENTIFIER FUNCTION ARRAY ARRAYFILL IF ELESE WHILE CONTINUE BREAK GET PRINT NOT TRUE FALSE RETURN SEMICOLON COLON COMMA L_PAREN R_PAREN L_SQUARE_BRACKET R_SQUARE_BRACKET ASSIGN LBRACE RBRACE ADD SUB MULT DIV MOD EQ NEQ LT GT LTE GTE INTEGERVAR ELSE
+%token FUNCTION ARRAY INTEGERVAR ARRAYFILL RETURN SEMICOLON COMMA
+%token IF ELSE WHILE TRUE FALSE CONTINUE BREAK 
+%token GET PRINT
+%token NOT COLON L_PAREN R_PAREN L_SQUARE_BRACKET R_SQUARE_BRACKET ASSIGN LBRACE RBRACE 
+%token ADD SUB MULT DIV MOD EQ NEQ LT GT LTE GTE 
+%token <op_val> INTEGER 
+%token <op_val> IDENTIFIER
+%type  <op_val> symbol
+%type  <op_val> function_indentifier
+%type  <node>   functions
+%type  <node>   function
+%type  <node>   declarations
+%type  <node>   declaration
+%type  <node>   statements
+%type  <node>   statement
+%type  <node>   argument
+%type  <node>   arguments
+%type  <node>   expression
 
 
 %%
-prog_start: %empty {printf("prog_start -> epsilon\n");}
-          | functions {printf("prog_start -> functions\n");}
-          ;
+prog_start: 
+functions {
+    CodeNode *node = $1;
+    std::string code = node->code;
+    printf("Generated code:\n");
+    printf("%s\n", code.c_str());
+};
 
-functions: function {printf("functions -> function\n");}
-         | function functions {printf("functions -> functions\n");}
+functions: %empty
+{ 
+    CodeNode *node = new CodeNode;
+    $$ = node;
+}
+| 
+function functions {
+    CodeNode *func  = $1;
+    CodeNode *funcs = $2;
+    std::string code = func->code + funcs->code;
+
+    CodeNode *node = new CodeNode;
+    node->code = code;
+    $$ = node;
+}
          ;
-function:  FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE 
-           {printf("function->FUNCTION IDENTIFIER L_PAREN arguments R_PAREN LBRACE statements RBRACE\n");};
+function:  FUNCTION function_indentifier L_PAREN arguments R_PAREN LBRACE statements RBRACE 
+           {
+            std::string func_name = $2;
+            CodeNode *arguments = $4;
+            CodeNode *statements = $7;
+            std::string code = std::string("func ") + func_name + std::string("\n");
+            int num_args = 0;
+            for (int i = 0; i < arguments->code.size(); i++) {
+                if (arguments->code[i] == '@') {
+                    code += num_args;
+                    num_args++;
+                }
+                else {
+                  code += arguments->code[i];
+                }
+            }
+            code += arguments->code;
+            code += statements->code;
+            code += std::string("endfunc\n");
+
+            CodeNode *node = new CodeNode;
+            node->code = code;
+            $$ = node;
+           };
 arguments: %empty 
-           {printf("arguments -> epsilon\n");}
-         | argument COMMA arguments {printf("arguments -> argument COMMA arguments\n");}
-         | argument {printf("arguments -> argument\n");}
+           { CodeNode *node = new CodeNode; $$ = node;}
+         | argument COMMA arguments {
+            CodeNode *arg = $1;
+            CodeNode *args = $3;
+            std::string code = arg->code + args->code;
+            CodeNode *node = new CodeNode;
+            node->code = code;
+            $$ = node;
+         }
+         | argument {
+            CodeNode *arg = $1;
+            std::string code = arg->code;
+            CodeNode *node = new CodeNode;
+            node->code = code;
+            $$ = node;
+         }
          ;
-argument: INTEGERVAR IDENTIFIER {printf("argument->INTEGERVAR IDENTIFIER\n");}
-         | %empty {printf("prog_start -> epsilon\n");}
-        ;
+argument: INTEGERVAR IDENTIFIER {
+            std::string var_name = $2;
+            // @ is a special token that we will use in functin above.
+            std::string code = var_name + std::string(" $@") + var_name + std::string("\n");
+            CodeNode *node = new CodeNode;
+            node->code = code;
+            $$ = node;
+         }
+         ;
 
 statements: %empty {printf("statements -> epsilon\n" );}
           | statement statements {printf("statements -> statement SEMICOLON statements\n");}
@@ -195,6 +269,23 @@ booleanexpression: expression EQ expression {printf("booleanexpression -> expres
           ;
 arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET {printf("arrayexpression ->  IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET\n");}
                ;
+
+
+symbol: 
+IDENTIFIER 
+{
+  $$ = $1; 
+}
+| INTEGER 
+{
+  $$ = $1; 
+}
+
+function_indentifier: IDENTIFIER {
+  std::string func_name = $1;
+  add_function_to_symbol_table(func_name);
+  $$ = $1;
+}
 
 %%
 
