@@ -14,48 +14,48 @@ COMMENT #.*\n
 ARRAYLENGTH \.\.\.[1-9][0-9]+
 %%
 
-"function"	{ return FUNCTION;}
-"Array"	{ return ARRAY;}
-"Integer"	{ return INTEGERVAR;}
-"if"	{ return IF;}
-"else"	{ return ELSE;}
-"while"	{ return WHILE;}
-"continue"	{ return CONTINUE;}
-"break"	{ return BREAK;}
-"get"	{ return GET;}
-"print"	{ return PRINT;}
-"not"	{ return NOT;}
-"true"	{ return TRUE;}
-"false"	{ return FALSE;}
-"return"	{ return RETURN;}
-"+"	{ return ADD;}
-"-"	{ return SUB;}
-"*"	{ return MULT;}
-"/"	{ return DIV;}
-"%"	{ return MOD;}
-"=="	{ return EQ;}
-"!="	{ return NEQ;}
-"<"	    { return LT;}
-">"	    { return GT;}
-"<="	{ return LTE;}
-">="	{ return GTE;}
-";"	{ return SEMICOLON;}
-":"	{ return COLON;}
-","	{ return COMMA;}
-"("	{ return L_PAREN;}
-")"	{ return R_PAREN;}
-"["	{ return L_SQUARE_BRACKET;}
-"]"	{ return R_SQUARE_BRACKET;}
-"="	{ return ASSIGN;}
-"{"	{ return LBRACE;}
-"}"	{ return RBRACE;}
+"function"	{ character_count+= yyleng; return FUNCTION;}
+"Array"	{ character_count+= yyleng; return ARRAY;}
+"Integer"	{ character_count+= yyleng; return INTEGERVAR;}
+"if"	{ character_count+= yyleng; return IF;}
+"else"	{ character_count+= yyleng; return ELSE;}
+"while"	{ character_count+= yyleng; return WHILE;}
+"continue"	{ character_count+= yyleng; return CONTINUE;}
+"break"	{ character_count+= yyleng; return BREAK;}
+"get"	{ character_count+= yyleng; return GET;}
+"print"	{ character_count+= yyleng; return PRINT;}
+"not"	{ character_count+= yyleng; return NOT;}
+"true"	{ character_count+= yyleng; return TRUE;}
+"false"	{ character_count+= yyleng; return FALSE;}
+"return"	{ character_count+= yyleng; return RETURN;}
+"+"	{ character_count+= yyleng; return ADD;}
+"-"	{ character_count+= yyleng; return SUB;}
+"*"	{ character_count+= yyleng; return MULT;}
+"/"	{ character_count+= yyleng; return DIV;}
+"%"	{ character_count+= yyleng; return MOD;}
+"=="	{ character_count+= yyleng; return EQ;}
+"!="	{ character_count+= yyleng; return NEQ;}
+"<"	    { character_count+= yyleng; return LT;}
+">"	    { character_count+= yyleng; return GT;}
+"<="	{ character_count+= yyleng; return LTE;}
+">="	{ character_count+= yyleng; return GTE;}
+";"	{ character_count+= yyleng; return SEMICOLON;}
+":"	{ character_count+= yyleng; return COLON;}
+","	{ character_count+= yyleng; return COMMA;}
+"("	{ character_count+= yyleng; return L_PAREN;}
+")"	{ character_count+= yyleng; return R_PAREN;}
+"["	{ character_count+= yyleng; return L_SQUARE_BRACKET;}
+"]"	{ character_count+= yyleng; return R_SQUARE_BRACKET;}
+"="	{ character_count+= yyleng; return ASSIGN;}
+"{"	{ character_count+= yyleng; return LBRACE;}
+"}"	{ character_count+= yyleng; return RBRACE;}
 "\n" {character_count = 0;}
 
 {INTEGER}+ { return INTEGER; }
-{BADIDENTIFIERONE} { printf("**ERROR. Cannot start with numbers for indentifier '%s' at line %d, column %d \n", yytext, yylineno, character_count);}
+{BADIDENTIFIERONE} { printf("**ERROR. Cannot start with numbers for indentifier '%s' at line %d, column %d \n", yytext, yylineno, character_count); exit(0);}
 {IDENTIFIER}+ { return IDENTIFIER; }
 {COMMENT}+ {}
 {ARRAYLENGTH}+ { return ARRAYFILL; }
-" "  {}
-.    { printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, character_count);}
+" "  {character_count+= yyleng;}
+.    { printf("**ERROR. Unidentified token '%s' at line %d, column %d \n", yytext, yylineno, character_count); exit(0);}
 %%
