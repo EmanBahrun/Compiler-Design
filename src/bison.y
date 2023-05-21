@@ -124,14 +124,26 @@
      }
 
      std::string create_temp() {
-        std::string temp = "_t" + patch::to_string(temp_count);
+        std::string temp = "_temporary" + patch::to_string(temp_count);
         temp_count++;
         return temp;
+     }
+     std::string create_temp_with_code(std::string& code) {
+        std::string temp = create_temp();
+        std::string create = ". " + temp + "\n";
+        code += create;
+        return temp;
+     }
+     std::string build_temp(std::string temp, std::string value) {
+        std::string create = ". " + temp + "\n";
+        std::string assign = "= " + temp + ", " + value + "\n";
+        return assign;
      }
 
      struct CodeNode {
        std::string code; // generated code as a string.
        std::string name;
+       std::string temp;
      };
 %}
 
@@ -162,7 +174,14 @@
 %type  <node>   argument
 %type  <node>   arguments
 %type  <node>   expression
-
+%type <node>   param
+%type <node>   params
+%type <node> function_call
+%type <node> integerexpression
+%type <node> integer_expression_actual_number
+%type <node> booleanexpression
+%type <node> arrayexpression
+%type <node> return_statement
 
 %%
 prog_start: 
@@ -251,31 +270,136 @@ statements: %empty {
           }
           | statement statements {
             CodeNode *node = new CodeNode;
+            CodeNode *statement = $1;
+            CodeNode *statements = $2;
+            std::string code = statement->code + statements->code;
+            node->code = code;
             $$ = node;
           }
-statement: declaration SEMICOLON
-         | function_call SEMICOLON
-         | if_statement
-         | while_statement
-         | return_statement SEMICOLON
-         | assign_statement SEMICOLON
-         | CONTINUE SEMICOLON {printer("statement -> CONTINUE\n");}
-         | BREAK SEMICOLON {printer("statement -> BREAK\n");}
-         | PRINT expression SEMICOLON {printer("statement -> PRINT expression\n");}
-         | GET IDENTIFIER SEMICOLON {printer("statement -> GET IDENTIFIER\n" );}
+statement: declaration SEMICOLON {
+            CodeNode *node = new CodeNode;
+            CodeNode *declaration = $1;
+            std::string code = declaration->code;
+            node->code = code;
+            $$ = node;
+}
+         | function_call SEMICOLON {
+            CodeNode *node = new CodeNode;
+            CodeNode *function_call = $1;
+            std::string code = function_call->code;
+            node->code = code;
+            $$ = node;
+         }
+         | if_statement {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+}
+         | while_statement {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+}
+         | return_statement SEMICOLON {
+            CodeNode *node = new CodeNode;
+            CodeNode *return_statement = $1;
+            std::string code = return_statement->code;
+            node->code = code;
+            $$ = node;
+}
+         | assign_statement SEMICOLON {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+}
+         | CONTINUE SEMICOLON {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+}
+         | BREAK SEMICOLON {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+}
+         | PRINT expression SEMICOLON {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+}
+         | GET IDENTIFIER SEMICOLON {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+}
          ;
-declaration: INTEGERVAR IDENTIFIER ASSIGN integerexpression {printer("declaration -> INTEGER IDENTIFIER\n");}
-             | INTEGERVAR IDENTIFIER {printer("declaration -> INTEGER IDENTIFIER\n");}
-             | ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET {printer("declaration -> ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET\n");}
+declaration: INTEGERVAR IDENTIFIER ASSIGN expression {
+        std::string var_name = $2;
+        CodeNode *integerexpression = $4;
+        CodeNode *node = new CodeNode;
+        std::string code = integerexpression->code;
+        code += std::string(". ") + var_name + std::string("\n");
+        code += std::string("= ") + var_name + std::string(", ") + integerexpression->temp + std::string("\n");
+        node->code = code;
+        $$ = node;
+}
+             | INTEGERVAR IDENTIFIER {
+                std::string var_name = $2;
+                CodeNode *node = new CodeNode;
+                std::string code = std::string(". ") + var_name + std::string("\n");
+                node->code = code;
+                $$ = node;
+             }
+             | ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET {
+                CodeNode *node = new CodeNode;
+                node->code = "";
+                $$ = node;
+             }
            ;
-function_call: IDENTIFIER L_PAREN params R_PAREN {printer("function_call -> IDENTIFIER L_PAREN params R_PAREN\n");}
+function_call: IDENTIFIER L_PAREN params R_PAREN {
+                std::string func_name = $1;
+                CodeNode *params = $3;
+                std::string code = params->code;
+                std::string temp = create_temp();
+                
+                code += ". " + temp + "\n";
+                code += "call " + func_name + ", " + temp + "\n";
+
+
+                CodeNode *node = new CodeNode;
+                node->code = code;
+                node->temp = temp;
+                $$ = node;
+              }
              ;
-params: %empty {printer("params -> epsilon\n");}
-        | param COMMA params {printer("params -> param COMMA params\n");}
-        | param {printer("params -> param\n");}
+params: %empty {
+            CodeNode *node = new CodeNode;
+            $$ = node;
+}
+        | param COMMA params {
+            CodeNode *param = $1;
+            CodeNode *params = $3;
+            std::string code = param->code + params->code;
+            CodeNode *node = new CodeNode;
+            node->code = code;
+            $$ = node;
+        }
+        | param {
+            CodeNode *param = $1;
+            std::string code = param->code;
+            CodeNode *node = new CodeNode;
+            node->code = code;
+            // printf(node->code.c_str());
+            $$ = node;
+        }
         ;
-param: INTEGER {printer("param -> INTEGER\n");}
-     | IDENTIFIER {printer("param -> IDENTIFIER\n");}
+param: INTEGER {
+            std::string name = create_temp();
+            std::string assign = build_temp(name, patch::to_string($1));
+            std::string code = std::string("param ") + name + std::string("\n");
+            CodeNode *node = new CodeNode;
+            node->code = assign + code;
+            $$ = node;
+}
+     | IDENTIFIER {
+            std::string code = std::string("param ") + $1 + std::string("\n");
+            CodeNode *node = new CodeNode;
+            node->code = code;
+            $$ = node;
+}
      ;
 
      
@@ -286,35 +410,240 @@ else_statement: ELSE LBRACE statements RBRACE {printer("else_statement -> ELSE L
               ;
 while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printer("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
      ;
-return_statement: RETURN {printer("return_statement -> RETURN \n");}
-                | RETURN expression {printer("return_statement -> RETURN expression \n");}
+return_statement: RETURN {
+                    CodeNode *node = new CodeNode;
+                    node->code = std::string("ret 0\n");
+                    $$ = node;
+                  }
+                | RETURN expression {
+                    CodeNode *node = new CodeNode;
+                    CodeNode *expression = $2;
+                    std::string code = expression->code;
+                    code += std::string("ret ") + expression->temp + std::string("\n");
+                    node->code = code;
+                    $$ = node;
+                }
                 ;
 assign_statement: IDENTIFIER ASSIGN expression {printer("assign_statement ->IDENTIFIER ASSIGN expression \n");}
                 | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression  {printer("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression \n" );}
                 ;
-expression: IDENTIFIER {printer("expression -> IDENTIFIER\n");}
-          | integerexpression {printer("expression -> integerexpression\n");}
-          | booleanexpression {printer("expression ->booleanexpression\n");}
-          | arrayexpression {printer("expression -> arrayexpression\n");}
+expression: IDENTIFIER {
+            CodeNode *node = new CodeNode;
+            std::string temp = $1;
+            node->temp = temp;
+            node->code = "";
+            $$ = node;
+          }
+          | integerexpression {
+            CodeNode *node = new CodeNode;
+            CodeNode *integerexpression = $1;
+            std::string temp = integerexpression->temp;
+            std::string code = integerexpression->code;
+            node->temp = temp;
+            node->code = code;
+            $$ = node;
+          }
+          | booleanexpression {
+            CodeNode *node = new CodeNode;
+            CodeNode *booleanexpression = $1;
+            std::string temp = booleanexpression->temp;
+            std::string code = booleanexpression->code;
+            node->temp = temp;
+            node->code = code;
+            $$ = node;
+          }
+          | arrayexpression {
+            CodeNode *node = new CodeNode;
+            std::string temp = "";
+            std::string code = "";
+            node->temp = temp;
+            node->code = code;
+            $$ = node;
+          }
           ;
-integerexpression: INTEGER {printer("integerexpression -> INTEGER\n" );}
-            | expression ADD expression {printer("integerexpression -> expression ADD expression\n");}
-            | expression SUB expression {printer("integerexpression -> expression SUB expression\n" );}
-            | expression MULT expression {printer("integerexpression -> expression MULT expression\n");}
-            | expression DIV expression {printer("integerexpression -> expression DIV expression\n");}
-            | expression MOD expression {printer("integerexpression ->  expression MOD expression\n");}
-            | L_PAREN expression R_PAREN {printer("integerexpression -> L_PAREN expression R_PAREN\n");}
-            | function_call {printer("integerexpression -> function_call\n");}
+integerexpression: integer_expression_actual_number {
+              CodeNode *node = new CodeNode;
+              CodeNode *integer_expression_actual_number = $1;
+              std::string temp = integer_expression_actual_number->temp;
+              node->temp = temp;
+              $$ = node;
+            }
+            | expression ADD expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "+ " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+            }
+            | expression SUB expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "- " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+            }
+            | expression MULT expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "* " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+            }
+            | expression DIV expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "/ " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+            }
+            | expression MOD expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "% " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+            }
+            | function_call {
+              CodeNode *node = new CodeNode;
+              CodeNode *function_call = $1;
+              std::string temp = function_call->temp;
+              std::string code = function_call->code;
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+            }
             ;
-booleanexpression: expression EQ expression {printer("booleanexpression -> expression EQ expression\n");}
-          | expression NEQ expression {printer("booleanexpression -> expression NEQ expression\n");}
-          | expression LT expression {printer("booleanexpression -> expression LT expression\n");}
-          | expression GT expression {printer("booleanexpression -> expression GT expression\n");}
-          | expression LTE expression {printer("booleanexpression -> expression LTE expression\n");}
-          | expression GTE expression {printer("booleanexpression -> expression GTE expression\n");}
-          | NOT expression {printer("booleanexpression -> NOT expression\n");}
+booleanexpression: expression EQ expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "== " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+}
+          | expression NEQ expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "!= " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+          }
+          | expression LT expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "< " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+          }
+          | expression GT expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "> " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+          }
+          | expression LTE expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += "<= " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+          }
+          | expression GTE expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $1;
+              CodeNode *expression2 = $3;
+              std::string temp1 = expression1->temp;
+              std::string temp2 = expression2->temp;
+              std::string code = expression1->code + expression2->code;
+              std::string temp = create_temp_with_code(code);
+              code += ">= " + temp + ", " + temp1 + ", " + temp2 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+          }
+          | NOT expression {
+              CodeNode *node = new CodeNode;
+              CodeNode *expression1 = $2;
+              std::string temp1 = expression1->temp;
+              std::string code = expression1->code;
+              std::string temp = create_temp_with_code(code);
+              code += "! " + temp + ", " + temp1 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+          }
           ;
-arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET {printer("arrayexpression ->  IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET\n");}
+arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET {
+              CodeNode *node = new CodeNode;
+              CodeNode *integer_expression = $3;
+              std::string temp1 = integer_expression->temp;
+              std::string code = integer_expression->code;
+              std::string temp = create_temp_with_code(code);
+              code += "=[] " + temp + ", " + $1 + ", " + temp1 + "\n";
+              node->code = code;
+              node->temp = temp;
+              $$ = node;
+}
                ;
 
 
@@ -326,6 +655,12 @@ IDENTIFIER
 | INTEGER 
 {
   $$ = $1; 
+}
+
+integer_expression_actual_number: INTEGER {
+  CodeNode *node = new CodeNode;
+  node->temp = $1;
+  $$ = node;
 }
 
 function_indentifier: IDENTIFIER {

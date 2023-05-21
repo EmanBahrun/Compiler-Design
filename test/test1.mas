@@ -1,4 +1,6 @@
 function mult(Integer aa, Integer bb) {
+        Integer nice = 1;
+        Integer cc = nice;
         return aa * bb;
 }
 function main() {
