@@ -1,4 +1,3 @@
-Generated code:
 func mult
 . aa
 = aa, $0
@@ -8,17 +7,20 @@ func mult
 = nice, 1
 . cc
 = cc, nice
+.> cc
 . _temporary0
 * _temporary0, aa, bb
 ret _temporary0
 endfunc
 func main
+. _temporary1
 = _temporary1, 2
 param _temporary1
+. _temporary2
 = _temporary2, 3
 param _temporary2
 . _temporary3
 call mult, _temporary3
-ret _temporary3
+.> _temporary3
 endfunc
 

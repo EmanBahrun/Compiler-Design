@@ -137,7 +137,7 @@
      std::string build_temp(std::string temp, std::string value) {
         std::string create = ". " + temp + "\n";
         std::string assign = "= " + temp + ", " + value + "\n";
-        return assign;
+        return create + assign;
      }
 
      struct CodeNode {
@@ -182,6 +182,7 @@
 %type <node> booleanexpression
 %type <node> arrayexpression
 %type <node> return_statement
+%type <node> assign_statement
 
 %%
 prog_start: 
@@ -192,7 +193,6 @@ functions {
       printf("Error: No main function found\n");
       exit(1);
     }
-    printf("Generated code:\n");
     printf("%s\n", code.c_str());
 };
 
@@ -307,6 +307,8 @@ statement: declaration SEMICOLON {
 }
          | assign_statement SEMICOLON {
             CodeNode *node = new CodeNode;
+            CodeNode *assign_statement = $1;
+            std::string code = assign_statement->code;
             $$ = node;
 }
          | CONTINUE SEMICOLON {
@@ -319,10 +321,17 @@ statement: declaration SEMICOLON {
 }
          | PRINT expression SEMICOLON {
             CodeNode *node = new CodeNode;
+            CodeNode *expression = $2;
+            std::string code = expression->code;
+            code += std::string(".> ") + expression->temp + std::string("\n");
+            node->code = code;
             $$ = node;
 }
-         | GET IDENTIFIER SEMICOLON {
+         | GET expression SEMICOLON {
             CodeNode *node = new CodeNode;
+            CodeNode *expression = $2;
+            std::string code = expression->code;
+            code += std::string(".< ") + expression->temp + std::string("\n");
             $$ = node;
 }
          ;
@@ -424,8 +433,26 @@ return_statement: RETURN {
                     $$ = node;
                 }
                 ;
-assign_statement: IDENTIFIER ASSIGN expression {printer("assign_statement ->IDENTIFIER ASSIGN expression \n");}
-                | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression  {printer("assign_statement -> IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression \n" );}
+assign_statement: IDENTIFIER ASSIGN expression {
+                    CodeNode *node = new CodeNode;
+                    std::string var_name = $1;
+                    CodeNode *expression = $3;
+                    std::string code = expression->code;
+                    code += std::string("= ") + var_name + std::string(", ") + expression->temp + std::string("\n");
+                    node->code = code;
+                    $$ = node;
+}
+                | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression  {
+                    CodeNode *node = new CodeNode;
+                    std::string var_name = $1;
+                    CodeNode *expression1 = $3;
+                    CodeNode *expression2 = $6;
+                    std::string code = expression1->code;
+                    code += expression2->code;
+                    code += std::string("[]= ") + var_name + std::string(", ") + expression1->temp + std::string(", ") + expression2->temp + std::string("\n");
+                    node->code = code;
+                    $$ = node;
+                }
                 ;
 expression: IDENTIFIER {
             CodeNode *node = new CodeNode;
