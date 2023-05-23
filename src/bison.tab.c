@@ -585,16 +585,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  7
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   147
+#define YYLAST   142
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  41
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  23
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  59
+#define YYNRULES  60
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  125
+#define YYNSTATES  128
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -645,11 +645,12 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint16 yyrline[] =
 {
        0,   216,   216,   226,   232,   242,   266,   268,   276,   284,
-     300,   304,   312,   319,   326,   330,   334,   341,   347,   351,
-     355,   363,   371,   388,   400,   408,   429,   433,   441,   450,
-     458,   469,   470,   472,   474,   476,   488,   505,   515,   528,
-     536,   545,   554,   563,   570,   583,   596,   609,   622,   635,
-     645,   658,   671,   684,   697,   710,   723,   735,   749,   755
+     300,   304,   312,   319,   326,   330,   334,   341,   348,   352,
+     356,   364,   373,   390,   402,   410,   431,   435,   443,   452,
+     460,   471,   472,   474,   476,   478,   490,   507,   517,   530,
+     538,   547,   556,   565,   572,   580,   593,   606,   619,   632,
+     645,   655,   668,   681,   694,   707,   720,   733,   745,   759,
+     765
 };
 #endif
 
@@ -686,10 +687,10 @@ static const yytype_uint16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF -33
+#define YYPACT_NINF -32
 
 #define yypact_value_is_default(Yystate) \
-  (!!((Yystate) == (-33)))
+  (!!((Yystate) == (-32)))
 
 #define YYTABLE_NINF -1
 
@@ -700,19 +701,19 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       0,   -32,    36,   -33,     0,   -33,    17,   -33,   -33,    39,
-       1,    28,    37,   -33,    50,    39,     2,   -33,    22,    38,
-     -18,    56,    58,    72,    73,   -18,   -18,    24,    57,     2,
-      77,    78,   -33,   -33,    80,    81,    62,    65,   -18,   -33,
-      14,   -33,    90,   -33,   -33,   -33,   -33,   -18,   -18,   -33,
-     -33,    -4,    35,   -24,   -18,   -18,   -33,   -33,   -33,   -33,
-     -33,   -33,    68,   -18,    90,   -18,   -18,   -18,   -18,   -18,
-     -18,   -18,   -18,   -18,   -18,   -18,   -18,    90,    70,    74,
-     -33,   -33,   -33,   -33,    76,    91,    79,    90,    93,    90,
-     105,    90,    90,    90,    90,    90,    90,    90,    90,    90,
-      90,    90,    75,   104,   -33,   -24,   106,    63,   -33,     2,
-       2,   -33,   -18,   108,   107,   109,    90,   -33,    94,   -33,
-     111,   -33,     2,   112,   -33
+      32,    -1,    43,   -32,    32,   -32,    26,   -32,   -32,    45,
+      13,    54,    68,   -32,    52,    45,     2,   -32,    39,    40,
+     -18,    60,    61,    75,    76,   -18,   -18,    23,    62,     2,
+      79,    80,   -32,   -32,    83,    84,    65,    69,   -18,   -18,
+     -32,    15,   -32,    93,   -32,   -32,   -32,   -32,   -18,   -18,
+     -32,   -32,    -4,    37,   -24,   -18,   -18,   -32,   -32,   -32,
+     -32,   -32,   -32,    70,   -18,    93,    93,    73,   -18,   -18,
+     -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,   -18,
+      77,    81,   -32,   -32,   -32,   -32,    85,    92,    82,    93,
+      96,    93,   -32,   108,    93,    93,    93,    93,    93,    93,
+      93,    93,    93,    93,    93,    78,   107,   -32,   -24,   109,
+      66,   -32,     2,     2,   -32,   -18,   111,   110,   112,    93,
+     -32,    97,   -32,   114,   -32,     2,   115,   -32
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -720,35 +721,35 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     0,     0,     2,     3,    59,     0,     1,     4,     6,
+       3,     0,     0,     2,     3,    60,     0,     1,     4,     6,
        0,     0,     8,     9,     0,     6,    10,     7,     0,     0,
       35,     0,     0,     0,     0,     0,     0,     0,     0,    10,
-       0,     0,    14,    15,     0,     0,     0,    23,     0,    58,
-      39,    49,    36,    40,    41,    42,    43,     0,     0,    18,
-      19,     0,     0,    26,     0,     0,     5,    11,    12,    13,
-      16,    17,     0,     0,    56,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,    41,    41,
-      21,    20,    29,    30,     0,    28,     0,    37,     0,    22,
-      40,    44,    45,    46,    47,    48,    50,    51,    52,    53,
-      54,    55,     0,     0,    25,    26,     0,     0,    57,    10,
-      10,    27,     0,     0,     0,     0,    38,    24,    31,    34,
-       0,    32,    10,     0,    33
+       0,     0,    14,    15,     0,     0,     0,    23,     0,     0,
+      59,    39,    50,    36,    40,    41,    42,    43,     0,     0,
+      18,    19,     0,     0,    26,     0,     0,     5,    11,    12,
+      13,    16,    17,     0,     0,    57,     0,    40,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+      41,    41,    21,    20,    29,    30,     0,    28,     0,    37,
+       0,    22,    44,    40,    45,    46,    47,    48,    49,    51,
+      52,    53,    54,    55,    56,     0,     0,    25,    26,     0,
+       0,    58,    10,    10,    27,     0,     0,     0,     0,    38,
+      24,    31,    34,     0,    32,    10,     0,    33
 };
 
   /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int8 yypgoto[] =
+static const yytype_int16 yypgoto[] =
 {
-     -33,   -33,   100,   -33,   118,   -33,   -27,   -33,   -33,   -16,
-      30,   -33,   -33,   -33,   -33,   -33,   -33,   -15,    82,    27,
-     -33,   -33,   -33
+     -32,   -32,   132,   -32,   123,   -32,   -27,   -32,   -32,   -16,
+      33,   -32,   -32,   -32,   -32,   -32,   -32,   -15,   -31,     3,
+     -32,   -32,   -32
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3,     4,    11,    12,    28,    29,    30,    41,
-      84,    85,    32,   121,    33,    34,    35,    77,    43,    44,
-      45,    46,     6
+      -1,     2,     3,     4,    11,    12,    28,    29,    30,    42,
+      86,    87,    32,   124,    33,    34,    35,    66,    44,    45,
+      46,    47,     6
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -756,40 +757,40 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      31,    38,    57,     1,    80,    42,    18,    19,     5,    20,
-      51,    52,    21,    31,    22,    82,    83,    23,    24,    25,
-      26,    39,    40,    64,    66,    67,    68,    69,    70,    71,
-      72,    73,    74,    75,    76,    53,     7,    65,     9,    86,
-      87,    13,    27,    81,    10,    53,    15,    54,    89,    55,
-      14,    91,    92,    93,    94,    95,    96,    97,    98,    99,
-     100,   101,    36,    66,    67,    68,    69,    70,    71,    72,
-      73,    74,    75,    76,    78,    79,    16,    47,    37,    48,
-      49,    50,   114,   115,    56,    58,    59,    62,    60,    61,
-      63,    88,   102,    31,    31,   123,   103,   116,   104,   107,
-     105,   109,   113,   106,     8,   120,    31,    66,    67,    68,
-      69,    70,    71,    72,    73,    74,    75,    76,    66,    67,
-      68,    69,    70,    71,    72,    73,    74,    75,    76,   108,
-     110,   112,   117,    17,   118,   111,   119,   122,     0,   124,
-       0,     0,     0,     0,     0,     0,     0,    90
+      31,    38,    58,    39,    82,    43,    18,    19,    67,    20,
+      52,    53,    21,    31,    22,    84,    85,    23,    24,    25,
+      26,    40,    41,    65,    69,    70,    71,    72,    73,    74,
+      75,    76,    77,    78,    79,     1,    54,    93,    68,     5,
+      88,    89,    27,     7,    54,    83,    55,     9,    56,    91,
+      10,    80,    81,    13,    94,    95,    96,    97,    98,    99,
+     100,   101,   102,   103,   104,    69,    70,    71,    72,    73,
+      74,    75,    76,    77,    78,    79,    14,    15,    16,    36,
+      37,    48,    49,    50,    51,   117,   118,    59,    60,    57,
+      63,    61,    62,    90,    64,    92,    31,    31,   126,   105,
+     119,   108,   110,   106,   112,   116,   109,   107,   123,    31,
+      69,    70,    71,    72,    73,    74,    75,    76,    77,    78,
+      79,    69,    70,    71,    72,    73,    74,    75,    76,    77,
+      78,    79,   111,   113,   115,   120,     8,   121,    17,   122,
+     125,   114,   127
 };
 
-static const yytype_int8 yycheck[] =
+static const yytype_uint8 yycheck[] =
 {
-      16,    19,    29,     3,     8,    20,     4,     5,    40,     7,
+      16,    19,    29,    21,     8,    20,     4,     5,    39,     7,
       25,    26,    10,    29,    12,    39,    40,    15,    16,    17,
       18,    39,    40,    38,    28,    29,    30,    31,    32,    33,
-      34,    35,    36,    37,    38,    21,     0,    23,    21,    54,
-      55,    40,    40,     8,     5,    21,     9,    23,    63,    25,
-      22,    66,    67,    68,    69,    70,    71,    72,    73,    74,
-      75,    76,    40,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    47,    48,    26,    21,    40,    21,
-       8,     8,   109,   110,    27,     8,     8,    25,     8,     8,
-      25,    23,    22,   109,   110,   122,    22,   112,    22,     6,
-       9,    26,    39,    24,     4,    11,   122,    28,    29,    30,
-      31,    32,    33,    34,    35,    36,    37,    38,    28,    29,
-      30,    31,    32,    33,    34,    35,    36,    37,    38,    24,
-      26,    25,    24,    15,    27,   105,    27,    26,    -1,    27,
-      -1,    -1,    -1,    -1,    -1,    -1,    -1,    65
+      34,    35,    36,    37,    38,     3,    21,    68,    23,    40,
+      55,    56,    40,     0,    21,     8,    23,    21,    25,    64,
+       5,    48,    49,    40,    69,    70,    71,    72,    73,    74,
+      75,    76,    77,    78,    79,    28,    29,    30,    31,    32,
+      33,    34,    35,    36,    37,    38,    22,     9,    26,    40,
+      40,    21,    21,     8,     8,   112,   113,     8,     8,    27,
+      25,     8,     8,    23,    25,    22,   112,   113,   125,    22,
+     115,     9,     6,    22,    26,    39,    24,    22,    11,   125,
+      28,    29,    30,    31,    32,    33,    34,    35,    36,    37,
+      38,    28,    29,    30,    31,    32,    33,    34,    35,    36,
+      37,    38,    24,    26,    25,    24,     4,    27,    15,    27,
+      26,   108,    27
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -799,16 +800,16 @@ static const yytype_uint8 yystos[] =
        0,     3,    42,    43,    44,    40,    63,     0,    43,    21,
        5,    45,    46,    40,    22,     9,    26,    45,     4,     5,
        7,    10,    12,    15,    16,    17,    18,    40,    47,    48,
-      49,    50,    53,    55,    56,    57,    40,    40,    19,    39,
-      40,    50,    58,    59,    60,    61,    62,    21,    21,     8,
-       8,    58,    58,    21,    23,    25,    27,    47,     8,     8,
-       8,     8,    25,    25,    58,    23,    28,    29,    30,    31,
-      32,    33,    34,    35,    36,    37,    38,    58,    60,    60,
-       8,     8,    39,    40,    51,    52,    58,    58,    23,    58,
-      59,    58,    58,    58,    58,    58,    58,    58,    58,    58,
-      58,    58,    22,    22,    22,     9,    24,     6,    24,    26,
-      26,    51,    25,    39,    47,    47,    58,    24,    27,    27,
-      11,    54,    26,    47,    27
+      49,    50,    53,    55,    56,    57,    40,    40,    19,    21,
+      39,    40,    50,    58,    59,    60,    61,    62,    21,    21,
+       8,     8,    58,    58,    21,    23,    25,    27,    47,     8,
+       8,     8,     8,    25,    25,    58,    58,    59,    23,    28,
+      29,    30,    31,    32,    33,    34,    35,    36,    37,    38,
+      60,    60,     8,     8,    39,    40,    51,    52,    58,    58,
+      23,    58,    22,    59,    58,    58,    58,    58,    58,    58,
+      58,    58,    58,    58,    58,    22,    22,    22,     9,    24,
+       6,    24,    26,    26,    51,    25,    39,    47,    47,    58,
+      24,    27,    27,    11,    54,    26,    47,    27
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -819,7 +820,8 @@ static const yytype_uint8 yyr1[] =
       48,    48,    49,    49,    49,    50,    51,    51,    51,    52,
       52,    53,    53,    54,    55,    56,    56,    57,    57,    58,
       58,    58,    58,    59,    59,    59,    59,    59,    59,    59,
-      60,    60,    60,    60,    60,    60,    60,    61,    62,    63
+      59,    60,    60,    60,    60,    60,    60,    60,    61,    62,
+      63
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -829,8 +831,9 @@ static const yytype_uint8 yyr2[] =
        0,     2,     2,     2,     1,     1,     2,     2,     2,     2,
        3,     3,     4,     2,     7,     4,     0,     3,     1,     1,
        1,     7,     8,     4,     7,     1,     2,     3,     6,     1,
-       1,     1,     1,     1,     3,     3,     3,     3,     3,     1,
-       3,     3,     3,     3,     3,     3,     2,     4,     1,     1
+       1,     1,     1,     1,     3,     3,     3,     3,     3,     3,
+       1,     3,     3,     3,     3,     3,     3,     2,     4,     1,
+       1
 };
 
 
@@ -1517,7 +1520,7 @@ yyreduce:
     }
     printf("%s\n", code.c_str());
 }
-#line 1521 "bison.tab.c" /* yacc.c:1646  */
+#line 1524 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
@@ -1526,7 +1529,7 @@ yyreduce:
     CodeNode *node = new CodeNode;
     (yyval.node) = node;
 }
-#line 1530 "bison.tab.c" /* yacc.c:1646  */
+#line 1533 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
@@ -1540,7 +1543,7 @@ yyreduce:
     node->code = code;
     (yyval.node) = node;
 }
-#line 1544 "bison.tab.c" /* yacc.c:1646  */
+#line 1547 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
@@ -1568,13 +1571,13 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
            }
-#line 1572 "bison.tab.c" /* yacc.c:1646  */
+#line 1575 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 267 "bison.y" /* yacc.c:1646  */
     { CodeNode *node = new CodeNode; (yyval.node) = node;}
-#line 1578 "bison.tab.c" /* yacc.c:1646  */
+#line 1581 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
@@ -1587,7 +1590,7 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
          }
-#line 1591 "bison.tab.c" /* yacc.c:1646  */
+#line 1594 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
@@ -1599,7 +1602,7 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
          }
-#line 1603 "bison.tab.c" /* yacc.c:1646  */
+#line 1606 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
@@ -1618,7 +1621,7 @@ yyreduce:
             node->code = code + code2;
             (yyval.node) = node;
          }
-#line 1622 "bison.tab.c" /* yacc.c:1646  */
+#line 1625 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
@@ -1627,7 +1630,7 @@ yyreduce:
             CodeNode *node = new CodeNode;
             (yyval.node) = node;
           }
-#line 1631 "bison.tab.c" /* yacc.c:1646  */
+#line 1634 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
@@ -1640,7 +1643,7 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
           }
-#line 1644 "bison.tab.c" /* yacc.c:1646  */
+#line 1647 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
@@ -1652,7 +1655,7 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
 }
-#line 1656 "bison.tab.c" /* yacc.c:1646  */
+#line 1659 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
@@ -1664,7 +1667,7 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
          }
-#line 1668 "bison.tab.c" /* yacc.c:1646  */
+#line 1671 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
@@ -1673,7 +1676,7 @@ yyreduce:
             CodeNode *node = new CodeNode;
             (yyval.node) = node;
 }
-#line 1677 "bison.tab.c" /* yacc.c:1646  */
+#line 1680 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
@@ -1682,7 +1685,7 @@ yyreduce:
             CodeNode *node = new CodeNode;
             (yyval.node) = node;
 }
-#line 1686 "bison.tab.c" /* yacc.c:1646  */
+#line 1689 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
@@ -1694,7 +1697,7 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
 }
-#line 1698 "bison.tab.c" /* yacc.c:1646  */
+#line 1701 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
@@ -1703,31 +1706,32 @@ yyreduce:
             CodeNode *node = new CodeNode;
             CodeNode *assign_statement = (yyvsp[-1].node);
             std::string code = assign_statement->code;
+            node->code = code;
             (yyval.node) = node;
 }
-#line 1709 "bison.tab.c" /* yacc.c:1646  */
+#line 1713 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 347 "bison.y" /* yacc.c:1646  */
+#line 348 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             (yyval.node) = node;
 }
-#line 1718 "bison.tab.c" /* yacc.c:1646  */
+#line 1722 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 351 "bison.y" /* yacc.c:1646  */
+#line 352 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             (yyval.node) = node;
 }
-#line 1727 "bison.tab.c" /* yacc.c:1646  */
+#line 1731 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 355 "bison.y" /* yacc.c:1646  */
+#line 356 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             CodeNode *expression = (yyvsp[-1].node);
@@ -1736,23 +1740,24 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
 }
-#line 1740 "bison.tab.c" /* yacc.c:1646  */
+#line 1744 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 363 "bison.y" /* yacc.c:1646  */
+#line 364 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             CodeNode *expression = (yyvsp[-1].node);
             std::string code = expression->code;
             code += std::string(".< ") + expression->temp + std::string("\n");
+            node->code = code;
             (yyval.node) = node;
 }
-#line 1752 "bison.tab.c" /* yacc.c:1646  */
+#line 1757 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 371 "bison.y" /* yacc.c:1646  */
+#line 373 "bison.y" /* yacc.c:1646  */
     {
         std::string var_name = (yyvsp[-2].op_val);
 
@@ -1770,11 +1775,11 @@ yyreduce:
         node->code = code;
         (yyval.node) = node;
 }
-#line 1774 "bison.tab.c" /* yacc.c:1646  */
+#line 1779 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 388 "bison.y" /* yacc.c:1646  */
+#line 390 "bison.y" /* yacc.c:1646  */
     {
                 std::string var_name = (yyvsp[0].op_val);
                 if (check_if_variable_in_symbol_table(var_name)) {
@@ -1787,11 +1792,11 @@ yyreduce:
                 add_variable_to_symbol_table(var_name, Integer);
                 (yyval.node) = node;
              }
-#line 1791 "bison.tab.c" /* yacc.c:1646  */
+#line 1796 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 400 "bison.y" /* yacc.c:1646  */
+#line 402 "bison.y" /* yacc.c:1646  */
     {
                 CodeNode *node = new CodeNode;
                 node->code = "";
@@ -1799,11 +1804,11 @@ yyreduce:
                 add_variable_to_symbol_table(var_name, Integer); // Arrays & Integers cannot have same name
                 (yyval.node) = node;
              }
-#line 1803 "bison.tab.c" /* yacc.c:1646  */
+#line 1808 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 408 "bison.y" /* yacc.c:1646  */
+#line 410 "bison.y" /* yacc.c:1646  */
     {
                 std::string func_name = (yyvsp[-3].op_val);
                 if (!check_if_function_in_symbol_table(func_name)) {
@@ -1824,20 +1829,20 @@ yyreduce:
                 node->temp = temp;
                 (yyval.node) = node;
               }
-#line 1828 "bison.tab.c" /* yacc.c:1646  */
+#line 1833 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 429 "bison.y" /* yacc.c:1646  */
+#line 431 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             (yyval.node) = node;
 }
-#line 1837 "bison.tab.c" /* yacc.c:1646  */
+#line 1842 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 433 "bison.y" /* yacc.c:1646  */
+#line 435 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *param = (yyvsp[-2].node);
             CodeNode *params = (yyvsp[0].node);
@@ -1846,11 +1851,11 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
         }
-#line 1850 "bison.tab.c" /* yacc.c:1646  */
+#line 1855 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 441 "bison.y" /* yacc.c:1646  */
+#line 443 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *param = (yyvsp[0].node);
             std::string code = param->code;
@@ -1859,11 +1864,11 @@ yyreduce:
             // printf(node->code.c_str());
             (yyval.node) = node;
         }
-#line 1863 "bison.tab.c" /* yacc.c:1646  */
+#line 1868 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 450 "bison.y" /* yacc.c:1646  */
+#line 452 "bison.y" /* yacc.c:1646  */
     {
             std::string name = create_temp();
             std::string assign = build_temp(name, patch::to_string((yyvsp[0].op_val)));
@@ -1872,11 +1877,11 @@ yyreduce:
             node->code = assign + code;
             (yyval.node) = node;
 }
-#line 1876 "bison.tab.c" /* yacc.c:1646  */
+#line 1881 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 458 "bison.y" /* yacc.c:1646  */
+#line 460 "bison.y" /* yacc.c:1646  */
     {
             std::string var_name = (yyvsp[0].op_val);
             variable_exist(var_name);
@@ -1885,35 +1890,35 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
 }
-#line 1889 "bison.tab.c" /* yacc.c:1646  */
+#line 1894 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 469 "bison.y" /* yacc.c:1646  */
+#line 471 "bison.y" /* yacc.c:1646  */
     {printer("if_statement -> IF L_PAREN booleanexpression R_PAREN RBRACE statements\n");}
-#line 1895 "bison.tab.c" /* yacc.c:1646  */
+#line 1900 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 470 "bison.y" /* yacc.c:1646  */
+#line 472 "bison.y" /* yacc.c:1646  */
     {printer("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement\n");}
-#line 1901 "bison.tab.c" /* yacc.c:1646  */
+#line 1906 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 472 "bison.y" /* yacc.c:1646  */
+#line 474 "bison.y" /* yacc.c:1646  */
     {printer("else_statement -> ELSE LBRACE statements RBRACE\n");}
-#line 1907 "bison.tab.c" /* yacc.c:1646  */
+#line 1912 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 474 "bison.y" /* yacc.c:1646  */
+#line 476 "bison.y" /* yacc.c:1646  */
     {printer("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
-#line 1913 "bison.tab.c" /* yacc.c:1646  */
+#line 1918 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 476 "bison.y" /* yacc.c:1646  */
+#line 478 "bison.y" /* yacc.c:1646  */
     {
                     CodeNode *node = new CodeNode;
                     Function * f = get_function();
@@ -1926,11 +1931,11 @@ yyreduce:
                     }
                     (yyval.node) = node;
                   }
-#line 1930 "bison.tab.c" /* yacc.c:1646  */
+#line 1935 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 488 "bison.y" /* yacc.c:1646  */
+#line 490 "bison.y" /* yacc.c:1646  */
     {
                     CodeNode *node = new CodeNode;
                     CodeNode *expression = (yyvsp[0].node);
@@ -1947,11 +1952,11 @@ yyreduce:
                     node->code = code;
                     (yyval.node) = node;
                 }
-#line 1951 "bison.tab.c" /* yacc.c:1646  */
+#line 1956 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 505 "bison.y" /* yacc.c:1646  */
+#line 507 "bison.y" /* yacc.c:1646  */
     {
                     CodeNode *node = new CodeNode;
                     std::string var_name = (yyvsp[-2].op_val);
@@ -1962,11 +1967,11 @@ yyreduce:
                     node->code = code;
                     (yyval.node) = node;
 }
-#line 1966 "bison.tab.c" /* yacc.c:1646  */
+#line 1971 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 515 "bison.y" /* yacc.c:1646  */
+#line 517 "bison.y" /* yacc.c:1646  */
     {
                     CodeNode *node = new CodeNode;
                     std::string var_name = (yyvsp[-5].op_val);
@@ -1979,11 +1984,11 @@ yyreduce:
                     node->code = code;
                     (yyval.node) = node;
                 }
-#line 1983 "bison.tab.c" /* yacc.c:1646  */
+#line 1988 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 528 "bison.y" /* yacc.c:1646  */
+#line 530 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             std::string temp = (yyvsp[0].op_val);
@@ -1992,11 +1997,11 @@ yyreduce:
             node->code = "";
             (yyval.node) = node;
           }
-#line 1996 "bison.tab.c" /* yacc.c:1646  */
+#line 2001 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 536 "bison.y" /* yacc.c:1646  */
+#line 538 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             CodeNode *integerexpression = (yyvsp[0].node);
@@ -2006,11 +2011,11 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
           }
-#line 2010 "bison.tab.c" /* yacc.c:1646  */
+#line 2015 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 545 "bison.y" /* yacc.c:1646  */
+#line 547 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             CodeNode *booleanexpression = (yyvsp[0].node);
@@ -2020,11 +2025,11 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
           }
-#line 2024 "bison.tab.c" /* yacc.c:1646  */
+#line 2029 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 554 "bison.y" /* yacc.c:1646  */
+#line 556 "bison.y" /* yacc.c:1646  */
     {
             CodeNode *node = new CodeNode;
             std::string temp = "";
@@ -2033,11 +2038,11 @@ yyreduce:
             node->code = code;
             (yyval.node) = node;
           }
-#line 2037 "bison.tab.c" /* yacc.c:1646  */
+#line 2042 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 563 "bison.y" /* yacc.c:1646  */
+#line 565 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *integer_expression_actual_number = (yyvsp[0].node);
@@ -2045,11 +2050,24 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
             }
-#line 2049 "bison.tab.c" /* yacc.c:1646  */
+#line 2054 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 570 "bison.y" /* yacc.c:1646  */
+#line 572 "bison.y" /* yacc.c:1646  */
+    {
+              CodeNode *node = new CodeNode;
+              CodeNode *integerexpression = (yyvsp[-1].node);
+              std::string temp = integerexpression->temp;
+              node->temp = temp;
+              node->code = integerexpression->code;
+              (yyval.node) = node;
+            }
+#line 2067 "bison.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 45:
+#line 580 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2063,11 +2081,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
             }
-#line 2067 "bison.tab.c" /* yacc.c:1646  */
+#line 2085 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 45:
-#line 583 "bison.y" /* yacc.c:1646  */
+  case 46:
+#line 593 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2081,11 +2099,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
             }
-#line 2085 "bison.tab.c" /* yacc.c:1646  */
+#line 2103 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 46:
-#line 596 "bison.y" /* yacc.c:1646  */
+  case 47:
+#line 606 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2099,11 +2117,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
             }
-#line 2103 "bison.tab.c" /* yacc.c:1646  */
+#line 2121 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 47:
-#line 609 "bison.y" /* yacc.c:1646  */
+  case 48:
+#line 619 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2117,11 +2135,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
             }
-#line 2121 "bison.tab.c" /* yacc.c:1646  */
+#line 2139 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 48:
-#line 622 "bison.y" /* yacc.c:1646  */
+  case 49:
+#line 632 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2135,11 +2153,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
             }
-#line 2139 "bison.tab.c" /* yacc.c:1646  */
+#line 2157 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 49:
-#line 635 "bison.y" /* yacc.c:1646  */
+  case 50:
+#line 645 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *function_call = (yyvsp[0].node);
@@ -2149,11 +2167,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
             }
-#line 2153 "bison.tab.c" /* yacc.c:1646  */
+#line 2171 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 50:
-#line 645 "bison.y" /* yacc.c:1646  */
+  case 51:
+#line 655 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2167,11 +2185,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
 }
-#line 2171 "bison.tab.c" /* yacc.c:1646  */
+#line 2189 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 51:
-#line 658 "bison.y" /* yacc.c:1646  */
+  case 52:
+#line 668 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2185,11 +2203,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
           }
-#line 2189 "bison.tab.c" /* yacc.c:1646  */
+#line 2207 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 52:
-#line 671 "bison.y" /* yacc.c:1646  */
+  case 53:
+#line 681 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2203,11 +2221,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
           }
-#line 2207 "bison.tab.c" /* yacc.c:1646  */
+#line 2225 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 53:
-#line 684 "bison.y" /* yacc.c:1646  */
+  case 54:
+#line 694 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2221,11 +2239,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
           }
-#line 2225 "bison.tab.c" /* yacc.c:1646  */
+#line 2243 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 54:
-#line 697 "bison.y" /* yacc.c:1646  */
+  case 55:
+#line 707 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2239,11 +2257,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
           }
-#line 2243 "bison.tab.c" /* yacc.c:1646  */
+#line 2261 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 55:
-#line 710 "bison.y" /* yacc.c:1646  */
+  case 56:
+#line 720 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[-2].node);
@@ -2257,11 +2275,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
           }
-#line 2261 "bison.tab.c" /* yacc.c:1646  */
+#line 2279 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 56:
-#line 723 "bison.y" /* yacc.c:1646  */
+  case 57:
+#line 733 "bison.y" /* yacc.c:1646  */
     {
               CodeNode *node = new CodeNode;
               CodeNode *expression1 = (yyvsp[0].node);
@@ -2273,11 +2291,11 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
           }
-#line 2277 "bison.tab.c" /* yacc.c:1646  */
+#line 2295 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 57:
-#line 735 "bison.y" /* yacc.c:1646  */
+  case 58:
+#line 745 "bison.y" /* yacc.c:1646  */
     {
   // TODO
               CodeNode *node = new CodeNode;
@@ -2290,21 +2308,21 @@ yyreduce:
               node->temp = temp;
               (yyval.node) = node;
 }
-#line 2294 "bison.tab.c" /* yacc.c:1646  */
+#line 2312 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 58:
-#line 749 "bison.y" /* yacc.c:1646  */
+  case 59:
+#line 759 "bison.y" /* yacc.c:1646  */
     {
   CodeNode *node = new CodeNode;
   node->temp = (yyvsp[0].op_val);
   (yyval.node) = node;
 }
-#line 2304 "bison.tab.c" /* yacc.c:1646  */
+#line 2322 "bison.tab.c" /* yacc.c:1646  */
     break;
 
-  case 59:
-#line 755 "bison.y" /* yacc.c:1646  */
+  case 60:
+#line 765 "bison.y" /* yacc.c:1646  */
     {
   std::string func_name = (yyvsp[0].op_val);
   if (check_if_function_in_symbol_table(func_name)) {
@@ -2314,11 +2332,11 @@ yyreduce:
   add_function_to_symbol_table(func_name);
   (yyval.op_val) = (yyvsp[0].op_val);
 }
-#line 2318 "bison.tab.c" /* yacc.c:1646  */
+#line 2336 "bison.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2322 "bison.tab.c" /* yacc.c:1646  */
+#line 2340 "bison.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2546,7 +2564,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 765 "bison.y" /* yacc.c:1906  */
+#line 775 "bison.y" /* yacc.c:1906  */
 
 
 

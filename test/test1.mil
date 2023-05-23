@@ -1,1 +1,37 @@
-***Error. Variable bb does not exist
+func main
+. aa
+= aa, 10
+. bb
+= bb, 5
+. cc
+= cc, 0
+. _temporary0
++ _temporary0, aa, bb
+= cc, _temporary0
+.> cc
+. _temporary1
+- _temporary1, aa, bb
+= cc, _temporary1
+.> cc
+. _temporary2
+* _temporary2, aa, bb
+= cc, _temporary2
+.> cc
+. _temporary3
+/ _temporary3, aa, bb
+= cc, _temporary3
+.> cc
+. _temporary4
+% _temporary4, aa, bb
+= cc, _temporary4
+.> cc
+= aa, 4
+= bb, 2
+. _temporary5
+* _temporary5, bb, 7
+. _temporary6
++ _temporary6, aa, _temporary5
+= cc, _temporary6
+.> cc
+endfunc
+

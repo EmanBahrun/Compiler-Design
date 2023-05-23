@@ -342,6 +342,7 @@ statement: declaration SEMICOLON {
             CodeNode *node = new CodeNode;
             CodeNode *assign_statement = $1;
             std::string code = assign_statement->code;
+            node->code = code;
             $$ = node;
 }
          | CONTINUE SEMICOLON {
@@ -365,6 +366,7 @@ statement: declaration SEMICOLON {
             CodeNode *expression = $2;
             std::string code = expression->code;
             code += std::string(".< ") + expression->temp + std::string("\n");
+            node->code = code;
             $$ = node;
 }
          ;
@@ -565,6 +567,14 @@ integerexpression: integer_expression_actual_number {
               CodeNode *integer_expression_actual_number = $1;
               std::string temp = integer_expression_actual_number->temp;
               node->temp = temp;
+              $$ = node;
+            }
+            | L_PAREN integerexpression R_PAREN {
+              CodeNode *node = new CodeNode;
+              CodeNode *integerexpression = $2;
+              std::string temp = integerexpression->temp;
+              node->temp = temp;
+              node->code = integerexpression->code;
               $$ = node;
             }
             | expression ADD expression {
