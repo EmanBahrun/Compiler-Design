@@ -1,20 +1,8 @@
-Nonterminals useless in grammar
-
-   symbol
-   declarations
-
-
 Terminals unused in grammar
 
    TRUE
    FALSE
    COLON
-
-
-Rules useless in grammar
-
-   59 symbol: IDENTIFIER
-   60       | INTEGER
 
 
 State 64 conflicts: 11 shift/reduce

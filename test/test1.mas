@@ -5,5 +5,5 @@ function mult(Integer aa, Integer bb) {
         return aa * bb;
 }
 function main() {
-        print mult(2, 3);
+        print mult(bb, 3);
 }
