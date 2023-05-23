@@ -401,9 +401,14 @@ declaration: INTEGERVAR IDENTIFIER ASSIGN expression {
              }
              | ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET {
                 CodeNode *node = new CodeNode;
-                node->code = "";
                 std::string var_name = $2;
+                if (check_if_variable_in_symbol_table(var_name)) {
+                  printf("Error: Array %s already declared\n", var_name.c_str());
+                  exit(1);
+                }
                 add_variable_to_symbol_table(var_name, Integer); // Arrays & Integers cannot have same name
+                std::string code = std::string(".[] ") + var_name + ", " + patch::to_string($6) + std::string("\n");
+                node->code = code;
                 $$ = node;
              }
            ;
@@ -555,8 +560,9 @@ expression: IDENTIFIER {
           }
           | arrayexpression {
             CodeNode *node = new CodeNode;
-            std::string temp = "";
-            std::string code = "";
+            CodeNode *arrayexpression = $1;
+            std::string temp = arrayexpression->temp;
+            std::string code = arrayexpression->code;
             node->temp = temp;
             node->code = code;
             $$ = node;
@@ -743,13 +749,14 @@ booleanexpression: expression EQ expression {
           }
           ;
 arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET {
-  // TODO
               CodeNode *node = new CodeNode;
               CodeNode *integer_expression = $3;
+              std::string var_name = $1;
+              variable_exist(var_name);
               std::string temp1 = integer_expression->temp;
               std::string code = integer_expression->code;
               std::string temp = create_temp_with_code(code);
-              code += "=[] " + temp + ", " + $1 + ", " + temp1 + "\n";
+              code += "=[] " + temp + ", " + var_name + ", " + temp1 + "\n";
               node->code = code;
               node->temp = temp;
               $$ = node;
