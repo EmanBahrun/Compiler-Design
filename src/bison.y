@@ -7,6 +7,7 @@
      #include <stdio.h>
      #include <stdlib.h>
      #include <sstream>
+       #include <iostream>
 
      namespace patch
     {
@@ -104,7 +105,7 @@
        f -> declarations.push_back(s);
      }
 
-     bool check_if_variable_in_symbol_table(std::string & temp) {
+     bool check_if_variable_in_symbol_table(std::string & temp, Type t) {
         Function * f = get_function();
         for (int i = 0; i < f -> declarations.size(); i++) {
           Symbol * s = & f -> declarations[i];
@@ -115,8 +116,8 @@
         return false;
      }
 
-     void variable_exist(std::string & temp) {
-        if (!check_if_variable_in_symbol_table(temp)) {
+     void variable_exist(std::string & temp, Type t) {
+        if (!check_if_variable_in_symbol_table(temp, t)) {
           printf("***Error. Variable %s does not exist\n", temp.c_str());
           exit(1);
         }
@@ -283,7 +284,7 @@ arguments: %empty
          ;
 argument: INTEGERVAR IDENTIFIER {
             std::string var_name = $2;
-            if (check_if_variable_in_symbol_table(var_name)) {
+            if (check_if_variable_in_symbol_table(var_name, Integer)) {
               printf("Error: Arguments have same variable name: %s\n", var_name.c_str());
               exit(1);
             }
@@ -373,7 +374,7 @@ statement: declaration SEMICOLON {
 declaration: INTEGERVAR IDENTIFIER ASSIGN expression {
         std::string var_name = $2;
 
-        if (check_if_variable_in_symbol_table(var_name)) {
+        if (check_if_variable_in_symbol_table(var_name, Integer)) {
           printf("Error: Variable %s already declared\n", var_name.c_str());
           exit(1);
         }
@@ -389,7 +390,7 @@ declaration: INTEGERVAR IDENTIFIER ASSIGN expression {
 }
              | INTEGERVAR IDENTIFIER {
                 std::string var_name = $2;
-                if (check_if_variable_in_symbol_table(var_name)) {
+                if (check_if_variable_in_symbol_table(var_name, Integer)) {
                   printf("Error: Variable %s already declared\n", var_name.c_str());
                   exit(1);
                 }
@@ -402,12 +403,20 @@ declaration: INTEGERVAR IDENTIFIER ASSIGN expression {
              | ARRAY IDENTIFIER ASSIGN L_SQUARE_BRACKET ARRAYFILL INTEGER R_SQUARE_BRACKET {
                 CodeNode *node = new CodeNode;
                 std::string var_name = $2;
-                if (check_if_variable_in_symbol_table(var_name)) {
+                if (check_if_variable_in_symbol_table(var_name, Array)) {
                   printf("Error: Array %s already declared\n", var_name.c_str());
                   exit(1);
                 }
-                add_variable_to_symbol_table(var_name, Integer); // Arrays & Integers cannot have same name
-                std::string code = std::string(".[] ") + var_name + ", " + patch::to_string($6) + std::string("\n");
+                add_variable_to_symbol_table(var_name, Array); // Arrays & Integers cannot have same name
+
+                int j = atoi($6);
+                if (j < 1) {
+                  printf("Error: Array size cannot be negative or zero\n");
+                  exit(1);
+                }
+                
+
+                std::string code = std::string(".[] ") + var_name + ", " + patch::to_string(j) + std::string("\n");
                 node->code = code;
                 $$ = node;
              }
@@ -464,7 +473,7 @@ param: INTEGER {
 }
      | IDENTIFIER {
             std::string var_name = $1;
-            variable_exist(var_name);
+            variable_exist(var_name, Integer);
             std::string code = std::string("param ") + $1 + std::string("\n");
             CodeNode *node = new CodeNode;
             node->code = code;
@@ -512,7 +521,7 @@ return_statement: RETURN {
 assign_statement: IDENTIFIER ASSIGN expression {
                     CodeNode *node = new CodeNode;
                     std::string var_name = $1;
-                    variable_exist(var_name);
+                    variable_exist(var_name, Integer);
                     CodeNode *expression = $3;
                     std::string code = expression->code;
                     code += std::string("= ") + var_name + std::string(", ") + expression->temp + std::string("\n");
@@ -522,7 +531,7 @@ assign_statement: IDENTIFIER ASSIGN expression {
                 | IDENTIFIER L_SQUARE_BRACKET expression R_SQUARE_BRACKET ASSIGN expression  {
                     CodeNode *node = new CodeNode;
                     std::string var_name = $1;
-                    variable_exist(var_name);
+                    variable_exist(var_name, Array);
                     CodeNode *expression1 = $3;
                     CodeNode *expression2 = $6;
                     std::string code = expression1->code;
@@ -535,7 +544,7 @@ assign_statement: IDENTIFIER ASSIGN expression {
 expression: IDENTIFIER {
             CodeNode *node = new CodeNode;
             std::string temp = $1;
-            variable_exist(temp);
+            variable_exist(temp, Integer);
             node->temp = temp;
             node->code = "";
             $$ = node;
@@ -752,7 +761,7 @@ arrayexpression: IDENTIFIER L_SQUARE_BRACKET integerexpression R_SQUARE_BRACKET 
               CodeNode *node = new CodeNode;
               CodeNode *integer_expression = $3;
               std::string var_name = $1;
-              variable_exist(var_name);
+              variable_exist(var_name, Array);
               std::string temp1 = integer_expression->temp;
               std::string code = integer_expression->code;
               std::string temp = create_temp_with_code(code);

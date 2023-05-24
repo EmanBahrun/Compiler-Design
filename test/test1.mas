@@ -1,4 +1,4 @@
-function main() {
+function ss() {
   Integer aa = 10;
   Integer bb = 5;
   Integer cc = 0;
@@ -28,5 +28,5 @@ function main() {
   aa = 4;
   bb = 2;
   cc = (aa + bb) * 7;
-  print cc;
+  print cc[0];
 }
