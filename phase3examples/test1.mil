@@ -1,0 +1,48 @@
+func main
+. aa
+= aa, 10
+. bb
+= bb, 5
+. cc
+= cc, 0
+.[] aa2, 20
+. _temporary0
++ _temporary0, aa, bb
+[]= aa2, 0, _temporary0
+. _temporary1
+=[] _temporary1, aa2, 0
+.> _temporary1
+. _temporary2
+- _temporary2, aa, bb
+[]= aa2, 0, _temporary2
+. _temporary3
+=[] _temporary3, aa2, 0
+.> _temporary3
+. _temporary4
+* _temporary4, aa, bb
+[]= aa2, 1, _temporary4
+. _temporary5
+=[] _temporary5, aa2, 1
+.> _temporary5
+. _temporary6
+/ _temporary6, aa, bb
+[]= aa2, 2, _temporary6
+. _temporary7
+=[] _temporary7, aa2, 2
+.> _temporary7
+. _temporary8
+% _temporary8, aa, bb
+[]= aa2, 4, _temporary8
+. _temporary9
+=[] _temporary9, aa2, 4
+.> _temporary9
+= aa, 4
+= bb, 2
+. _temporary10
++ _temporary10, aa, bb
+. _temporary11
+* _temporary11, _temporary10, 7
+= cc, _temporary11
+.> cc
+endfunc
+

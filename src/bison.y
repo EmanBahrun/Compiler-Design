@@ -80,6 +80,41 @@
      // when you see a function declaration inside the grammar, add
      // the function name to the symbol table
      void add_function_to_symbol_table(std::string & value) {
+      // Check for reserved words
+      if (value == "if") {
+        printf("***Error. Cannot use reserved word 'if' as a function name\n");
+        exit(1);
+      }
+      if (value == "else") {
+        printf("***Error. Cannot use reserved word 'else' as a function name\n");
+        exit(1);
+      }
+      if (value == "while") {
+        printf("***Error. Cannot use reserved word 'while' as a function name\n");
+        exit(1);
+      }
+      if (value == "return") {
+        printf("***Error. Cannot use reserved word 'return' as a function name\n");
+        exit(1);
+      }
+      if (value == "print") {
+        printf("***Error. Cannot use reserved word 'print' as a function name\n");
+        exit(1);
+      }
+      if (value == "get") {
+        printf("***Error. Cannot use reserved word 'read' as a function name\n");
+        exit(1);
+      }
+      if (value == "Array") {
+        printf("***Error. Cannot use reserved word 'Array' as a function name\n");
+        exit(1);
+      }
+      if (value == "Integer") {
+        printf("***Error. Cannot use reserved word 'Integer' as a function name\n");
+        exit(1);
+      }
+
+      
        Function f;
        f.name = value;
        symbol_table.push_back(f);
@@ -98,6 +133,42 @@
      // when you see a symbol declaration inside the grammar, add
      // the symbol name as well as some type information to the symbol table
      void add_variable_to_symbol_table(std::string & value, Type t) {
+      if (value == "main") {
+        printf("***Error. Cannot use reserved word 'main' as a variable name\n");
+        exit(1);
+      }
+      if (value == "if") {
+        printf("***Error. Cannot use reserved word 'if' as a variable name\n");
+        exit(1);
+      }
+      if (value == "else") {
+        printf("***Error. Cannot use reserved word 'else' as a variable name\n");
+        exit(1);
+      }
+      if (value == "while") {
+        printf("***Error. Cannot use reserved word 'while' as a variable name\n");
+        exit(1);
+      }
+      if (value == "return") {
+        printf("***Error. Cannot use reserved word 'return' as a variable name\n");
+        exit(1);
+      }
+      if (value == "print") {
+        printf("***Error. Cannot use reserved word 'print' as a variable name\n");
+        exit(1);
+      }
+      if (value == "get") {
+        printf("***Error. Cannot use reserved word 'read' as a variable name\n");
+        exit(1);
+      }
+      if (value == "Array") {
+        printf("***Error. Cannot use reserved word 'Array' as a variable name\n");
+        exit(1);
+      }
+      if (value == "Integer") {
+        printf("***Error. Cannot use reserved word 'Integer' as a variable name\n");
+        exit(1);
+      }
        Symbol s;
        s.name = value;
        s.type = t;
@@ -109,7 +180,7 @@
         Function * f = get_function();
         for (int i = 0; i < f -> declarations.size(); i++) {
           Symbol * s = & f -> declarations[i];
-          if (s -> name == temp) {
+          if (s -> name == temp && s -> type == t) {
             return true;
           }
         }
@@ -118,7 +189,10 @@
 
      void variable_exist(std::string & temp, Type t) {
         if (!check_if_variable_in_symbol_table(temp, t)) {
-          printf("***Error. Variable %s does not exist\n", temp.c_str());
+          if (t == Integer)
+            printf("***Error. Variable %s does not exist\n", temp.c_str());
+          else 
+            printf("***Error. Array %s does not exist\n", temp.c_str());
           exit(1);
         }
      }
