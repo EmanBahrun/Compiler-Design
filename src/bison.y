@@ -430,12 +430,14 @@ statement: declaration SEMICOLON {
 }
          | CONTINUE SEMICOLON {
             CodeNode *node = new CodeNode;
-            std::string code = std::string("^") + std::string("\n");
+            std::string code = std::string("^");
+            node->code = code;
             $$ = node;
 }
          | BREAK SEMICOLON {
             CodeNode *node = new CodeNode;
-            std::string code = std::string("~") + std::string("\n");
+            std::string code = std::string("~");
+            node->code = code;
             $$ = node;
 }
          | PRINT expression SEMICOLON {
@@ -619,27 +621,27 @@ while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRAC
                 CodeNode *node = new CodeNode;
                 CodeNode *booleanexpression = $3;
                 CodeNode *statements = $6;
-                std::string code = booleanexpression->code;
 
-                std::string loop_start = create_temp() + std::string("_if_body");
-                std::string loop_body = create_temp() + std::string("_else_body");
-                std::string loop_end = create_temp() + std::string("_if_end");
+                std::string loop_start = create_temp() + std::string("_loop_start");
+                std::string loop_body = create_temp() + std::string("_loop_body");
+                std::string loop_end = create_temp() + std::string("_loop_end");
 
-                code += std::string(": ") + loop_start + std::string("\n");           
+                std::string code = std::string(": ") + loop_start + std::string("\n");      
+                code += booleanexpression->code;     
                 code += std::string("?:= ") + loop_body + std::string(", ") +  booleanexpression->temp + std::string("\n");
                 code += std::string(":= ") + loop_end + std::string("\n");
                 code += std::string(": ") + loop_body + std::string("\n");
                 for (int i = 0; i < statements->code.size(); i++) {
-                if (statements->code[i] == '^') {
-                    code += std::string(":= ") + loop_start + std::string("\n");
+                    if (statements->code[i] == '^') {
+                        code += std::string(":= ") + loop_start + std::string("\n");
+                    }
+                    else if (statements->code[i] == '~') {
+                        code += std::string(":= ") + loop_end + std::string("\n");
+                    }
+                    else {
+                      code += statements->code[i];
+                    }
                 }
-                else if (statements->code[i] == '~') {
-                    code += std::string(":= ") + loop_end + std::string("\n");
-                }
-                else {
-                  code += statements->code[i];
-                }
-            }
                 code += std::string(":= ") + loop_start + std::string("\n");
                 code += std::string(": ") + loop_end + std::string("\n");
                 node->code = code;

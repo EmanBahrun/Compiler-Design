@@ -16,5 +16,5 @@ function main() {
     print aa[2];    # should print out 200
 
     aa[3] = aa[0] * (aa[1] + cc);
-    print aa[3];    # should print out 840; since 1540 = 14 * (100 +10)
+    print aa[3];    # should print out 1540; since 1540 = 14 * (100 +10)
 }

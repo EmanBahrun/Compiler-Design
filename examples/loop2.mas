@@ -1,5 +1,5 @@
 function main() {
-    # This is a simple loop that counts from 1 to 15 
+    # This is a simple loop that counts from 1 to 15 but skips 7-10 and prints on 2, 4, 6
     Integer ii = 0;
     while (ii != 15) {
         ii = ii + 1;

@@ -1,12 +1,12 @@
 function main() {
     Integer ii = 0;
     while (ii <= 15) {
-        print ii;
+        ii = ii + 1;
 
         if (ii >= 3) {
-            break;
+            continue;
         }
 
-        ii = ii + 1;
+        print ii;
     }
 }

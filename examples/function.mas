@@ -14,5 +14,5 @@ function main() {
     print cc; # should print 150
 
     dd = mult(cc, bb);
-    print dd; # should print "22500", since 22500 = 150 * 150;
+    print dd; # should print "7500", since 7500 = 150 * 150;
 }
