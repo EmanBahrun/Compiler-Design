@@ -285,6 +285,8 @@
 %type <node> arrayexpression
 %type <node> return_statement
 %type <node> assign_statement
+%type <node> if_statement
+%type <node> while_statement
 
 %%
 prog_start: 
@@ -400,10 +402,16 @@ statement: declaration SEMICOLON {
          }
          | if_statement {
             CodeNode *node = new CodeNode;
+            CodeNode *if_statement = $1;
+            std::string code = if_statement->code;
+            node->code = code;
             $$ = node;
 }
          | while_statement {
             CodeNode *node = new CodeNode;
+            CodeNode *while_statement = $1;
+            std::string code = while_statement->code;
+            node->code = code;
             $$ = node;
 }
          | return_statement SEMICOLON {
@@ -422,10 +430,12 @@ statement: declaration SEMICOLON {
 }
          | CONTINUE SEMICOLON {
             CodeNode *node = new CodeNode;
+            std::string code = std::string("^") + std::string("\n");
             $$ = node;
 }
          | BREAK SEMICOLON {
             CodeNode *node = new CodeNode;
+            std::string code = std::string("~") + std::string("\n");
             $$ = node;
 }
          | PRINT expression SEMICOLON {
@@ -533,7 +543,6 @@ params: %empty {
             std::string code = param->code;
             CodeNode *node = new CodeNode;
             node->code = code;
-            // printf(node->code.c_str());
             $$ = node;
         }
         ;
@@ -556,12 +565,78 @@ param: INTEGER {
      ;
 
      
-if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printer("if_statement -> IF L_PAREN booleanexpression R_PAREN RBRACE statements\n");}
-            | IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement {printer("if_statement -> IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE else_statement\n");}
+if_statement: IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {
+                CodeNode *node = new CodeNode;
+                CodeNode *booleanexpression = $3;
+                CodeNode *statements = $6;
+                std::string code = booleanexpression->code;
+
+                std::string label_body = create_temp() + std::string("_if_body");
+                std::string label_end = create_temp() + std::string("_if_end");
+
+                code += std::string("?:= ") + label_body  + std::string(", ") + booleanexpression->temp + std::string("\n");
+                code += std::string(":= ") + label_end + std::string("\n");
+                code += std::string(": ") + label_body + std::string("\n");
+                code += statements->code;
+                code += std::string(": ") + label_end + std::string("\n");
+                node->code = code;
+                $$ = node;
+}
+            | IF L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE ELSE LBRACE statements RBRACE {
+                CodeNode *node = new CodeNode;
+                CodeNode *booleanexpression = $3;
+                CodeNode *if_statements = $6;
+                CodeNode *else_statements = $10;
+                std::string code = booleanexpression->code;
+
+                std::string if_body = create_temp() + std::string("_if_body");
+                std::string else_body = create_temp() + std::string("_else_body");
+                std::string end_end = create_temp() + std::string("_end_end");
+
+                code += std::string("?:= ") + if_body+ std::string(", ") +   booleanexpression->temp + std::string("\n");
+                code += std::string(":= ") + else_body + std::string("\n");
+                code += std::string(": ") + if_body + std::string("\n");
+                code += if_statements->code;
+                code += std::string(":= ") + end_end + std::string("\n");
+                code += std::string(": ") + else_body + std::string("\n");
+                code += else_statements->code;
+                code += std::string(": ") + end_end + std::string("\n");
+                node->code = code;
+                $$ = node;
+            }
             ;
-else_statement: ELSE LBRACE statements RBRACE {printer("else_statement -> ELSE LBRACE statements RBRACE\n");}
-              ;
-while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {printer("while -> WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE\n");}
+while_statement: WHILE L_PAREN booleanexpression R_PAREN LBRACE statements RBRACE {
+                CodeNode *node = new CodeNode;
+                CodeNode *booleanexpression = $3;
+                CodeNode *statements = $6;
+                std::string code = booleanexpression->code;
+
+                std::string loop_start = create_temp() + std::string("_if_body");
+                std::string loop_body = create_temp() + std::string("_else_body");
+                std::string loop_end = create_temp() + std::string("_if_end");
+
+                code += std::string(": ") + loop_start + std::string("\n");           
+                code += std::string("?:= ") + loop_body + std::string(", ") +  booleanexpression->temp + std::string("\n");
+                code += std::string(":= ") + loop_end + std::string("\n");
+                code += std::string(": ") + loop_body + std::string("\n");
+                for (int i = 0; i < statements->code.size(); i++) {
+                if (statements->code[i] == '^') {
+                    code += std::string(":= ") + loop_start + std::string("\n");
+                }
+                else if (statements->code[i] == '~') {
+                    code += std::string(":= ") + loop_end + std::string("\n");
+                }
+                else {
+                  code += statements->code[i];
+                }
+            }
+                code += std::string(":= ") + loop_start + std::string("\n");
+                code += std::string(": ") + loop_end + std::string("\n");
+                node->code = code;
+                $$ = node;
+
+
+}
      ;
 return_statement: RETURN {
                     CodeNode *node = new CodeNode;

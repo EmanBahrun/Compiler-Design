@@ -29,4 +29,11 @@ function main() {
   bb = 2;
   cc = (aa + bb) * 7;
   print cc;
+
+  if (cc != 42) {
+    print cc;
+  } else {
+    print aa;
+  }
+
 }
