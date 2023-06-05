@@ -446,6 +446,15 @@ statement: declaration SEMICOLON {
             node->code = code;
             $$ = node;
 }
+         | PRINT INTEGER SEMICOLON {
+            CodeNode *node = new CodeNode;
+            std::string name = create_temp();
+            std::string assign = build_temp(name, patch::to_string($2));
+            std::string code = assign;
+            code += std::string(".> ") + name + std::string("\n");
+            node->code = assign + code;
+            $$ = node;
+}
          | GET expression SEMICOLON {
             CodeNode *node = new CodeNode;
             CodeNode *expression = $2;
@@ -454,6 +463,7 @@ statement: declaration SEMICOLON {
             node->code = code;
             $$ = node;
 }
+  
          ;
 declaration: INTEGERVAR IDENTIFIER ASSIGN expression {
         std::string var_name = $2;

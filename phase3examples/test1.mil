@@ -45,14 +45,26 @@ func main
 = cc, _temporary11
 .> cc
 . _temporary12
-!= _temporary12, cc, 42
-?:= _temporary13_if_body, _temporary12
-:= _temporary14_else_body
-: _temporary13_if_body
-.> cc
-:= _temporary15_end_end
-: _temporary14_else_body
-.> aa
-: _temporary15_end_end
+== _temporary12, cc, 42
+?:= _temporary15_if_body, _temporary12
+:= _temporary16_else_body
+: _temporary15_if_body
+. _temporary13
+= _temporary13, 1
+. _temporary13
+= _temporary13, 1
+.> _temporary13
+:= _temporary17_end_end
+: _temporary16_else_body
+. _temporary14
+= _temporary14, 0
+. _temporary14
+= _temporary14, 0
+.> _temporary14
+: _temporary17_end_end
+. dd
+= dd, 0
+.< dd
+.> dd
 endfunc
 
